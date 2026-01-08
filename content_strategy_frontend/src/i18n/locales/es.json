@@ -52,6 +52,22 @@
     "placeholder": "Ej.: Acceso a telemedicina para familias ocupadas",
     "help": "Mínimo 3 caracteres. Tip: agrega un dolor, audiencia o emoción deseada.",
     "confirm": "Confirmar tema",
+    "generateCaptions": "Generar captions",
+    "generatingCaptions": "Generando…",
+    "nicheLabel": "Nicho",
+    "emotionLabel": "Emoción de marca",
+    "niches": {
+      "telemedicine": "Telemedicina",
+      "lifeInsurance": "Seguro de vida",
+      "finalExpenses": "Gastos finales",
+      "funeralAssistance": "Asistencia funeraria"
+    },
+    "emotions": {
+      "calm": "Calma",
+      "security": "Seguridad",
+      "luxury": "Lujo",
+      "closeness": "Cercanía"
+    },
     "suggestionsTitle": "Sugerencias (stub)",
     "fetchSuggestions": "Obtener sugerencias",
     "validationTooShort": "Por favor ingresa al menos 3 caracteres.",
@@ -139,6 +155,65 @@
         "title": "Accesibilidad",
         "body": "Teclado: Tab/Shift+Tab para moverte, Enter/Espacio para activar.\nModales: Escape para cerrar.\nMensajes: cambios importantes se anuncian en lectores de pantalla."
       }
+    }
+  },
+  "settings": {
+    "open": "Abrir ajustes",
+    "title": "Ajustes",
+    "description": "Configura llaves API temporales solo para esta sesión.",
+    "close": "Cerrar",
+    "openai": {
+      "title": "OpenAI",
+      "keySourceLabel": "Origen de la llave",
+      "keySourceEnv": "ENV",
+      "keySourceMemory": "Sesión",
+      "keySourceNone": "Ninguno",
+      "keyLabel": "Llave API temporal (solo sesión)",
+      "keyPlaceholder": "sk-…",
+      "keyHelp": "Esta llave se guarda solo en memoria y se borra al recargar/cerrar la pestaña.",
+      "save": "Guardar llave",
+      "clear": "Borrar"
+    }
+  },
+  "captions": {
+    "title": "Captions",
+    "empty": "Genera captions para ver variaciones aquí.",
+    "loadingCard": "Redactando caption…",
+    "metaLabel": "Metadatos del caption",
+    "editLabel": "Editar caption: {{variation}}",
+    "approvedBanner": "Caption aprobado y enviado a Vista previa.",
+    "previewFallbackTopic": "tu tema",
+    "variation": {
+      "long": "Largo",
+      "short": "Corto",
+      "question": "Pregunta"
+    },
+    "status": {
+      "idle": "Aún no se generaron captions",
+      "idleShort": "Listo",
+      "loading": "Generando captions. Por favor espera.",
+      "loadingShort": "Cargando",
+      "success": "Captions generados.",
+      "ready": "Listo"
+    },
+    "actions": {
+      "saveEdit": "Guardar edición",
+      "approve": "Aprobar"
+    },
+    "messages": {
+      "generated": "Captions generados.",
+      "saved": "Caption guardado.",
+      "approved": "Caption aprobado."
+    },
+    "errors": {
+      "missingKey": "OpenAI no está configurado. Agrega una llave API en Ajustes para generar captions.",
+      "missingKeyHint": "Tip: abre Ajustes (⚙) para pegar una llave temporal de OpenAI para esta sesión.",
+      "auth": "Tu llave de OpenAI parece inválida o vencida. Revísala e inténtalo de nuevo.",
+      "rateLimit": "Demasiadas solicitudes. Espera un momento e inténtalo de nuevo.",
+      "network": "Error de red. Revisa tu conexión e inténtalo de nuevo.",
+      "server": "Error del servidor de OpenAI. Inténtalo de nuevo en un momento.",
+      "parse": "No pudimos leer la respuesta del modelo. Inténtalo de nuevo.",
+      "generic": "Algo salió mal al generar captions. Inténtalo de nuevo."
     }
   },
   "messages": {

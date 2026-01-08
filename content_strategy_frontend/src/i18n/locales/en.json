@@ -52,6 +52,22 @@
     "placeholder": "e.g., Telemedicine access for busy families",
     "help": "Minimum 3 characters. Tip: include a pain point, audience, or desired emotion.",
     "confirm": "Confirm topic",
+    "generateCaptions": "Generate captions",
+    "generatingCaptions": "Generating…",
+    "nicheLabel": "Niche",
+    "emotionLabel": "Brand emotion",
+    "niches": {
+      "telemedicine": "Telemedicine",
+      "lifeInsurance": "Life insurance",
+      "finalExpenses": "Final expenses",
+      "funeralAssistance": "Funeral assistance"
+    },
+    "emotions": {
+      "calm": "Calm",
+      "security": "Security",
+      "luxury": "Luxury",
+      "closeness": "Closeness"
+    },
     "suggestionsTitle": "Suggestions (stub)",
     "fetchSuggestions": "Get suggestions",
     "validationTooShort": "Please enter at least 3 characters.",
@@ -139,6 +155,65 @@
         "title": "Accessibility",
         "body": "Keyboard: Tab/Shift+Tab to move, Enter/Space to activate.\nModals: Escape to close.\nMessages: important changes are announced via screen readers."
       }
+    }
+  },
+  "settings": {
+    "open": "Open settings",
+    "title": "Settings",
+    "description": "Configure temporary API keys for this session only.",
+    "close": "Close",
+    "openai": {
+      "title": "OpenAI",
+      "keySourceLabel": "Key source",
+      "keySourceEnv": "ENV",
+      "keySourceMemory": "Session",
+      "keySourceNone": "None",
+      "keyLabel": "Temporary API key (session only)",
+      "keyPlaceholder": "sk-…",
+      "keyHelp": "This key stays in memory only and will be cleared when you refresh/close the tab.",
+      "save": "Save key",
+      "clear": "Clear"
+    }
+  },
+  "captions": {
+    "title": "Captions",
+    "empty": "Generate captions to see variations here.",
+    "loadingCard": "Drafting caption…",
+    "metaLabel": "Caption metadata",
+    "editLabel": "Edit caption: {{variation}}",
+    "approvedBanner": "Approved caption set in Preview.",
+    "previewFallbackTopic": "your topic",
+    "variation": {
+      "long": "Long",
+      "short": "Short",
+      "question": "Question"
+    },
+    "status": {
+      "idle": "Captions not generated yet",
+      "idleShort": "Idle",
+      "loading": "Generating captions. Please wait.",
+      "loadingShort": "Loading",
+      "success": "Captions generated.",
+      "ready": "Ready"
+    },
+    "actions": {
+      "saveEdit": "Save edit",
+      "approve": "Approve"
+    },
+    "messages": {
+      "generated": "Captions generated.",
+      "saved": "Caption saved.",
+      "approved": "Caption approved."
+    },
+    "errors": {
+      "missingKey": "OpenAI is not configured. Add an API key in Settings to generate captions.",
+      "missingKeyHint": "Tip: open Settings (⚙) to paste a temporary OpenAI key for this session.",
+      "auth": "Your OpenAI key seems invalid or expired. Please check and try again.",
+      "rateLimit": "Too many requests. Please wait a moment and try again.",
+      "network": "Network error. Check your connection and try again.",
+      "server": "OpenAI server error. Please try again shortly.",
+      "parse": "We couldn’t read the model response. Please try again.",
+      "generic": "Something went wrong while generating captions. Please try again."
     }
   },
   "messages": {

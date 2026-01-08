@@ -4,6 +4,8 @@ import AppLayout from './layout/AppLayout';
 import WorkflowSidebar from './components/workflow/WorkflowSidebar';
 import TopicInput from './components/topic/TopicInput';
 import PreviewPanel from './components/preview/PreviewPanel';
+import CaptionsPanel from './components/captions/CaptionsPanel';
+import SettingsModal from './components/settings/SettingsModal';
 import {
   WorkflowRole,
   WORKFLOW_ROLES,
@@ -15,6 +17,7 @@ import useHelpCenter from './hooks/useHelpCenter';
 import OnboardingTour from './components/onboarding/OnboardingTour';
 import HelpCenter from './components/help/HelpCenter';
 import HelpTooltip from './components/help/HelpTooltip';
+import { generateCaptions } from './services/openaiCaptions';
 
 function MainApp() {
   const { t, i18n } = useTranslation();
@@ -22,6 +25,8 @@ function MainApp() {
 
   const onboarding = useOnboardingState();
   const help = useHelpCenter();
+
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const [topic, setTopic] = useState('');
   const [currentRole, setCurrentRole] = useState(WorkflowRole.Strategist);
@@ -31,6 +36,11 @@ function MainApp() {
     body: '',
     channel: 'facebook'
   });
+
+  const [captionsStatus, setCaptionsStatus] = useState('idle'); // idle | loading | success | error
+  const [captionsErrorKey, setCaptionsErrorKey] = useState('');
+  const [captions, setCaptions] = useState([]);
+  const [approvedCaptionId, setApprovedCaptionId] = useState('');
 
   const workflowStates = useMemo(() => {
     return WORKFLOW_ROLES.map((role) => {
@@ -72,6 +82,38 @@ function MainApp() {
     });
   };
 
+  const handleGenerateCaptions = async ({ topic: topicValue, niche, emotion, language }) => {
+    setCaptionsStatus('loading');
+    setCaptionsErrorKey('');
+    setApprovedCaptionId('');
+
+    const result = await generateCaptions({ topic: topicValue, niche, emotion, language });
+
+    if (!result.ok) {
+      setCaptionsStatus('error');
+      setCaptionsErrorKey(result.errorKey || 'captions.errors.generic');
+
+      pushMessage({
+        kind: 'error',
+        messageKey: result.errorKey || 'captions.errors.generic',
+        live: 'assertive'
+      });
+
+      if (result.errorKey === 'captions.errors.missingKey') {
+        pushMessage({
+          kind: 'info',
+          messageKey: 'captions.errors.missingKeyHint',
+          live: 'polite'
+        });
+      }
+      return;
+    }
+
+    setCaptions(result.data.captions);
+    setCaptionsStatus('success');
+    pushMessage({ kind: 'success', messageKey: 'captions.messages.generated', live: 'polite' });
+  };
+
   return (
     <>
       <AppLayout
@@ -107,12 +149,24 @@ function MainApp() {
 
         <AppLayout.CenterPanel ariaLabel={t('panels.create')}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 8 }}>
+            <button
+              type="button"
+              className="btn"
+              onClick={() => setSettingsOpen(true)}
+              aria-label={t('settings.open')}
+              title={t('settings.open')}
+              data-testid="settings-open"
+            >
+              ⚙
+            </button>
             <HelpTooltip label={t('help.inline.openLabel')}>{t('help.inline.topic')}</HelpTooltip>
           </div>
 
           <TopicInput
             topic={topic}
             onTopicChange={setTopic}
+            captionsBusy={captionsStatus === 'loading'}
+            onGenerateCaptions={handleGenerateCaptions}
             onConfirmed={(confirmedTopic) => {
               setTopic(confirmedTopic);
               setPreviewContent({
@@ -124,7 +178,36 @@ function MainApp() {
             }}
           />
 
-          <section className="card" aria-label={t('workflow.progressTitle')}>
+          <CaptionsPanel
+            title={t('captions.title')}
+            status={captionsStatus}
+            errorKey={captionsErrorKey}
+            captions={captions}
+            onEditCaption={(id, nextText) => {
+              setCaptions((prev) => prev.map((c) => (c.id === id ? { ...c, text: nextText } : c)));
+              pushMessage({ kind: 'success', messageKey: 'captions.messages.saved', live: 'polite' });
+            }}
+            onApproveCaption={(id) => {
+              setApprovedCaptionId(id);
+              const chosen = captions.find((c) => c.id === id);
+              if (chosen) {
+                setPreviewContent({
+                  title: t('preview.placeholderTitle', { topic: topic || t('captions.previewFallbackTopic') }),
+                  body: chosen.text,
+                  channel: 'facebook'
+                });
+              }
+              pushMessage({ kind: 'success', messageKey: 'captions.messages.approved', live: 'polite' });
+            }}
+          />
+
+          {approvedCaptionId ? (
+            <div className="callout" role="status" style={{ marginTop: 10 }}>
+              {t('captions.approvedBanner')}
+            </div>
+          ) : null}
+
+          <section className="card" aria-label={t('workflow.progressTitle')} style={{ marginTop: 10 }}>
             <div className="cardHeader">
               <h2 className="h2">{t('workflow.progressTitle')}</h2>
               <button type="button" className="btn btnPrimary" onClick={handleAdvanceWorkflow}>
@@ -166,6 +249,8 @@ function MainApp() {
           onboarding.open();
         }}
       />
+
+      <SettingsModal isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
     </>
   );
 }
