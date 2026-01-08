@@ -1,40 +1,64 @@
 #!/usr/bin/env bash
 set -euo pipefail
-WORKSPACE="/home/kavia/workspace/code-generation/cultural-content-creator-for-hispanic-communities-227577-228328/content_strategy_frontend"
-cd "$WORKSPACE"
-# require node/npm
-command -v node >/dev/null 2>&1 || (echo "node not found" >&2 && exit 2)
-command -v npm >/dev/null 2>&1 || (echo "npm not found" >&2 && exit 2)
-# prevent root-owned node_modules: fail fast if running as root
-if [ "$(id -u)" -eq 0 ]; then
-  echo "Refusing to run npm install as root inside workspace; re-run as the workspace owner to avoid root-owned node_modules." >&2
-  exit 3
-fi
-# compute lock identity (lockfile checksum + node semver)
-LOCKFILE=""
-if [ -f package-lock.json ]; then LOCKFILE=package-lock.json
-elif [ -f yarn.lock ]; then LOCKFILE=yarn.lock
-fi
-LOCKSUM=""
-if [ -n "$LOCKFILE" ]; then LOCKSUM=$(sha256sum "$LOCKFILE" | cut -d' ' -f1); fi
-NODE_VER=$(node -v || true)
-IDENT="${NODE_VER}:${LOCKSUM}"
-CHKFILE=.installed-locksum
-if [ -d node_modules ] && [ -f "$CHKFILE" ] && [ "$(cat $CHKFILE)" = "$IDENT" ]; then
-  exit 0
-fi
-# remove stale node_modules when identity changed
-if [ -d node_modules ] && ( [ ! -f "$CHKFILE" ] || [ "$(cat $CHKFILE)" != "$IDENT" ] ); then
-  rm -rf node_modules
-fi
-# install: prefer npm ci when package-lock.json exists
+WS="/home/kavia/workspace/code-generation/cultural-content-creator-for-hispanic-communities-227577-228328/content_strategy_frontend"
+LOG=/tmp/step_dependencies_003.log
+PKG_INFO=/tmp/step_pkg_manager.info
+exec > >(tee -a "$LOG") 2>&1
+cd "$WS"
+if [ ! -f package.json ]; then echo "ERROR: package.json missing; scaffold may have failed" >&2; exit 2; fi
+USE_YARN=0
+if [ -f yarn.lock ]; then USE_YARN=1; echo "yarn_lock_detected=1" >> "$LOG"; fi
+# Record package manager for downstream steps
+echo "USE_YARN=$USE_YARN" > "$PKG_INFO"
+# Lockfile-aware install
 if [ -f package-lock.json ]; then
-  npm ci --silent --no-audit --no-fund
+  echo "Running npm ci"
+  npm ci --no-audit --no-fund
 else
-  npm i --silent --no-audit --no-fund
+  if [ "$USE_YARN" -eq 1 ]; then
+    echo "Running yarn install --frozen-lockfile"
+    yarn install --frozen-lockfile
+  else
+    if [ ! -d node_modules ]; then
+      echo "Running npm install"
+      npm install --no-audit --no-fund
+    else
+      echo "node_modules exists; skipping npm install"
+    fi
+  fi
 fi
-# verify ./node_modules/.bin
-[ -d ./node_modules/.bin ] || (echo "node_modules/.bin missing after install" >&2 && exit 4)
-# persist identity
-printf '%s' "$IDENT" > "$CHKFILE"
-node -v && npm -v
+# Install missing packages only when not using lockfile installs
+if [ ! -f package-lock.json ] && [ "$USE_YARN" -ne 1 ]; then
+  MISSING=("react" "react-dom" "dotenv" "cross-env")
+  for p in "${MISSING[@]}"; do
+    node -e "try{require('module').createRequire(process.cwd())('$p');}catch(e){process.exit(1);}" >/dev/null 2>&1 || npm i --no-audit --no-fund "$p"
+  done
+  DEV_MISSING=("jest" "eslint" "@testing-library/react" "@testing-library/jest-dom" "react-scripts")
+  for p in "${DEV_MISSING[@]}"; do
+    node -e "try{require('module').createRequire(process.cwd())('$p');}catch(e){process.exit(1);}" >/dev/null 2>&1 || npm i --no-audit --no-fund --save-dev "$p"
+  done
+fi
+# If TypeScript project, ensure types present
+if [ -f tsconfig.json ]; then
+  if [ "$USE_YARN" -eq 1 ]; then
+    yarn add -D typescript @types/react || true
+  else
+    npm i --no-audit --no-fund --save-dev typescript @types/react || true
+  fi
+fi
+# Minimal ESLint config (idempotent)
+if [ ! -f "$WS/.eslintrc.json" ]; then
+  cat > "$WS/.eslintrc.json" <<'EOF'
+{
+  "env": {"browser": true, "es2021": true},
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "parserOptions": {"ecmaVersion": 12, "sourceType": "module"},
+  "settings": {"react": {"version": "detect"}}
+}
+EOF
+fi
+# Log versions of key tools
+command -v create-react-app >/dev/null 2>&1 && echo "create-react-app_global=$(create-react-app --version 2>/dev/null || true)"
+command -v yarn >/dev/null 2>&1 && echo "yarn_version=$(yarn --version 2>/dev/null || true)"
+npm -v >/dev/null 2>&1 && echo "npm_version=$(npm -v)"
+node -v >/dev/null 2>&1 && echo "node_version=$(node -v)"

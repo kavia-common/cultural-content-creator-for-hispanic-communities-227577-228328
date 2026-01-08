@@ -1,0 +1,1 @@
+import React from 'react';\nimport {render}from '@testing-library/react';\nimport App from '../App';\ntest('renders App without crashing', () => { render(<App />); });\n

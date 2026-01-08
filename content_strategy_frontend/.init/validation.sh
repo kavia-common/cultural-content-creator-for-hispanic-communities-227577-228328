@@ -1,43 +1,53 @@
 #!/usr/bin/env bash
 set -euo pipefail
-WORKSPACE="/home/kavia/workspace/code-generation/cultural-content-creator-for-hispanic-communities-227577-228328/content_strategy_frontend"
-cd "$WORKSPACE"
-export CI=true BROWSER=none
-# BUILD: prefer local binary
-if [ -x ./node_modules/.bin/react-scripts ]; then
-  ./node_modules/.bin/react-scripts build --silent || (echo "Build failed" >&2 && exit 5)
-else
-  npm run build --silent || (echo "Build failed" >&2 && exit 5)
+WS="/home/kavia/workspace/code-generation/cultural-content-creator-for-hispanic-communities-227577-228328/content_strategy_frontend"
+LOG=/tmp/step_validation_005.log
+SERVE_LOG=/tmp/serve_build.log
+exec > >(tee -a "$LOG") 2>&1
+cd "$WS"
+# Ensure package.json exists
+if [ ! -f package.json ]; then echo "ERROR: package.json not found in workspace $WS" >&2; exit 1; fi
+# Ensure build script exists
+if ! node -e "let p=require('./package.json'); if(!p.scripts||!p.scripts.build) process.exit(1)" >/dev/null 2>&1; then echo "ERROR: package.json build script missing" >&2; exit 2; fi
+# Run production build
+npm run build || { echo "ERROR: npm run build failed" >&2; exit 3; }
+# Read PORT from .env or default
+PORT=$(awk -F= '/^PORT=/ {gsub(/\r/,"",$2); print $2; exit} END{ if(NR==0) print 3000 }' .env 2>/dev/null || echo 3000)
+[ -z "$PORT" ] && PORT=3000
+# Start serve preferring 127.0.0.1 binding
+( npx --yes serve -s build -l 127.0.0.1:"$PORT" >"$SERVE_LOG" 2>&1 & ) || true
+SG_PID=$!
+sleep 0.5
+# Fallback if initial start didn't create process
+if ! ps -p "$SG_PID" >/dev/null 2>&1; then
+  echo "serve initial start failed; trying fallback -l $PORT"
+  ( npx --yes serve -s build -l "$PORT" >"$SERVE_LOG" 2>&1 & ) || { echo "ERROR: npx serve failed to start" >&2; tail -n 200 "$SERVE_LOG" 2>/dev/null || true; exit 4; }
+  SG_PID=$!
 fi
-[ -d build ] || (echo "build/ not found" >&2 && exit 6)
-# SERVE: require local http-server binary from node_modules (devDependencies must provide it)
-PORT=3000
-HS_BIN="./node_modules/.bin/http-server"
-if [ ! -x "$HS_BIN" ]; then echo "http-server not found in node_modules; ensure devDependencies installed" >&2 && exit 7; fi
-LOG=/tmp/serve_build.log
-# start in new session so we can kill PGID; capture PID and PGID
-setsid sh -c "$HS_BIN ./build -p ${PORT} > \"$LOG\" 2>&1" &
-SVC_PID=$!
-# small sleep to let process start
-sleep 0.2
-PGID=$(ps -o pgid= "$SVC_PID" | tr -d ' ')
-# ensure we always cleanup the process group
-trap 'kill -TERM -"$PGID" 2>/dev/null || kill -TERM "$SVC_PID" 2>/dev/null' EXIT INT TERM
-# wait for server to accept connections (20s)
-for i in $(seq 1 20); do
-  sleep 1
-  if curl -sS --max-time 1 "http://127.0.0.1:${PORT}/" >/dev/null 2>&1; then
-    break
-  fi
-  if [ $i -eq 20 ]; then
-    echo "Serve did not start; logs:" >&2 && tail -n 200 "$LOG" >&2 && exit 8
-  fi
+echo "serve_pid=$SG_PID"
+sleep 0.5
+PGID=$(ps -o pgid= "$SG_PID" | tr -d ' ' || true)
+if [ -z "$PGID" ]; then PGID="$SG_PID"; fi
+# Poll until HTTP healthy or timeout
+TIMEOUT=120; WAIT=1; ELAPSED=0
+while [ $ELAPSED -lt $TIMEOUT ]; do
+  sleep $WAIT; ELAPSED=$((ELAPSED+WAIT))
+  if curl -sSf "http://127.0.0.1:$PORT" >/dev/null 2>&1; then break; fi
+  if [ $WAIT -lt 8 ]; then WAIT=$((WAIT*2)); fi
 done
-# probe and print single evidence line
-STATUS_LINE=$(curl -sS --max-time 2 -I "http://127.0.0.1:${PORT}/" | head -n 1 || true)
-if [ -z "$STATUS_LINE" ]; then
-  echo "probe: no response header" >&2 && exit 9
+if [ $ELAPSED -ge $TIMEOUT ]; then
+  echo "ERROR: server did not start within ${TIMEOUT}s" >&2
+  kill -- -"$PGID" >/dev/null 2>&1 || kill "$SG_PID" >/dev/null 2>&1 || true
+  exit 5
 fi
-echo "probe: $STATUS_LINE"
-# give trap a moment to run on exit
+STATUS=$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:$PORT")
+case "$STATUS" in 2*|3*) echo "validation_http_status=$STATUS";; *) echo "ERROR: unexpected_http_status=$STATUS" >&2; kill -- -"$PGID" >/dev/null 2>&1 || kill "$SG_PID" >/dev/null 2>&1 || true; exit 6;; esac
+# Stop server cleanly by killing process group
+kill -- -"$PGID" >/dev/null 2>&1 || kill "$SG_PID" >/dev/null 2>&1 || true
 sleep 1
+if ps -p "$SG_PID" >/dev/null 2>&1; then kill -9 "$SG_PID" 2>/dev/null || true; fi
+# Provide evidence
+echo "---- serve log (tail) ----"
+tail -n 200 "$SERVE_LOG" 2>/dev/null || true
+echo "---- build directory size ----"
+du -sh build || true
