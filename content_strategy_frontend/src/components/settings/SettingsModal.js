@@ -21,7 +21,7 @@ export default function SettingsModal({ isOpen, onClose }) {
     setApiKey("");
   }, [isOpen]);
 
-  const source = useMemo(() => getOpenAIKeySource(), [isOpen, saved]);
+  const source = useMemo(() => getOpenAIKeySource(), []);
 
   const sourceLabel = useMemo(() => {
     if (source === "env") return t("settings.openai.keySourceEnv");
@@ -45,7 +45,10 @@ export default function SettingsModal({ isOpen, onClose }) {
         <section className="card" aria-label={t("settings.openai.title")}>
           <div className="cardHeader">
             <h3 className="h2">{t("settings.openai.title")}</h3>
-            <span className="badge" aria-label={t("settings.openai.keySourceLabel")}>
+            <span
+              className="badge"
+              aria-label={t("settings.openai.keySourceLabel")}
+            >
               <span className="badgeDot" aria-hidden="true" />
               {sourceLabel}
             </span>
@@ -80,7 +83,9 @@ export default function SettingsModal({ isOpen, onClose }) {
             {saved ? t("settings.openai.saved") : ""}
           </div>
 
-          <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
+          <div
+            style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}
+          >
             <button
               type="button"
               className="btn btnPrimary"

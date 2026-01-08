@@ -23,7 +23,10 @@ export default function OnboardingTour({ isOpen, onSkip, onFinish }) {
     () => t(`onboarding.steps.${stepKey}.title`),
     [t, stepKey],
   );
-  const stepBody = useMemo(() => t(`onboarding.steps.${stepKey}.body`), [t, stepKey]);
+  const stepBody = useMemo(
+    () => t(`onboarding.steps.${stepKey}.body`),
+    [t, stepKey],
+  );
 
   useEffect(() => {
     if (!isOpen) return;

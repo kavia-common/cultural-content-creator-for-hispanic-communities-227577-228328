@@ -29,7 +29,10 @@ test("Toggling channels updates preview layout", async () => {
 test("Validation warnings appear for long text and are announced via role=status", async () => {
   const long = "a".repeat(4097);
   render(
-    <PreviewPanel title="Preview" content={{ body: long, channel: "whatsapp" }} />,
+    <PreviewPanel
+      title="Preview"
+      content={{ body: long, channel: "whatsapp" }}
+    />,
   );
 
   // Uses calloutError for errors
@@ -40,7 +43,6 @@ test("Validation warnings appear for long text and are announced via role=status
 });
 
 test("Validation messages are localized (ES)", async () => {
-  const user = userEvent.setup();
   // Switch language via i18n directly (tests import i18n).
   const i18n = require("../i18n/i18n").default;
   await i18n.changeLanguage("es");

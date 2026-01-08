@@ -50,7 +50,9 @@ test("Validation fails for file size too large when fileSizeBytes provided", () 
   });
   expect(res.ok).toBe(false);
   expect(
-    res.issues.some((i) => i.code === "media.fileTooLarge" && i.severity === "error"),
+    res.issues.some(
+      (i) => i.code === "media.fileTooLarge" && i.severity === "error",
+    ),
   ).toBe(true);
 });
 

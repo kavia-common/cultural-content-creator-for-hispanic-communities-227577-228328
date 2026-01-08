@@ -71,13 +71,19 @@ function Panel({ className, ariaLabel, children }) {
 }
 
 AppLayout.LeftPanel = function LeftPanel({ ariaLabel, children }) {
-  return <Panel className="panelLeft" ariaLabel={ariaLabel} children={children} />;
+  return (
+    <Panel className="panelLeft" ariaLabel={ariaLabel} children={children} />
+  );
 };
 
 AppLayout.CenterPanel = function CenterPanel({ ariaLabel, children }) {
-  return <Panel className="panelCenter" ariaLabel={ariaLabel} children={children} />;
+  return (
+    <Panel className="panelCenter" ariaLabel={ariaLabel} children={children} />
+  );
 };
 
 AppLayout.RightPanel = function RightPanel({ ariaLabel, children }) {
-  return <Panel className="panelRight" ariaLabel={ariaLabel} children={children} />;
+  return (
+    <Panel className="panelRight" ariaLabel={ariaLabel} children={children} />
+  );
 };

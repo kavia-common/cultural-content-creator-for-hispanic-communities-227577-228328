@@ -81,8 +81,12 @@ export default function PreviewPanel({ title, content }) {
     }
 
     // Announce a compact summary so SR users get a timely update.
-    const errors = validation.issues.filter((i) => i.severity === "error").length;
-    const warnings = validation.issues.filter((i) => i.severity === "warning").length;
+    const errors = validation.issues.filter(
+      (i) => i.severity === "error",
+    ).length;
+    const warnings = validation.issues.filter(
+      (i) => i.severity === "warning",
+    ).length;
     liveRef.current.textContent = t("preview.validation.summary", {
       errors,
       warnings,
@@ -145,7 +149,12 @@ export default function PreviewPanel({ title, content }) {
         </div>
       </div>
 
-      <div className="srOnly" aria-live="polite" aria-atomic="true" ref={liveRef} />
+      <div
+        className="srOnly"
+        aria-live="polite"
+        aria-atomic="true"
+        ref={liveRef}
+      />
 
       <div style={{ display: "grid", gap: 10 }}>
         <div className="previewMetaRow">
@@ -303,8 +312,13 @@ function WhatsAppPreview({ message, timestampLabel, media }) {
       </div>
 
       <div className="waChatArea">
-        <div className="waBubble" aria-label={t("preview.whatsapp.messageLabel")}>
-          {media ? <MediaFrame channel={CHANNELS.whatsapp} media={media} /> : null}
+        <div
+          className="waBubble"
+          aria-label={t("preview.whatsapp.messageLabel")}
+        >
+          {media ? (
+            <MediaFrame channel={CHANNELS.whatsapp} media={media} />
+          ) : null}
 
           <div className="waText" style={{ whiteSpace: "pre-wrap" }}>
             {message || "—"}
@@ -380,18 +394,25 @@ function MediaFrame({ channel, media }) {
   const ratios = cfg?.media?.recommendedAspectRatios || [];
 
   // If we have real dimensions, prefer a single "actual" frame.
-  const hasDims = Boolean(media?.dimensions?.width && media?.dimensions?.height);
+  const hasDims = Boolean(
+    media?.dimensions?.width && media?.dimensions?.height,
+  );
 
   if (hasDims) {
     return (
       <div className="mediaFrame">
-        <div className="mediaFrameInner" aria-label={t("preview.media.frameLabel")}>
+        <div
+          className="mediaFrameInner"
+          aria-label={t("preview.media.frameLabel")}
+        >
           <div className="mediaFrameIcon" aria-hidden="true">
             {media.type === "video" ? "▶" : "▦"}
           </div>
           <div className="mediaFrameMeta">
             <div className="mediaFrameType">
-              {media.type === "video" ? t("preview.media.video") : t("preview.media.image")}
+              {media.type === "video"
+                ? t("preview.media.video")
+                : t("preview.media.image")}
             </div>
             <div className="mediaFrameHint">
               {t("preview.media.dimensions", {
@@ -410,10 +431,14 @@ function MediaFrame({ channel, media }) {
     <div className="mediaRatioGrid" aria-label={t("preview.media.ratiosLabel")}>
       {ratios.slice(0, 3).map((r) => (
         <div key={r.label} className="mediaRatioItem">
-          <div className={`mediaRatioBox mediaRatioBox-${r.label.replace(":", "-")}`}>
+          <div
+            className={`mediaRatioBox mediaRatioBox-${r.label.replace(":", "-")}`}
+          >
             <div className="mediaRatioOverlay">
               <div className="mediaRatioTitle">
-                {media?.type === "video" ? t("preview.media.video") : t("preview.media.image")}
+                {media?.type === "video"
+                  ? t("preview.media.video")
+                  : t("preview.media.image")}
               </div>
               <div className="mediaRatioLabel">
                 {t("preview.media.ratio", { ratio: r.label })}

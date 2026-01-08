@@ -223,7 +223,8 @@ function normalizeCaptionsResult({ raw, language, emotion }) {
   const normalized = captions
     .slice(0, 3)
     .map((c, idx) => ({
-      id: c?.id || `${Date.now()}-${idx}-${Math.random().toString(16).slice(2)}`,
+      id:
+        c?.id || `${Date.now()}-${idx}-${Math.random().toString(16).slice(2)}`,
       text: (c?.text || "").toString().trim(),
       variationType: normalizeVariationType(c?.variationType),
       language: lang,
@@ -231,23 +232,26 @@ function normalizeCaptionsResult({ raw, language, emotion }) {
     }))
     .filter((c) => c.text.length);
 
-  if (!normalized.length) return { ok: false, errorKey: "captions.errors.parse" };
+  if (!normalized.length)
+    return { ok: false, errorKey: "captions.errors.parse" };
 
   // Ensure we always have all 3 variation types. If missing, fill with best-effort.
   const byType = new Map(normalized.map((c) => [c.variationType, c]));
-  const ordered = [VariationType.long, VariationType.short, VariationType.question].map(
-    (type, i) => {
-      return (
-        byType.get(type) || {
-          id: `${Date.now()}-fallback-${i}-${Math.random().toString(16).slice(2)}`,
-          text: normalized[i]?.text || normalized[0]?.text || "",
-          variationType: type,
-          language: lang,
-          emotion: emo,
-        }
-      );
-    },
-  );
+  const ordered = [
+    VariationType.long,
+    VariationType.short,
+    VariationType.question,
+  ].map((type, i) => {
+    return (
+      byType.get(type) || {
+        id: `${Date.now()}-fallback-${i}-${Math.random().toString(16).slice(2)}`,
+        text: normalized[i]?.text || normalized[0]?.text || "",
+        variationType: type,
+        language: lang,
+        emotion: emo,
+      }
+    );
+  });
 
   return { ok: true, data: { captions: ordered } };
 }

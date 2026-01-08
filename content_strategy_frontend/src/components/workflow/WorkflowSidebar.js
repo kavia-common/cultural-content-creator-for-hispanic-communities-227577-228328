@@ -71,7 +71,11 @@ export default function WorkflowSidebar({ title, items, onSelectRole }) {
                     {stateLabel}
                   </span>
                 </div>
-                <span id={tooltipId} className="muted" style={{ fontSize: "0.9rem" }}>
+                <span
+                  id={tooltipId}
+                  className="muted"
+                  style={{ fontSize: "0.9rem" }}
+                >
                   {description}
                 </span>
               </button>

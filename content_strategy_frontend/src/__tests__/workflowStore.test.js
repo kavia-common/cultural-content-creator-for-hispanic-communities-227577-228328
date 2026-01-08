@@ -19,7 +19,8 @@ function makeState() {
     currentStepId: first,
     steps: WORKFLOW_ROLES.map((id, idx) => ({
       id,
-      status: idx === 0 ? WorkflowStepStatus.in_progress : WorkflowStepStatus.idle,
+      status:
+        idx === 0 ? WorkflowStepStatus.in_progress : WorkflowStepStatus.idle,
       estimateMinutes: 10,
       startedAt: idx === 0 ? 1 : null,
       completedAt: null,

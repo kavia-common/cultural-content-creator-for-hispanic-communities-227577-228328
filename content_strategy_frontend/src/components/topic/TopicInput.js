@@ -38,7 +38,8 @@ export default function TopicInput({
 
     // Lightweight "generic" heuristic (stub; can be replaced later).
     const generic = ["help", "insurance", "telemedicine", "hola", "hi"];
-    if (generic.includes(trimmed.toLowerCase())) return t("topic.validationGeneric");
+    if (generic.includes(trimmed.toLowerCase()))
+      return t("topic.validationGeneric");
 
     return "";
   }, [touched, trimmed, t]);
@@ -128,7 +129,9 @@ export default function TopicInput({
             disabled={!canGenerate}
             aria-busy={captionsBusy ? "true" : "false"}
           >
-            {captionsBusy ? t("topic.generatingCaptions") : t("topic.generateCaptions")}
+            {captionsBusy
+              ? t("topic.generatingCaptions")
+              : t("topic.generateCaptions")}
           </button>
         </div>
       </div>

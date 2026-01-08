@@ -58,7 +58,9 @@ export default function WorkflowProgressPanel({ title }) {
     lastEventIdRef.current = newest.id;
 
     // Create a compact, localized announcement.
-    const stepLabel = newest.stepId ? t(`workflow.roles.${newest.stepId}.label`) : "";
+    const stepLabel = newest.stepId
+      ? t(`workflow.roles.${newest.stepId}.label`)
+      : "";
     let msg = "";
 
     if (newest.type === "paused")
@@ -102,7 +104,12 @@ export default function WorkflowProgressPanel({ title }) {
       aria-label={title || t("workflowProgress.title")}
       data-testid="workflow-progress-panel"
     >
-      <div className="srOnly" aria-live="polite" aria-atomic="true" ref={liveRef} />
+      <div
+        className="srOnly"
+        aria-live="polite"
+        aria-atomic="true"
+        ref={liveRef}
+      />
 
       <div className="cardHeader">
         <h2 className="h2">{title || t("workflowProgress.title")}</h2>
@@ -120,7 +127,11 @@ export default function WorkflowProgressPanel({ title }) {
             className="btn btnPrimary"
             onClick={() => actions.advanceToNext()}
             disabled={!canAdvance(currentStep) || isPaused(currentStep)}
-            aria-disabled={!canAdvance(currentStep) || isPaused(currentStep) ? "true" : "false"}
+            aria-disabled={
+              !canAdvance(currentStep) || isPaused(currentStep)
+                ? "true"
+                : "false"
+            }
             title={
               isPaused(currentStep)
                 ? t("workflowProgress.tooltips.cannotAdvancePaused")
@@ -148,8 +159,12 @@ export default function WorkflowProgressPanel({ title }) {
               const step = state.steps.find((s) => s.id === role);
               const isCurrent = role === state.currentStepId;
               const label = t(`workflow.roles.${role}.label`);
-              const statusText = t(statusKey(step?.status || WorkflowStepStatus.idle));
-              const estimate = Number.isFinite(step?.estimateMinutes) ? step.estimateMinutes : 0;
+              const statusText = t(
+                statusKey(step?.status || WorkflowStepStatus.idle),
+              );
+              const estimate = Number.isFinite(step?.estimateMinutes)
+                ? step.estimateMinutes
+                : 0;
 
               return (
                 <li
@@ -171,7 +186,9 @@ export default function WorkflowProgressPanel({ title }) {
                     <div className="workflowStepRow">
                       <strong>{label}</strong>
 
-                      <span className={statusBadgeClass(step?.status, isCurrent)}>
+                      <span
+                        className={statusBadgeClass(step?.status, isCurrent)}
+                      >
                         <span className="badgeDot" aria-hidden="true" />
                         {statusText}
                       </span>
@@ -184,7 +201,8 @@ export default function WorkflowProgressPanel({ title }) {
                         })}
                       </span>
 
-                      {step?.status === WorkflowStepStatus.paused && step?.pauseReason ? (
+                      {step?.status === WorkflowStepStatus.paused &&
+                      step?.pauseReason ? (
                         <span className="muted">
                           {t("workflowProgress.pauseReason", {
                             reason: step.pauseReason,
@@ -192,7 +210,8 @@ export default function WorkflowProgressPanel({ title }) {
                         </span>
                       ) : null}
 
-                      {step?.status === WorkflowStepStatus.changes_requested && step?.changesComment ? (
+                      {step?.status === WorkflowStepStatus.changes_requested &&
+                      step?.changesComment ? (
                         <span className="muted">
                           {t("workflowProgress.changesComment", {
                             comment: step.changesComment,
@@ -207,7 +226,10 @@ export default function WorkflowProgressPanel({ title }) {
           </ol>
         </nav>
 
-        <section className="card" aria-label={t("workflowProgress.actionsTitle")}>
+        <section
+          className="card"
+          aria-label={t("workflowProgress.actionsTitle")}
+        >
           <div
             style={{
               display: "flex",
@@ -218,7 +240,9 @@ export default function WorkflowProgressPanel({ title }) {
           >
             <div className="muted">
               {t("workflowProgress.activeStatus", {
-                status: t(statusKey(currentStep?.status || WorkflowStepStatus.idle)),
+                status: t(
+                  statusKey(currentStep?.status || WorkflowStepStatus.idle),
+                ),
               })}
             </div>
 
@@ -297,7 +321,11 @@ export default function WorkflowProgressPanel({ title }) {
         </div>
 
         <div style={{ display: "grid", gap: 10 }}>
-          <label htmlFor="pause-reason" className="fieldHelp" style={{ fontWeight: 800 }}>
+          <label
+            htmlFor="pause-reason"
+            className="fieldHelp"
+            style={{ fontWeight: 800 }}
+          >
             {t("workflowProgress.pauseModal.reasonLabel")}
           </label>
           <textarea
@@ -316,7 +344,11 @@ export default function WorkflowProgressPanel({ title }) {
               flexWrap: "wrap",
             }}
           >
-            <button type="button" className="btn" onClick={() => setPauseOpen(false)}>
+            <button
+              type="button"
+              className="btn"
+              onClick={() => setPauseOpen(false)}
+            >
               {t("workflowProgress.cancel")}
             </button>
             <button
@@ -345,7 +377,11 @@ export default function WorkflowProgressPanel({ title }) {
         </div>
 
         <div style={{ display: "grid", gap: 10 }}>
-          <label htmlFor="changes-comment" className="fieldHelp" style={{ fontWeight: 800 }}>
+          <label
+            htmlFor="changes-comment"
+            className="fieldHelp"
+            style={{ fontWeight: 800 }}
+          >
             {t("workflowProgress.changesModal.commentLabel")}
           </label>
           <textarea
@@ -364,7 +400,11 @@ export default function WorkflowProgressPanel({ title }) {
               flexWrap: "wrap",
             }}
           >
-            <button type="button" className="btn" onClick={() => setChangesOpen(false)}>
+            <button
+              type="button"
+              className="btn"
+              onClick={() => setChangesOpen(false)}
+            >
               {t("workflowProgress.cancel")}
             </button>
             <button

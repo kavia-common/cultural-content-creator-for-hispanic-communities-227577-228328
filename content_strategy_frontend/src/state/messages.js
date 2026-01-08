@@ -1,4 +1,10 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 
 const AppMessageContext = createContext(null);
 
@@ -51,6 +57,7 @@ export function AppMessageProvider({ children }) {
 export function useAppMessages() {
   /** Hook to interact with the global message system. */
   const ctx = useContext(AppMessageContext);
-  if (!ctx) throw new Error("useAppMessages must be used within AppMessageProvider");
+  if (!ctx)
+    throw new Error("useAppMessages must be used within AppMessageProvider");
   return ctx;
 }
