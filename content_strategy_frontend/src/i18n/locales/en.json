@@ -1,0 +1,73 @@
+{
+  "app": {
+    "title": "Content Strategy Studio",
+    "subtitle": "Culturally relevant content, built step-by-step by your virtual team.",
+    "language": "Language"
+  },
+  "panels": {
+    "workflow": "Workflow",
+    "create": "Create",
+    "preview": "Preview & Export"
+  },
+  "workflow": {
+    "title": "Virtual Bot Team",
+    "progressTitle": "Workflow progress",
+    "advance": "Advance step",
+    "currentStep": "Current step: {{role}}",
+    "roles": {
+      "Strategist": {
+        "label": "Strategist",
+        "description": "Clarifies the goal, audience, and emotional angle for your topic (US Hispanic community first)."
+      },
+      "Copywriter": {
+        "label": "Copywriter",
+        "description": "Drafts scroll-stopping captions and microreel scripts with clear CTAs and cultural nuance."
+      },
+      "Designer": {
+        "label": "Designer",
+        "description": "Suggests visuals and silent-video beats that fit the emotion, niche, and platform constraints."
+      },
+      "Editor": {
+        "label": "Editor",
+        "description": "Polishes clarity, tone, and compliance—keeping it human, respectful, and conversion-focused."
+      },
+      "CRM": {
+        "label": "CRM",
+        "description": "Aligns content to follow-up flows and lead capture (DM prompts, WhatsApp-ready messaging)."
+      },
+      "Coordinator": {
+        "label": "Coordinator",
+        "description": "Packages variations, checks readiness for export, and helps you deploy consistently."
+      }
+    },
+    "states": {
+      "current": "Current",
+      "complete": "Completed",
+      "upcoming": "Upcoming"
+    }
+  },
+  "topic": {
+    "title": "Topic",
+    "label": "Enter a topic",
+    "placeholder": "e.g., Telemedicine access for busy families",
+    "help": "Minimum 3 characters. Tip: include a pain point, audience, or desired emotion.",
+    "confirm": "Confirm topic",
+    "suggestionsTitle": "Suggestions (stub)",
+    "fetchSuggestions": "Get suggestions",
+    "validationTooShort": "Please enter at least 3 characters.",
+    "validationGeneric": "Try adding a specific audience, problem, or benefit."
+  },
+  "preview": {
+    "title": "Preview",
+    "placeholderTitle": "Preview for: {{topic}}",
+    "placeholderBody": "Generated variations will appear here (stub). You will be able to preview and export to WhatsApp/Facebook."
+  },
+  "messages": {
+    "languageChanged": "Language updated.",
+    "topicConfirmed": "Topic confirmed. Your workflow is ready.",
+    "workflowAdvanced": "Advanced to: {{role}}",
+    "workflowComplete": "Workflow complete. Ready to export.",
+    "roleSelected": "Selected role: {{role}}",
+    "integrationUnavailable": "Integration not configured yet. This is a safe no-op stub."
+  }
+}

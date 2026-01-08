@@ -1,0 +1,30 @@
+{
+  "name": "content_strategy_frontend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cultural Content Creator for Hispanic Communities - frontend-only React SPA",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "lint": "eslint . --ext .js,.jsx || true",
+    "serve-build": "http-server ./build -p 3000"
+  },
+  "dependencies": {
+    "i18next": "^23.7.20",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-i18next": "^13.5.0",
+    "react-scripts": "^5.0.1"
+  },
+  "devDependencies": {
+    "cypress": "^13.6.4",
+    "http-server": "^14.1.1",
+    "react-test-renderer": "^18.2.0"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ]
+}

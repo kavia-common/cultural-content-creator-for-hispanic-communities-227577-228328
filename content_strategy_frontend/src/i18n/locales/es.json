@@ -1,0 +1,73 @@
+{
+  "app": {
+    "title": "Estudio de Estrategia de Contenido",
+    "subtitle": "Contenido culturalmente relevante, creado paso a paso por tu equipo virtual.",
+    "language": "Idioma"
+  },
+  "panels": {
+    "workflow": "Flujo",
+    "create": "Crear",
+    "preview": "Vista previa y exportación"
+  },
+  "workflow": {
+    "title": "Equipo Virtual",
+    "progressTitle": "Progreso del flujo",
+    "advance": "Avanzar etapa",
+    "currentStep": "Etapa actual: {{role}}",
+    "roles": {
+      "Strategist": {
+        "label": "Estratega",
+        "description": "Aclara el objetivo, la audiencia y el ángulo emocional del tema (priorizando a la comunidad hispana en EE. UU.)."
+      },
+      "Copywriter": {
+        "label": "Copywriter",
+        "description": "Redacta captions y guiones de microreels con CTA claro y matiz cultural."
+      },
+      "Designer": {
+        "label": "Diseñador/a",
+        "description": "Sugiere visuales y beats para video sin audio, alineados con emoción, nicho y plataforma."
+      },
+      "Editor": {
+        "label": "Editor/a",
+        "description": "Mejora claridad, tono y cumplimiento—manteniendo un mensaje humano, respetuoso y de conversión."
+      },
+      "CRM": {
+        "label": "CRM",
+        "description": "Alinea el contenido con seguimiento y captura de leads (DMs, mensajes listos para WhatsApp)."
+      },
+      "Coordinator": {
+        "label": "Coordinador/a",
+        "description": "Empaqueta variaciones, revisa la preparación para exportar y ayuda a publicar con consistencia."
+      }
+    },
+    "states": {
+      "current": "Actual",
+      "complete": "Completado",
+      "upcoming": "Próximo"
+    }
+  },
+  "topic": {
+    "title": "Tema",
+    "label": "Escribe un tema",
+    "placeholder": "Ej.: Acceso a telemedicina para familias ocupadas",
+    "help": "Mínimo 3 caracteres. Tip: agrega un dolor, audiencia o emoción deseada.",
+    "confirm": "Confirmar tema",
+    "suggestionsTitle": "Sugerencias (stub)",
+    "fetchSuggestions": "Obtener sugerencias",
+    "validationTooShort": "Por favor ingresa al menos 3 caracteres.",
+    "validationGeneric": "Intenta agregar una audiencia, problema o beneficio específico."
+  },
+  "preview": {
+    "title": "Vista previa",
+    "placeholderTitle": "Vista previa para: {{topic}}",
+    "placeholderBody": "Aquí aparecerán las variaciones generadas (stub). Podrás previsualizar y exportar a WhatsApp/Facebook."
+  },
+  "messages": {
+    "languageChanged": "Idioma actualizado.",
+    "topicConfirmed": "Tema confirmado. Tu flujo está listo.",
+    "workflowAdvanced": "Avanzaste a: {{role}}",
+    "workflowComplete": "Flujo completado. Listo para exportar.",
+    "roleSelected": "Rol seleccionado: {{role}}",
+    "integrationUnavailable": "La integración aún no está configurada. Este módulo es un stub seguro."
+  }
+}
