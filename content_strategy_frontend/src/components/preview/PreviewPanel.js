@@ -2,6 +2,10 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CHANNELS, channelConfig } from '../../services/channelConfig';
 import { formatBytes, validateForFacebook, validateForWhatsApp } from '../../services/channelValidation';
+import { copyTextToClipboard, downloadTextFile } from '../../services/exportUtils';
+import { useAppMessages } from '../../state/messages';
+import { ArtifactTypes } from '../../state/artifacts';
+import { WorkflowStepStatus } from '../../state/workflow';
 
 function formatTimeHHMM(date) {
   const d = date instanceof Date ? date : new Date();
@@ -28,28 +32,125 @@ function issueSuggestionKey(issue) {
   return 'preview.validation.suggest.generic';
 }
 
+function getCoordinatorApproved(workflowState) {
+  const steps = workflowState?.steps || [];
+  const coord = steps.find((s) => s.id === 'Coordinator');
+  return coord?.status === WorkflowStepStatus.approved;
+}
+
+function pickItem(slice, variationType) {
+  const items = Array.isArray(slice?.items) ? slice.items : [];
+  const byType = new Map(items.map((i) => [i.variationType, i]));
+  return byType.get(variationType) || items[0] || null;
+}
+
+function buildExportText({ topic, artifactType, variationType, body, channel, includeEngagement, engagement }) {
+  const lines = [];
+  lines.push(`Topic: ${topic || '—'}`);
+  lines.push(`Type: ${artifactType}`);
+  lines.push(`Variation: ${variationType}`);
+  lines.push(`Channel: ${channel}`);
+  lines.push('');
+  lines.push(body || '—');
+
+  if (includeEngagement) {
+    const survey = (engagement?.survey || '').trim();
+    const openQ = (engagement?.openQuestion || '').trim();
+    const challenge = (engagement?.challenge || '').trim();
+
+    const blocks = [];
+    if (survey) blocks.push(`Survey: ${survey}`);
+    if (openQ) blocks.push(`Open question: ${openQ}`);
+    if (challenge) blocks.push(`Challenge: ${challenge}`);
+
+    if (blocks.length) {
+      lines.push('');
+      lines.push('—');
+      lines.push(...blocks);
+    }
+  }
+
+  return lines.join('\n');
+}
+
+function openWhatsAppShare(text) {
+  const url = `https://wa.me/?text=${encodeURIComponent((text || '').toString())}`;
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
+
+function openFacebookShare({ quote }) {
+  const baseUrl = window.location?.href || 'https://example.com';
+  // Facebook often ignores quote; still safe.
+  const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(baseUrl)}&quote=${encodeURIComponent(
+    (quote || '').toString()
+  )}`;
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
+
 // PUBLIC_INTERFACE
-export default function PreviewPanel({ title, content }) {
-  /** Right panel: channel preview fidelity + client-side validation (no backend). */
+export default function PreviewPanel({ title, content, artifacts, workflowState }) {
+  /** Right panel: channel preview + strict client-side export gating (no backend). */
   const { t } = useTranslation();
+  const { pushMessage } = useAppMessages();
+
+  // Backward compat: if artifacts not provided, use content prop behavior.
+  const usingArtifacts = Boolean(artifacts && typeof artifacts === 'object');
 
   const [channel, setChannel] = useState(content?.channel || CHANNELS.facebook);
 
-  // Placeholder media wiring: the app can pass content.media later (real upload integration).
-  // If not provided, keep it null (text-only).
-  const previewPayload = useMemo(() => {
-    return {
-      title: content?.title || '',
-      body: content?.body || '',
-      media: content?.media ?? null
-    };
-  }, [content]);
+  const [artifactType, setArtifactType] = useState(ArtifactTypes.captions);
+  const [variationType, setVariationType] = useState('short');
+  const [includeEngagement, setIncludeEngagement] = useState(true);
 
-  // Keep local channel state in sync when upstream changes.
+  // Keep local channel state in sync when upstream changes (compat mode).
   useEffect(() => {
-    if (content?.channel && content.channel !== channel) setChannel(content.channel);
+    if (!usingArtifacts && content?.channel && content.channel !== channel) setChannel(content.channel);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content?.channel]);
+  }, [content?.channel, usingArtifacts]);
+
+  const slice = usingArtifacts ? artifacts?.[artifactType] : null;
+  const selectedItem = useMemo(() => (usingArtifacts ? pickItem(slice, variationType) : null), [usingArtifacts, slice, variationType]);
+
+  const selectedApproved = useMemo(() => {
+    if (!usingArtifacts) return true; // compat mode doesn't gate export
+    if (!slice?.approvedId) return false;
+    // require approval of the currently previewed variation
+    return slice.approvedId === selectedItem?.id;
+  }, [usingArtifacts, slice?.approvedId, selectedItem?.id]);
+
+  const coordinatorApproved = useMemo(() => getCoordinatorApproved(workflowState), [workflowState]);
+
+  const previewPayload = useMemo(() => {
+    if (!usingArtifacts) {
+      return {
+        title: content?.title || '',
+        body: content?.body || '',
+        media: content?.media ?? null
+      };
+    }
+
+    const topic = artifacts?.context?.topic || '';
+    const body = (selectedItem?.text || '').toString();
+
+    return {
+      title: t('preview.placeholderTitle', { topic: topic || t('preview.fallbackTopic') }),
+      body,
+      media: null
+    };
+  }, [usingArtifacts, content, artifacts, selectedItem, t]);
+
+  const exportText = useMemo(() => {
+    if (!usingArtifacts) return previewPayload.body || '';
+    return buildExportText({
+      topic: artifacts?.context?.topic || '',
+      artifactType,
+      variationType,
+      body: previewPayload.body || '',
+      channel,
+      includeEngagement,
+      engagement: artifacts?.engagement
+    });
+  }, [usingArtifacts, artifacts, artifactType, variationType, previewPayload.body, channel, includeEngagement]);
 
   const validation = useMemo(() => {
     if (channel === CHANNELS.whatsapp) return validateForWhatsApp(previewPayload);
@@ -77,6 +178,62 @@ export default function PreviewPanel({ title, content }) {
 
   const now = useMemo(() => new Date(), []);
   const timeLabel = useMemo(() => formatTimeHHMM(now), [now]);
+
+  const exportBlockedReason = useMemo(() => {
+    // Strict export gating:
+    // 1) must pass channel validation (no errors)
+    // 2) must have the selected variation approved (when using artifacts)
+    // 3) must have Coordinator approved (final gate)
+    if (!validation.ok) return 'preview.export.blocked.validation';
+    if (usingArtifacts && !selectedApproved) return 'preview.export.blocked.needsApproval';
+    if (usingArtifacts && !coordinatorApproved) return 'preview.export.blocked.needsCoordinator';
+    return '';
+  }, [validation.ok, usingArtifacts, selectedApproved, coordinatorApproved]);
+
+  const canExport = !exportBlockedReason;
+
+  const doCopy = async () => {
+    if (!canExport) {
+      pushMessage({ kind: 'error', messageKey: exportBlockedReason, live: 'assertive' });
+      return;
+    }
+    const res = await copyTextToClipboard(exportText);
+    if (res.ok) pushMessage({ kind: 'success', messageKey: 'preview.export.copied', live: 'polite' });
+    else pushMessage({ kind: 'error', messageKey: 'preview.export.copyFailed', live: 'assertive' });
+  };
+
+  const doDownload = () => {
+    if (!canExport) {
+      pushMessage({ kind: 'error', messageKey: exportBlockedReason, live: 'assertive' });
+      return;
+    }
+    const safeTopic = (usingArtifacts ? artifacts?.context?.topic : content?.title) || 'export';
+    const filenameBase = safeTopic.toString().trim().toLowerCase().slice(0, 50).replace(/\s+/g, '-');
+    const filename = usingArtifacts
+      ? `${filenameBase}-${artifactType}-${variationType}-${channel}.txt`
+      : `${filenameBase}-${channel}.txt`;
+
+    downloadTextFile({ filename, text: exportText });
+    pushMessage({ kind: 'success', messageKey: 'preview.export.downloaded', live: 'polite' });
+  };
+
+  const doShareWhatsApp = () => {
+    if (!canExport) {
+      pushMessage({ kind: 'error', messageKey: exportBlockedReason, live: 'assertive' });
+      return;
+    }
+    openWhatsAppShare(exportText);
+    pushMessage({ kind: 'info', messageKey: 'preview.export.shareOpened', live: 'polite' });
+  };
+
+  const doShareFacebook = () => {
+    if (!canExport) {
+      pushMessage({ kind: 'error', messageKey: exportBlockedReason, live: 'assertive' });
+      return;
+    }
+    openFacebookShare({ quote: exportText });
+    pushMessage({ kind: 'info', messageKey: 'preview.export.shareOpened', live: 'polite' });
+  };
 
   return (
     <section className="card" aria-label={title}>
@@ -119,6 +276,63 @@ export default function PreviewPanel({ title, content }) {
 
       <div className="srOnly" aria-live="polite" aria-atomic="true" ref={liveRef} />
 
+      {usingArtifacts ? (
+        <div className="card" aria-label={t('preview.contentSelectorTitle')} style={{ marginBottom: 10 }}>
+          <div className="twoColRow">
+            <div>
+              <label className="fieldHelp" htmlFor="preview-type" style={{ fontWeight: 800 }}>
+                {t('preview.contentType')}
+              </label>
+              <select
+                id="preview-type"
+                className="select"
+                value={artifactType}
+                onChange={(e) => setArtifactType(e.target.value)}
+                aria-label={t('preview.contentType')}
+                data-testid="preview-type"
+              >
+                <option value={ArtifactTypes.captions}>{t('preview.types.captions')}</option>
+                <option value={ArtifactTypes.scripts}>{t('preview.types.scripts')}</option>
+                <option value={ArtifactTypes.outlines}>{t('preview.types.outlines')}</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="fieldHelp" htmlFor="preview-variation" style={{ fontWeight: 800 }}>
+                {t('preview.variation')}
+              </label>
+              <select
+                id="preview-variation"
+                className="select"
+                value={variationType}
+                onChange={(e) => setVariationType(e.target.value)}
+                aria-label={t('preview.variation')}
+                data-testid="preview-variation"
+              >
+                <option value="long">{t('variations.long')}</option>
+                <option value="short">{t('variations.short')}</option>
+                <option value="question">{t('variations.question')}</option>
+              </select>
+            </div>
+          </div>
+
+          <label style={{ display: 'flex', gap: 10, alignItems: 'center', marginTop: 10 }}>
+            <input
+              type="checkbox"
+              checked={includeEngagement}
+              onChange={(e) => setIncludeEngagement(e.target.checked)}
+            />
+            <span className="muted">{t('preview.includeEngagement')}</span>
+          </label>
+
+          <div className="muted" style={{ marginTop: 10 }}>
+            {t('preview.approvalStatus', { approved: selectedApproved ? t('preview.approvedYes') : t('preview.approvedNo') })}
+            {' • '}
+            {t('preview.coordinatorStatus', { approved: coordinatorApproved ? t('preview.approvedYes') : t('preview.approvedNo') })}
+          </div>
+        </div>
+      ) : null}
+
       <div style={{ display: 'grid', gap: 10 }}>
         <div className="previewMetaRow">
           <div className="muted" style={{ margin: 0 }}>
@@ -142,19 +356,75 @@ export default function PreviewPanel({ title, content }) {
 
         <ValidationRegion issues={validation.issues} />
 
+        {exportBlockedReason ? (
+          <div className="callout calloutError" role="alert" data-testid="export-blocked">
+            {t(exportBlockedReason)}
+          </div>
+        ) : null}
+
         <div className="previewStage" data-testid="preview-stage">
           {channel === CHANNELS.whatsapp ? (
-            <WhatsAppPreview
-              message={previewPayload.body}
-              timestampLabel={timeLabel}
-              media={previewPayload.media}
-            />
+            <WhatsAppPreview message={previewPayload.body} timestampLabel={timeLabel} media={previewPayload.media} />
           ) : (
             <FacebookPreview title={previewPayload.title} body={previewPayload.body} media={previewPayload.media} />
           )}
         </div>
 
-        <div className="muted">{t('preview.exportStub')}</div>
+        <section className="card" aria-label={t('preview.export.title')}>
+          <div className="muted" style={{ fontWeight: 800, marginBottom: 8 }}>
+            {t('preview.export.title')}
+          </div>
+
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              className="btn btnSecondary"
+              onClick={doCopy}
+              disabled={!canExport}
+              aria-disabled={!canExport ? 'true' : 'false'}
+              data-testid="export-copy"
+            >
+              {t('preview.export.copy')}
+            </button>
+
+            <button
+              type="button"
+              className="btn btnSecondary"
+              onClick={doDownload}
+              disabled={!canExport}
+              aria-disabled={!canExport ? 'true' : 'false'}
+              data-testid="export-download"
+            >
+              {t('preview.export.download')}
+            </button>
+
+            <button
+              type="button"
+              className="btn"
+              onClick={doShareWhatsApp}
+              disabled={!canExport}
+              aria-disabled={!canExport ? 'true' : 'false'}
+              data-testid="export-share-whatsapp"
+            >
+              {t('preview.export.shareWhatsApp')}
+            </button>
+
+            <button
+              type="button"
+              className="btn"
+              onClick={doShareFacebook}
+              disabled={!canExport}
+              aria-disabled={!canExport ? 'true' : 'false'}
+              data-testid="export-share-facebook"
+            >
+              {t('preview.export.shareFacebook')}
+            </button>
+          </div>
+
+          <div className="muted" style={{ marginTop: 10 }}>
+            {t('preview.export.hint')}
+          </div>
+        </section>
       </div>
     </section>
   );
@@ -168,10 +438,7 @@ function ValidationRegion({ issues }) {
   const warnings = (issues || []).filter((i) => i.severity === 'warning');
 
   return (
-    <section
-      className={`validationRegion ${has ? 'validationRegionActive' : ''}`}
-      aria-label={t('preview.validation.title')}
-    >
+    <section className={`validationRegion ${has ? 'validationRegionActive' : ''}`} aria-label={t('preview.validation.title')}>
       <div role="status" aria-live="polite" aria-atomic="false">
         {!has ? (
           <div className="callout" style={{ margin: 0 }}>
@@ -330,9 +597,7 @@ function MediaFrame({ channel, media }) {
           </div>
           <div className="mediaFrameMeta">
             <div className="mediaFrameType">{media.type === 'video' ? t('preview.media.video') : t('preview.media.image')}</div>
-            <div className="mediaFrameHint">
-              {t('preview.media.dimensions', { w: media.dimensions.width, h: media.dimensions.height })}
-            </div>
+            <div className="mediaFrameHint">{t('preview.media.dimensions', { w: media.dimensions.width, h: media.dimensions.height })}</div>
           </div>
         </div>
       </div>
@@ -346,9 +611,7 @@ function MediaFrame({ channel, media }) {
         <div key={r.label} className="mediaRatioItem">
           <div className={`mediaRatioBox mediaRatioBox-${r.label.replace(':', '-')}`}>
             <div className="mediaRatioOverlay">
-              <div className="mediaRatioTitle">
-                {media?.type === 'video' ? t('preview.media.video') : t('preview.media.image')}
-              </div>
+              <div className="mediaRatioTitle">{media?.type === 'video' ? t('preview.media.video') : t('preview.media.image')}</div>
               <div className="mediaRatioLabel">{t('preview.media.ratio', { ratio: r.label })}</div>
             </div>
           </div>

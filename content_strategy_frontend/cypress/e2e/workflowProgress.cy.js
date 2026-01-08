@@ -10,6 +10,10 @@ describe('Workflow Progress (outline)', () => {
 
     cy.get('[data-testid="workflow-progress-panel"]').should('exist');
 
+    // Set a topic and confirm to satisfy Strategist approval gate.
+    cy.get('#topic-input').type('Telemedicine access for busy families');
+    cy.contains('button', /confirm|confirmar/i).click();
+
     // Current step should be Strategist initially.
     cy.get('[data-testid="workflow-step-Strategist"]').should('have.attr', 'aria-current', 'step');
 

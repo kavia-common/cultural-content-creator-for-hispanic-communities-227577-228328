@@ -6,14 +6,17 @@ import '@testing-library/jest-dom';
 import '../i18n/i18n';
 import { AppMessageProvider } from '../state/messages';
 import { WorkflowProvider } from '../state/workflow';
+import { ArtifactsProvider } from '../state/artifacts';
 import WorkflowProgressPanel from '../components/workflow/WorkflowProgressPanel';
 
 function renderPanel() {
   return render(
     <AppMessageProvider>
-      <WorkflowProvider artifactId="test-artifact">
-        <WorkflowProgressPanel title="Workflow progress" />
-      </WorkflowProvider>
+      <ArtifactsProvider artifactId="test-artifact">
+        <WorkflowProvider artifactId="test-artifact">
+          <WorkflowProgressPanel title="Workflow progress" />
+        </WorkflowProvider>
+      </ArtifactsProvider>
     </AppMessageProvider>
   );
 }

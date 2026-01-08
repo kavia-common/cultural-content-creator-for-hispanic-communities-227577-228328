@@ -44,6 +44,7 @@ export default function OnboardingTour({ isOpen, onSkip, onFinish }) {
       title={t('onboarding.title')}
       describedById="onboarding-desc"
       initialFocusRef={nextBtnRef}
+      closeLabel={t('common.closeDialog')}
     >
       <div className="srOnly" aria-live="polite" aria-atomic="true" ref={liveRef} />
 

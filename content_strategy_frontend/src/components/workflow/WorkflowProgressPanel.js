@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import Modal from '../common/Modal';
 import { WORKFLOW_ROLES } from '../../domain/workflow';
 import { useWorkflow, WorkflowStepStatus } from '../../state/workflow';
+import { useArtifacts, ArtifactTypes } from '../../state/artifacts';
 import { useAppMessages } from '../../state/messages';
 
 function statusKey(status) {
@@ -31,6 +32,7 @@ export default function WorkflowProgressPanel({ title }) {
   const { t } = useTranslation();
   const { pushMessage } = useAppMessages();
   const { state, actions } = useWorkflow();
+  const { state: artifactsState } = useArtifacts();
 
   const currentStep = useMemo(
     () => state.steps.find((s) => s.id === state.currentStepId),
@@ -85,6 +87,50 @@ export default function WorkflowProgressPanel({ title }) {
   }, [state.events, t, pushMessage]);
 
   const stepListLabel = t('workflowProgress.stepListLabel');
+
+  const approvalGate = useMemo(() => {
+    const role = state.currentStepId;
+
+    // Map steps to required approvals / inputs.
+    if (role === 'Strategist') {
+      const ok = Boolean((artifactsState.context?.topic || '').trim().length >= 3);
+      return { ok, reasonKey: ok ? '' : 'workflowGates.needTopic' };
+    }
+
+    if (role === 'Copywriter') {
+      const ok = Boolean(artifactsState.captions?.approvedId);
+      return { ok, reasonKey: ok ? '' : 'workflowGates.needCaptionApproval' };
+    }
+
+    if (role === 'Designer') {
+      const ok = Boolean(artifactsState.outlines?.approvedId);
+      return { ok, reasonKey: ok ? '' : 'workflowGates.needOutlineApproval' };
+    }
+
+    if (role === 'Editor') {
+      const ok = Boolean(artifactsState.scripts?.approvedId);
+      return { ok, reasonKey: ok ? '' : 'workflowGates.needScriptApproval' };
+    }
+
+    if (role === 'CRM') {
+      const ok = Boolean(
+        (artifactsState.engagement?.survey || '').trim() ||
+          (artifactsState.engagement?.openQuestion || '').trim() ||
+          (artifactsState.engagement?.challenge || '').trim()
+      );
+      return { ok, reasonKey: ok ? '' : 'workflowGates.needEngagement' };
+    }
+
+    if (role === 'Coordinator') {
+      const ok =
+        Boolean(artifactsState.captions?.approvedId) &&
+        Boolean(artifactsState.scripts?.approvedId) &&
+        Boolean(artifactsState.outlines?.approvedId);
+      return { ok, reasonKey: ok ? '' : 'workflowGates.needAllApprovals' };
+    }
+
+    return { ok: true, reasonKey: '' };
+  }, [state.currentStepId, artifactsState]);
 
   return (
     <section className="card" aria-label={title || t('workflowProgress.title')} data-testid="workflow-progress-panel">
@@ -227,10 +273,22 @@ export default function WorkflowProgressPanel({ title }) {
               <button
                 type="button"
                 className="btn btnSecondary"
-                onClick={() => actions.approveStep(state.currentStepId)}
-                disabled={isPaused(currentStep)}
-                aria-disabled={isPaused(currentStep) ? 'true' : 'false'}
-                title={isPaused(currentStep) ? t('workflowProgress.tooltips.cannotApprovePaused') : undefined}
+                onClick={() => {
+                  if (!approvalGate.ok) {
+                    pushMessage({ kind: 'error', messageKey: approvalGate.reasonKey, live: 'assertive' });
+                    return;
+                  }
+                  actions.approveStep(state.currentStepId);
+                }}
+                disabled={isPaused(currentStep) || !approvalGate.ok}
+                aria-disabled={isPaused(currentStep) || !approvalGate.ok ? 'true' : 'false'}
+                title={
+                  isPaused(currentStep)
+                    ? t('workflowProgress.tooltips.cannotApprovePaused')
+                    : !approvalGate.ok
+                      ? t(approvalGate.reasonKey)
+                      : undefined
+                }
                 data-testid="workflow-approve"
               >
                 {t('workflowProgress.approve')}
@@ -246,6 +304,7 @@ export default function WorkflowProgressPanel({ title }) {
         title={t('workflowProgress.pauseModal.title')}
         describedById="pause-desc"
         initialFocusRef={pauseInputRef}
+        closeLabel={t('common.closeDialog')}
       >
         <div id="pause-desc" className="srOnly">
           {t('workflowProgress.pauseModal.description')}
@@ -287,6 +346,7 @@ export default function WorkflowProgressPanel({ title }) {
         title={t('workflowProgress.changesModal.title')}
         describedById="changes-desc"
         initialFocusRef={changesInputRef}
+        closeLabel={t('common.closeDialog')}
       >
         <div id="changes-desc" className="srOnly">
           {t('workflowProgress.changesModal.description')}

@@ -16,7 +16,7 @@ export default function HelpCenter({ isOpen, onClose, onOpenOnboarding }) {
   const sectionBody = useMemo(() => t(`helpCenter.sections.${active}.body`), [t, active]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={title}>
+    <Modal isOpen={isOpen} onClose={onClose} title={title} closeLabel={t('common.closeDialog')}>
       <div style={{ display: 'grid', gap: 12 }}>
         <div className="tabs" role="tablist" aria-label={t('helpCenter.tabsLabel')}>
           {SECTIONS.map((key) => {

@@ -1,14 +1,21 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getTopicSuggestionsStub } from '../../services/suggestions';
+import { getTopicSuggestions } from '../../services/suggestions';
 import { useAppMessages } from '../../state/messages';
 
 const NICHES = ['telemedicine', 'lifeInsurance', 'finalExpenses', 'funeralAssistance'];
 const EMOTIONS = ['calm', 'security', 'luxury', 'closeness'];
 
 // PUBLIC_INTERFACE
-export default function TopicInput({ topic, onTopicChange, onConfirmed, onGenerateCaptions, captionsBusy }) {
-  /** Topic input component with validation, suggestion stubs, and caption generation trigger. */
+export default function TopicInput({
+  topic,
+  onTopicChange,
+  onConfirmed,
+  onContextChange,
+  onGenerate, // ({ kind: 'captions'|'scripts'|'outlines'|'all', topic, niche, emotion, language })
+  busy = {} // { captions?:bool, scripts?:bool, outlines?:bool, all?:bool }
+}) {
+  /** Topic input component with validation, OpenAI-backed suggestions, and multi-artifact generation triggers. */
   const { t, i18n } = useTranslation();
   const { pushMessage } = useAppMessages();
 
@@ -21,11 +28,16 @@ export default function TopicInput({ topic, onTopicChange, onConfirmed, onGenera
 
   const trimmed = (topic || '').trim();
 
+  useEffect(() => {
+    onContextChange?.({ niche, emotion });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [niche, emotion]);
+
   const validationError = useMemo(() => {
     if (!touched) return '';
     if (trimmed.length < 3) return t('topic.validationTooShort');
 
-    // Lightweight "generic" heuristic (stub; can be replaced later).
+    // Lightweight generic heuristic.
     const generic = ['help', 'insurance', 'telemedicine', 'hola', 'hi'];
     if (generic.includes(trimmed.toLowerCase())) return t('topic.validationGeneric');
 
@@ -33,7 +45,6 @@ export default function TopicInput({ topic, onTopicChange, onConfirmed, onGenera
   }, [touched, trimmed, t]);
 
   const canConfirm = trimmed.length >= 3 && !validationError;
-  const canGenerate = canConfirm && !captionsBusy;
 
   const handleConfirm = () => {
     setTouched(true);
@@ -41,31 +52,32 @@ export default function TopicInput({ topic, onTopicChange, onConfirmed, onGenera
       pushMessage({ kind: 'error', messageKey: 'topic.validationTooShort', live: 'assertive' });
       return;
     }
-    onConfirmed?.(trimmed);
+    onConfirmed?.(trimmed, { niche, emotion, language: i18n.language === 'es' ? 'es' : 'en' });
   };
 
   const handleSuggestions = async () => {
     setSuggestionsBusy(true);
     try {
-      const items = await getTopicSuggestionsStub(trimmed);
+      const items = await getTopicSuggestions(trimmed, i18n.language === 'es' ? 'es' : 'en');
       setSuggestions(items);
       if (!items.length) {
-        pushMessage({ kind: 'info', messageKey: 'messages.integrationUnavailable' });
+        pushMessage({ kind: 'info', messageKey: 'topic.noSuggestions' });
       }
     } catch (e) {
-      pushMessage({ kind: 'error', messageKey: 'messages.integrationUnavailable', live: 'assertive' });
+      pushMessage({ kind: 'error', messageKey: 'topic.suggestionsError', live: 'assertive' });
     } finally {
       setSuggestionsBusy(false);
     }
   };
 
-  const handleGenerateCaptions = () => {
+  const handleGenerate = (kind) => {
     setTouched(true);
     if (!canConfirm) {
       pushMessage({ kind: 'error', messageKey: 'topic.validationTooShort', live: 'assertive' });
       return;
     }
-    onGenerateCaptions?.({
+    onGenerate?.({
+      kind,
       topic: trimmed,
       niche,
       emotion,
@@ -86,11 +98,12 @@ export default function TopicInput({ topic, onTopicChange, onConfirmed, onGenera
           <button
             type="button"
             className="btn btnSecondary"
-            onClick={handleGenerateCaptions}
-            disabled={!canGenerate}
-            aria-busy={captionsBusy ? 'true' : 'false'}
+            onClick={() => handleGenerate('all')}
+            disabled={!canConfirm || busy.all}
+            aria-busy={busy.all ? 'true' : 'false'}
+            data-testid="generate-all"
           >
-            {captionsBusy ? t('topic.generatingCaptions') : t('topic.generateCaptions')}
+            {busy.all ? t('topic.generatingAll') : t('topic.generateAll')}
           </button>
         </div>
       </div>
@@ -173,6 +186,41 @@ export default function TopicInput({ topic, onTopicChange, onConfirmed, onGenera
               ))}
             </select>
           </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }} aria-label={t('topic.generateSectionLabel')}>
+          <button
+            type="button"
+            className="btn btnSecondary"
+            onClick={() => handleGenerate('captions')}
+            disabled={!canConfirm || busy.captions}
+            aria-busy={busy.captions ? 'true' : 'false'}
+            data-testid="generate-captions"
+          >
+            {busy.captions ? t('topic.generatingCaptions') : t('topic.generateCaptions')}
+          </button>
+
+          <button
+            type="button"
+            className="btn btnSecondary"
+            onClick={() => handleGenerate('scripts')}
+            disabled={!canConfirm || busy.scripts}
+            aria-busy={busy.scripts ? 'true' : 'false'}
+            data-testid="generate-scripts"
+          >
+            {busy.scripts ? t('topic.generatingScripts') : t('topic.generateScripts')}
+          </button>
+
+          <button
+            type="button"
+            className="btn btnSecondary"
+            onClick={() => handleGenerate('outlines')}
+            disabled={!canConfirm || busy.outlines}
+            aria-busy={busy.outlines ? 'true' : 'false'}
+            data-testid="generate-outlines"
+          >
+            {busy.outlines ? t('topic.generatingOutlines') : t('topic.generateOutlines')}
+          </button>
         </div>
       </div>
 

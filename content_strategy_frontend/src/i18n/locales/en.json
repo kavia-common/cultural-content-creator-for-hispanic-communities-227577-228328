@@ -4,6 +4,14 @@
     "subtitle": "Culturally relevant content, built step-by-step by your virtual team.",
     "language": "Language"
   },
+  "common": {
+    "closeDialog": "Close dialog"
+  },
+  "variations": {
+    "long": "Long",
+    "short": "Short",
+    "question": "Question"
+  },
   "panels": {
     "workflow": "Workflow",
     "create": "Create",
@@ -46,14 +54,29 @@
       "upcoming": "Upcoming"
     }
   },
+  "workflowGates": {
+    "needTopic": "Add and confirm a topic before approving this step.",
+    "needCaptionApproval": "Approve a caption variation before approving this step.",
+    "needOutlineApproval": "Approve a silent video outline before approving this step.",
+    "needScriptApproval": "Approve a microreel script before approving this step.",
+    "needEngagement": "Generate or enter at least one engagement element before approving this step.",
+    "needAllApprovals": "Approve captions, scripts, and outlines before approving the Coordinator step."
+  },
   "topic": {
     "title": "Topic",
     "label": "Enter a topic",
     "placeholder": "e.g., Telemedicine access for busy families",
     "help": "Minimum 3 characters. Tip: include a pain point, audience, or desired emotion.",
     "confirm": "Confirm topic",
+    "generateSectionLabel": "Generation actions",
+    "generateAll": "Generate all",
+    "generatingAll": "Generating…",
     "generateCaptions": "Generate captions",
     "generatingCaptions": "Generating…",
+    "generateScripts": "Generate scripts",
+    "generatingScripts": "Generating…",
+    "generateOutlines": "Generate outlines",
+    "generatingOutlines": "Generating…",
     "nicheLabel": "Niche",
     "emotionLabel": "Brand emotion",
     "niches": {
@@ -68,161 +91,23 @@
       "luxury": "Luxury",
       "closeness": "Closeness"
     },
-    "suggestionsTitle": "Suggestions (stub)",
+    "suggestionsTitle": "Suggestions",
     "fetchSuggestions": "Get suggestions",
+    "noSuggestions": "No suggestions found yet.",
+    "suggestionsError": "Could not load suggestions. Please try again.",
     "validationTooShort": "Please enter at least 3 characters.",
     "validationGeneric": "Try adding a specific audience, problem, or benefit."
   },
-  "preview": {
-    "title": "Preview",
-    "channelLabel": "Channel",
-    "channelToggleLabel": "Choose preview channel",
-    "channels": {
-      "whatsapp": "WhatsApp",
-      "facebook": "Facebook"
-    },
-    "characterCount": "Characters: {{count}} / {{max}}",
-    "mediaLabel": "Media: {{type}} • {{mimeType}} • {{size}}",
-    "mediaNone": "Media: none",
-    "placeholderTitle": "Preview for: {{topic}}",
-    "placeholderBody": "Generated variations will appear here (stub). You will be able to preview and export to WhatsApp/Facebook.",
-    "exportStub": "Export/share actions will be added here (WhatsApp, Facebook) once keys and endpoints are configured.",
-
-    "validation": {
-      "title": "Validation",
-      "passed": "Validation passed.",
-      "summary": "{{errors}} error(s), {{warnings}} warning(s).",
-      "errorsTitle": "Fix these issues ({{count}})",
-      "warningsTitle": "Suggestions ({{count}})",
-      "generic": "This content may not meet channel requirements.",
-      "textTooLong": "Text is too long (max {{max}} characters; you have {{actual}}).",
-      "mediaUnsupportedType": "Unsupported media type: {{mimeType}}. Supported: {{supported}}.",
-      "mediaFileTooLarge": "File is too large (max {{max}}; you have {{actual}}).",
-      "mediaAspectRatioRecommended": "Aspect ratio may not be ideal. Recommended: {{recommended}}.",
-      "videoTooLong": "Video may be too long (max {{maxSeconds}}s; you have {{actualSeconds}}s).",
-      "suggest": {
-        "shortenText": "Suggestion: shorten the caption or split into multiple messages/posts.",
-        "useSupportedType": "Suggestion: export as JPG/PNG for images or MP4 for videos.",
-        "reduceFileSize": "Suggestion: compress the file or reduce resolution/bitrate.",
-        "adjustCrop": "Suggestion: crop to a recommended aspect ratio for best results.",
-        "trimVideo": "Suggestion: trim the video to the recommended duration.",
-        "generic": "Suggestion: review channel guidelines and adjust content."
-      }
-    },
-
-    "whatsapp": {
-      "ariaLabel": "WhatsApp preview",
-      "chatName": "Contact",
-      "messageLabel": "Message bubble",
-      "timestampLabel": "Timestamp"
-    },
-    "facebook": {
-      "ariaLabel": "Facebook preview",
-      "pageName": "Your Page",
-      "sponsored": "Sponsored"
-    },
-    "media": {
-      "ratiosLabel": "Recommended aspect ratios",
-      "frameLabel": "Media preview frame",
-      "image": "Image",
-      "video": "Video",
-      "ratio": "Ratio {{ratio}}",
-      "dimensions": "{{w}}×{{h}}"
-    }
-  },
-  "help": {
-    "inline": {
-      "openLabel": "Open help tooltip",
-      "topic": "Tip: Start with a clear pain point + audience (e.g., \"busy families\"), then refine using suggestions.",
-      "workflow": "The workflow shows what each virtual role contributes. You can read each role description and track what’s current vs completed.",
-      "preview": "Preview and export tools will live here. Use this panel to review title/body and confirm channel formatting.",
-      "language": "Use the language toggle in the header to switch English/Spanish anytime.",
-      "feedback": "Look for confirmation and error messages below the header; they’re announced to screen readers."
-    }
-  },
-  "onboarding": {
-    "title": "Welcome to Content Strategy Studio",
-    "stepCounter": "Step {{current}} of {{total}}",
-    "back": "Back",
-    "next": "Next",
-    "skip": "Skip",
-    "finish": "Finish",
-    "aria": {
-      "stepAnnounce": "Onboarding step {{current}} of {{total}}: {{title}}"
-    },
-    "steps": {
-      "workflow": {
-        "title": "Workflow sidebar (roles)",
-        "body": "Your virtual bot team works in roles (Strategist → Copywriter → Designer → Editor → CRM → Coordinator).\nUse the left sidebar to understand each role and see what's current vs completed."
-      },
-      "topic": {
-        "title": "Topic input and suggestions",
-        "body": "Enter a topic and confirm it to start the workflow.\nUse “Get suggestions” to explore variations (safe stub until integrations are configured)."
-      },
-      "preview": {
-        "title": "Preview & Export panel",
-        "body": "The right panel shows preview content and (later) export tools.\nUse it to review your title/body and channel formatting."
-      },
-      "language": {
-        "title": "Language toggle",
-        "body": "Switch between English and Spanish anytime using the header language button."
-      },
-      "feedback": {
-        "title": "Feedback & notifications",
-        "body": "Important updates appear below the header (success, info, and error messages).\nThey are announced to screen readers to keep you informed."
-      }
-    }
-  },
-  "helpCenter": {
-    "open": "Open Help Center",
-    "title": "Help Center",
-    "close": "Close",
-    "openOnboarding": "Re-open onboarding",
-    "tabsLabel": "Help center sections",
-    "sections": {
-      "gettingStarted": {
-        "short": "Getting Started",
-        "title": "Getting Started",
-        "body": "Use the Topic panel to enter a topic.\nAdvance the workflow to simulate your virtual team’s progress.\nUse Preview to review outputs and prepare for export."
-      },
-      "topicInput": {
-        "short": "Topic Input",
-        "title": "Topic Input",
-        "body": "Minimum 3 characters.\nTry adding an audience, problem, and benefit.\nUse suggestions to explore culturally relevant framing."
-      },
-      "workflow": {
-        "short": "Workflow",
-        "title": "Workflow & roles",
-        "body": "Each role contributes a different perspective.\nCurrent steps are highlighted; completed steps are marked as completed.\nClick a role to read its description."
-      },
-      "previewExport": {
-        "short": "Preview/Export",
-        "title": "Preview & Export",
-        "body": "Preview shows what you’re building.\nExport tools will be added later (WhatsApp/Facebook) once integrations are configured."
-      },
-      "accessibility": {
-        "short": "Accessibility",
-        "title": "Accessibility",
-        "body": "Keyboard: Tab/Shift+Tab to move, Enter/Space to activate.\nModals: Escape to close.\nMessages: important changes are announced via screen readers."
-      }
-    }
-  },
-  "settings": {
-    "open": "Open settings",
-    "title": "Settings",
-    "description": "Configure temporary API keys for this session only.",
-    "close": "Close",
-    "openai": {
-      "title": "OpenAI",
-      "keySourceLabel": "Key source",
-      "keySourceEnv": "ENV",
-      "keySourceMemory": "Session",
-      "keySourceNone": "None",
-      "keyLabel": "Temporary API key (session only)",
-      "keyPlaceholder": "sk-…",
-      "keyHelp": "This key stays in memory only and will be cleared when you refresh/close the tab.",
-      "save": "Save key",
-      "clear": "Clear"
+  "openai": {
+    "errors": {
+      "missingKey": "OpenAI is not configured. Add an API key in Settings to generate content.",
+      "missingKeyHint": "Tip: open Settings (⚙) to paste a temporary OpenAI key for this session.",
+      "auth": "Your OpenAI key seems invalid or expired. Please check and try again.",
+      "rateLimit": "Too many requests. Please wait a moment and try again.",
+      "network": "Network error. Check your connection and try again.",
+      "server": "OpenAI server error. Please try again shortly.",
+      "parse": "We couldn’t read the model response. Please try again.",
+      "generic": "Something went wrong while generating content. Please try again."
     }
   },
   "captions": {
@@ -264,6 +149,630 @@
       "server": "OpenAI server error. Please try again shortly.",
       "parse": "We couldn’t read the model response. Please try again.",
       "generic": "Something went wrong while generating captions. Please try again."
+    }
+  },
+  "scripts": {
+    "messages": {
+      "generated": "Scripts generated."
+    }
+  },
+  "outlines": {
+    "messages": {
+      "generated": "Outlines generated."
+    }
+  },
+  "engagement": {
+    "title": "Engagement & Predictive",
+    "generate": "Generate engagement + predictive",
+    "generating": "Generating…",
+    "helper": "Generate interactive elements and predictive suggestions to improve conversion and cultural resonance.",
+    "survey": "Survey",
+    "surveyPh": "e.g., Peace of mind / More time",
+    "openQuestion": "Open question",
+    "openQuestionPh": "e.g., What would make this feel easier for your family?",
+    "challenge": "24h challenge",
+    "challengePh": "e.g., DM 'INFO' and ask 1 question you’ve been avoiding",
+    "predictiveTitle": "Predictive suggestions",
+    "segments": "Suggested segments",
+    "tweaks": "Suggested tweaks",
+    "errors": {
+      "needTopic": "Please confirm a topic first.",
+      "partial": "Some suggestions could not be generated. You can still continue."
+    },
+    "messages": {
+      "generated": "Engagement elements and predictive suggestions generated."
+    }
+  },
+  "artifacts": {
+    "title": "Artifacts (Versions & Approval)",
+    "tabsLabel": "Artifact type",
+    "tabs": {
+      "captions": "Captions",
+      "scripts": "Microreel scripts",
+      "outlines": "Silent video outlines"
+    },
+    "empty": "Generate content to start. Approved items will unlock workflow and export.",
+    "approvalHint": "Approved variation: {{approved}}",
+    "approvalYes": "Yes",
+    "approvalNo": "No",
+    "itemAria": "Artifact {{type}} variation {{variation}}",
+    "itemStatusLabel": "Approval status",
+    "approved": "Approved",
+    "notApproved": "Not approved",
+    "editLabel": "Edit variation: {{variation}}",
+    "predictiveTitle": "Predictive suggestions",
+    "objection": "Objection: {{text}}",
+    "apply": "Apply",
+    "applySuggestionAria": "Apply suggestion: {{title}}",
+    "engagementTitle": "Engagement inserts",
+    "insertSurvey": "Insert survey",
+    "insertOpenQuestion": "Insert open question",
+    "insertChallenge": "Insert challenge",
+    "versions": "Versions",
+    "save": "Save",
+    "approve": "Approve",
+    "versionsTitle": "Version history: {{variation}}",
+    "versionsDesc": "Browse and restore previous versions.",
+    "versionsEmpty": "No versions yet.",
+    "versionMeta": "By {{actor}} • {{note}}",
+    "restore": "Restore",
+    "restoreAria": "Restore previous version for {{variation}}",
+    "messages": {
+      "saved": "Saved.",
+      "approved": "Approved.",
+      "restored": "Restored previous version.",
+      "cannotApproveEmpty": "Cannot approve empty content."
+    }
+  },
+  "audit": {
+    "open": "Audit trail",
+    "title": "Audit trail",
+    "description": "History of actions for this artifact.",
+    "count": "{{count}} entries",
+    "exportCsv": "Export CSV",
+    "actor": "Actor: {{actor}}",
+    "variation": "Variation: {{variation}}"
+  },
+  "preview": {
+    "title": "Preview",
+    "fallbackTopic": "your topic",
+    "channelLabel": "Channel",
+    "channelToggleLabel": "Choose preview channel",
+    "channels": {
+      "whatsapp": "WhatsApp",
+      "facebook": "Facebook"
+    },
+    "contentSelectorTitle": "Content selector",
+    "contentType": "Content type",
+    "types": {
+      "captions": "Captions",
+      "scripts": "Scripts",
+      "outlines": "Outlines"
+    },
+    "variation": "Variation",
+    "includeEngagement": "Include engagement elements in export/share",
+    "approvalStatus": "Selected variation approved: {{approved}}",
+    "coordinatorStatus": "Coordinator approved: {{approved}}",
+    "approvedYes": "Yes",
+    "approvedNo": "No",
+    "characterCount": "Characters: {{count}} / {{max}}",
+    "mediaLabel": "Media: {{type}} • {{mimeType}} • {{size}}",
+    "mediaNone": "Media: none",
+    "placeholderTitle": "Preview for: {{topic}}",
+    "placeholderBody": "Generated variations will appear here.",
+    "validation": {
+      "title": "Validation",
+      "passed": "Validation passed.",
+      "summary": "{{errors}} error(s), {{warnings}} warning(s).",
+      "errorsTitle": "Fix these issues ({{count}})",
+      "warningsTitle": "Suggestions ({{count}})",
+      "generic": "This content may not meet channel requirements.",
+      "textTooLong": "Text is too long (max {{max}} characters; you have {{actual}}).",
+      "mediaUnsupportedType": "Unsupported media type: {{mimeType}}. Supported: {{supported}}.",
+      "mediaFileTooLarge": "File is too large (max {{max}}; you have {{actual}}).",
+      "mediaAspectRatioRecommended": "Aspect ratio may not be ideal. Recommended: {{recommended}}.",
+      "videoTooLong": "Video may be too long (max {{maxSeconds}}s; you have {{actualSeconds}}s).",
+      "suggest": {
+        "shortenText": "Suggestion: shorten the caption or split into multiple messages/posts.",
+        "useSupportedType": "Suggestion: export as JPG/PNG for images or MP4 for videos.",
+        "reduceFileSize": "Suggestion: compress the file or reduce resolution/bitrate.",
+        "adjustCrop": "Suggestion: crop to a recommended aspect ratio for best results.",
+        "trimVideo": "Suggestion: trim the video to the recommended duration.",
+        "generic": "Suggestion: review channel guidelines and adjust content."
+      }
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "title": "Export",
+      "copy": "Copy",
+      "download": "Download",
+      "shareWhatsApp": "Share to WhatsApp",
+      "shareFacebook": "Share to Facebook",
+      "hint": "Export is enabled only after approvals and validation pass.",
+      "copied": "Copied to clipboard.",
+      "copyFailed": "Could not copy to clipboard.",
+      "downloaded": "Download started.",
+      "shareOpened": "Share window opened."
+    },
+    "export": {
+      "blocked": {
+        "validation": "Export blocked: fix validation errors first.",
+        "needsApproval": "Export blocked: approve the selected variation first.",
+        "needsCoordinator": "Export blocked: approve the Coordinator step first."
+      }
+    },
+    "whatsapp": {
+      "ariaLabel": "WhatsApp preview",
+      "chatName": "Contact",
+      "messageLabel": "Message bubble",
+      "timestampLabel": "Timestamp"
+    },
+    "facebook": {
+      "ariaLabel": "Facebook preview",
+      "pageName": "Your Page",
+      "sponsored": "Sponsored"
+    },
+    "media": {
+      "ratiosLabel": "Recommended aspect ratios",
+      "frameLabel": "Media preview frame",
+      "image": "Image",
+      "video": "Video",
+      "ratio": "Ratio {{ratio}}",
+      "dimensions": "{{w}}×{{h}}"
+    }
+  },
+  "settings": {
+    "open": "Open settings",
+    "title": "Settings",
+    "description": "Configure temporary API keys/tokens for this session only.",
+    "close": "Close",
+    "securityTitle": "Security",
+    "securityBody": "Keys/tokens are kept in memory only and cleared when you refresh or close the tab.",
+    "tokenSourceLabel": "Token source",
+    "tokenSourceEnv": "ENV",
+    "tokenSourceSession": "Session",
+    "tokenSourceNone": "None",
+    "source": {
+      "env": "ENV",
+      "memory": "Session",
+      "none": "None"
+    },
+    "save": "Save",
+    "clear": "Clear",
+    "saved": "Saved.",
+    "cleared": "Cleared.",
+    "otherTokensTitle": "Other integrations",
+    "checkHealth": "Check health",
+    "checking": "Checking…",
+    "healthChecked": "Integration health updated.",
+    "integrationStatusRowAria": "Integration status: {{name}}",
+    "health": {
+      "statusLabel": "Health status",
+      "status": {
+        "healthy": "Healthy",
+        "disconnected": "Disconnected",
+        "degraded": "Degraded"
+      },
+      "source": "Source: {{source}}",
+      "lastChecked": "Last checked: {{ts}}"
+    },
+    "openai": {
+      "title": "OpenAI",
+      "keyLabel": "Temporary API key (session only)",
+      "keyPlaceholder": "sk-…",
+      "keyHelp": "This key stays in memory only and will be cleared when you refresh/close the tab."
+    },
+    "meta": {
+      "title": "Meta Graph",
+      "placeholder": "Paste token…"
+    },
+    "whatsapp": {
+      "title": "WhatsApp Business",
+      "placeholder": "Paste token…"
+    },
+    "canva": {
+      "title": "Canva",
+      "placeholder": "Paste token…"
+    }
+  },
+  "help": {
+    "inline": {
+      "openLabel": "Open help tooltip",
+      "topic": "Tip: Start with a clear pain point + audience (e.g., \"busy families\"), then refine using suggestions.",
+      "workflow": "The workflow shows what each virtual role contributes. You can read each role description and track what’s current vs completed.",
+      "preview": "Use this panel to review content, validate it per channel, and export once approvals are done.",
+      "language": "Use the language toggle in the header to switch English/Spanish anytime.",
+      "feedback": "Look for confirmation and error messages below the header; they’re announced to screen readers."
+    }
+  },
+  "onboarding": {
+    "title": "Welcome to Content Strategy Studio",
+    "stepCounter": "Step {{current}} of {{total}}",
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip",
+    "finish": "Finish",
+    "aria": {
+      "stepAnnounce": "Onboarding step {{current}} of {{total}}: {{title}}"
+    },
+    "steps": {
+      "workflow": {
+        "title": "Workflow sidebar (roles)",
+        "body": "Your virtual bot team works in roles (Strategist → Copywriter → Designer → Editor → CRM → Coordinator).\nUse the left sidebar to understand each role and see what's current vs completed."
+      },
+      "topic": {
+        "title": "Topic input and generation",
+        "body": "Enter a topic and confirm it to start the workflow.\nUse Generate buttons to create captions, scripts, and outlines."
+      },
+      "preview": {
+        "title": "Preview & Export panel",
+        "body": "The right panel shows preview content, validation, and export tools.\nExport is enabled only after approvals and validation pass."
+      },
+      "language": {
+        "title": "Language toggle",
+        "body": "Switch between English and Spanish anytime using the header language button."
+      },
+      "feedback": {
+        "title": "Feedback & notifications",
+        "body": "Important updates appear below the header (success, info, and error messages).\nThey are announced to screen readers to keep you informed."
+      }
+    }
+  },
+  "helpCenter": {
+    "open": "Open Help Center",
+    "title": "Help Center",
+    "close": "Close",
+    "openOnboarding": "Re-open onboarding",
+    "tabsLabel": "Help center sections",
+    "sections": {
+      "gettingStarted": {
+        "short": "Getting Started",
+        "title": "Getting Started",
+        "body": "Use the Topic panel to enter a topic.\nGenerate captions/scripts/outlines, then approve variations.\nAdvance the workflow, and export from Preview when ready."
+      },
+      "topicInput": {
+        "short": "Topic Input",
+        "title": "Topic Input",
+        "body": "Minimum 3 characters.\nTry adding an audience, problem, and benefit.\nUse suggestions to explore culturally relevant framing."
+      },
+      "workflow": {
+        "short": "Workflow",
+        "title": "Workflow & roles",
+        "body": "Each role contributes a different perspective.\nApprove required artifacts to unlock each step.\nClick a role to read its description."
+      },
+      "previewExport": {
+        "short": "Preview/Export",
+        "title": "Preview & Export",
+        "body": "Preview validates content for WhatsApp/Facebook.\nExport is blocked until validation passes and approvals are complete."
+      },
+      "accessibility": {
+        "short": "Accessibility",
+        "title": "Accessibility",
+        "body": "Keyboard: Tab/Shift+Tab to move, Enter/Space to activate.\nModals: Escape to close.\nMessages: important changes are announced via screen readers."
+      }
     }
   },
   "workflowProgress": {

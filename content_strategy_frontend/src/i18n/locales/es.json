@@ -4,6 +4,14 @@
     "subtitle": "Contenido culturalmente relevante, creado paso a paso por tu equipo virtual.",
     "language": "Idioma"
   },
+  "common": {
+    "closeDialog": "Cerrar diálogo"
+  },
+  "variations": {
+    "long": "Largo",
+    "short": "Corto",
+    "question": "Pregunta"
+  },
   "panels": {
     "workflow": "Flujo",
     "create": "Crear",
@@ -46,14 +54,29 @@
       "upcoming": "Próximo"
     }
   },
+  "workflowGates": {
+    "needTopic": "Agrega y confirma un tema antes de aprobar esta etapa.",
+    "needCaptionApproval": "Aprueba una variación de caption antes de aprobar esta etapa.",
+    "needOutlineApproval": "Aprueba un outline de video sin audio antes de aprobar esta etapa.",
+    "needScriptApproval": "Aprueba un guion de microreel antes de aprobar esta etapa.",
+    "needEngagement": "Genera o escribe al menos un elemento interactivo antes de aprobar esta etapa.",
+    "needAllApprovals": "Aprueba captions, guiones y outlines antes de aprobar la etapa de Coordinación."
+  },
   "topic": {
     "title": "Tema",
     "label": "Escribe un tema",
     "placeholder": "Ej.: Acceso a telemedicina para familias ocupadas",
     "help": "Mínimo 3 caracteres. Tip: agrega un dolor, audiencia o emoción deseada.",
     "confirm": "Confirmar tema",
+    "generateSectionLabel": "Acciones de generación",
+    "generateAll": "Generar todo",
+    "generatingAll": "Generando…",
     "generateCaptions": "Generar captions",
     "generatingCaptions": "Generando…",
+    "generateScripts": "Generar guiones",
+    "generatingScripts": "Generando…",
+    "generateOutlines": "Generar outlines",
+    "generatingOutlines": "Generando…",
     "nicheLabel": "Nicho",
     "emotionLabel": "Emoción de marca",
     "niches": {
@@ -68,161 +91,23 @@
       "luxury": "Lujo",
       "closeness": "Cercanía"
     },
-    "suggestionsTitle": "Sugerencias (stub)",
+    "suggestionsTitle": "Sugerencias",
     "fetchSuggestions": "Obtener sugerencias",
+    "noSuggestions": "Aún no hay sugerencias.",
+    "suggestionsError": "No se pudieron cargar las sugerencias. Inténtalo de nuevo.",
     "validationTooShort": "Por favor ingresa al menos 3 caracteres.",
     "validationGeneric": "Intenta agregar una audiencia, problema o beneficio específico."
   },
-  "preview": {
-    "title": "Vista previa",
-    "channelLabel": "Canal",
-    "channelToggleLabel": "Elegir canal de vista previa",
-    "channels": {
-      "whatsapp": "WhatsApp",
-      "facebook": "Facebook"
-    },
-    "characterCount": "Caracteres: {{count}} / {{max}}",
-    "mediaLabel": "Media: {{type}} • {{mimeType}} • {{size}}",
-    "mediaNone": "Media: ninguna",
-    "placeholderTitle": "Vista previa para: {{topic}}",
-    "placeholderBody": "Aquí aparecerán las variaciones generadas (stub). Podrás previsualizar y exportar a WhatsApp/Facebook.",
-    "exportStub": "Aquí se agregarán acciones de exportación/compartir (WhatsApp, Facebook) cuando se configuren llaves y endpoints.",
-
-    "validation": {
-      "title": "Validación",
-      "passed": "Validación aprobada.",
-      "summary": "{{errors}} error(es), {{warnings}} advertencia(s).",
-      "errorsTitle": "Corrige estos problemas ({{count}})",
-      "warningsTitle": "Sugerencias ({{count}})",
-      "generic": "Este contenido puede no cumplir los requisitos del canal.",
-      "textTooLong": "El texto es demasiado largo (máx {{max}} caracteres; tienes {{actual}}).",
-      "mediaUnsupportedType": "Tipo de media no soportado: {{mimeType}}. Soportados: {{supported}}.",
-      "mediaFileTooLarge": "El archivo es demasiado grande (máx {{max}}; tienes {{actual}}).",
-      "mediaAspectRatioRecommended": "La relación de aspecto puede no ser ideal. Recomendado: {{recommended}}.",
-      "videoTooLong": "El video puede ser demasiado largo (máx {{maxSeconds}}s; tienes {{actualSeconds}}s).",
-      "suggest": {
-        "shortenText": "Sugerencia: acorta el caption o divídelo en varios mensajes/posts.",
-        "useSupportedType": "Sugerencia: exporta JPG/PNG para imágenes o MP4 para videos.",
-        "reduceFileSize": "Sugerencia: comprime el archivo o baja la resolución/bitrate.",
-        "adjustCrop": "Sugerencia: recorta a una relación recomendada para mejores resultados.",
-        "trimVideo": "Sugerencia: recorta el video a la duración recomendada.",
-        "generic": "Sugerencia: revisa las guías del canal y ajusta el contenido."
-      }
-    },
-
-    "whatsapp": {
-      "ariaLabel": "Vista previa de WhatsApp",
-      "chatName": "Contacto",
-      "messageLabel": "Burbuja de mensaje",
-      "timestampLabel": "Hora"
-    },
-    "facebook": {
-      "ariaLabel": "Vista previa de Facebook",
-      "pageName": "Tu Página",
-      "sponsored": "Patrocinado"
-    },
-    "media": {
-      "ratiosLabel": "Relaciones recomendadas",
-      "frameLabel": "Marco de vista previa",
-      "image": "Imagen",
-      "video": "Video",
-      "ratio": "Relación {{ratio}}",
-      "dimensions": "{{w}}×{{h}}"
-    }
-  },
-  "help": {
-    "inline": {
-      "openLabel": "Abrir tooltip de ayuda",
-      "topic": "Tip: Empieza con un dolor claro + audiencia (por ejemplo, “familias ocupadas”), y luego refina usando sugerencias.",
-      "workflow": "El flujo muestra lo que aporta cada rol virtual. Puedes leer la descripción de cada rol y ver qué está actual vs completado.",
-      "preview": "Las herramientas de vista previa y exportación vivirán aquí. Usa este panel para revisar título/cuerpo y confirmar el formato del canal.",
-      "language": "Usa el botón de idioma en el header para alternar entre inglés y español cuando quieras.",
-      "feedback": "Busca confirmaciones y errores debajo del header; se anuncian para lectores de pantalla."
-    }
-  },
-  "onboarding": {
-    "title": "Bienvenido/a al Estudio de Estrategia de Contenido",
-    "stepCounter": "Paso {{current}} de {{total}}",
-    "back": "Atrás",
-    "next": "Siguiente",
-    "skip": "Saltar",
-    "finish": "Finalizar",
-    "aria": {
-      "stepAnnounce": "Paso de onboarding {{current}} de {{total}}: {{title}}"
-    },
-    "steps": {
-      "workflow": {
-        "title": "Barra lateral de flujo (roles)",
-        "body": "Tu equipo virtual trabaja por roles (Estratega → Copywriter → Diseñador/a → Editor/a → CRM → Coordinador/a).\nUsa la barra izquierda para entender cada rol y ver qué está actual vs completado."
-      },
-      "topic": {
-        "title": "Tema y sugerencias",
-        "body": "Escribe un tema y confírmalo para iniciar el flujo.\nUsa “Obtener sugerencias” para explorar variaciones (stub seguro hasta configurar integraciones)."
-      },
-      "preview": {
-        "title": "Panel de vista previa y exportación",
-        "body": "El panel derecho muestra el contenido de vista previa y (más adelante) herramientas de exportación.\nÚsalo para revisar título/cuerpo y formato por canal."
-      },
-      "language": {
-        "title": "Cambio de idioma",
-        "body": "Cambia entre inglés y español cuando quieras con el botón de idioma en el header."
-      },
-      "feedback": {
-        "title": "Feedback y notificaciones",
-        "body": "Las actualizaciones importantes aparecen debajo del header (mensajes de éxito, info y error).\nSe anuncian a lectores de pantalla para mantenerte informado/a."
-      }
-    }
-  },
-  "helpCenter": {
-    "open": "Abrir Centro de Ayuda",
-    "title": "Centro de Ayuda",
-    "close": "Cerrar",
-    "openOnboarding": "Reabrir onboarding",
-    "tabsLabel": "Secciones del centro de ayuda",
-    "sections": {
-      "gettingStarted": {
-        "short": "Inicio",
-        "title": "Cómo empezar",
-        "body": "Usa el panel de Tema para escribir un tema.\nAvanza el flujo para simular el progreso del equipo virtual.\nUsa Vista previa para revisar resultados y prepararte para exportar."
-      },
-      "topicInput": {
-        "short": "Tema",
-        "title": "Entrada de tema",
-        "body": "Mínimo 3 caracteres.\nIntenta agregar audiencia, problema y beneficio.\nUsa sugerencias para explorar enfoques culturalmente relevantes."
-      },
-      "workflow": {
-        "short": "Flujo",
-        "title": "Flujo y roles",
-        "body": "Cada rol aporta una perspectiva distinta.\nLa etapa actual se resalta; las completadas quedan marcadas.\nHaz clic en un rol para leer su descripción."
-      },
-      "previewExport": {
-        "short": "Vista/Export",
-        "title": "Vista previa y exportación",
-        "body": "La vista previa muestra lo que estás construyendo.\nLas herramientas de exportación se agregarán más adelante (WhatsApp/Facebook) cuando se configuren integraciones."
-      },
-      "accessibility": {
-        "short": "Accesibilidad",
-        "title": "Accesibilidad",
-        "body": "Teclado: Tab/Shift+Tab para moverte, Enter/Espacio para activar.\nModales: Escape para cerrar.\nMensajes: cambios importantes se anuncian en lectores de pantalla."
-      }
-    }
-  },
-  "settings": {
-    "open": "Abrir ajustes",
-    "title": "Ajustes",
-    "description": "Configura llaves API temporales solo para esta sesión.",
-    "close": "Cerrar",
-    "openai": {
-      "title": "OpenAI",
-      "keySourceLabel": "Origen de la llave",
-      "keySourceEnv": "ENV",
-      "keySourceMemory": "Sesión",
-      "keySourceNone": "Ninguno",
-      "keyLabel": "Llave API temporal (solo sesión)",
-      "keyPlaceholder": "sk-…",
-      "keyHelp": "Esta llave se guarda solo en memoria y se borra al recargar/cerrar la pestaña.",
-      "save": "Guardar llave",
-      "clear": "Borrar"
+  "openai": {
+    "errors": {
+      "missingKey": "OpenAI no está configurado. Agrega una llave API en Ajustes para generar contenido.",
+      "missingKeyHint": "Tip: abre Ajustes (⚙) para pegar una llave temporal de OpenAI para esta sesión.",
+      "auth": "Tu llave de OpenAI parece inválida o vencida. Revísala e inténtalo de nuevo.",
+      "rateLimit": "Demasiadas solicitudes. Espera un momento e inténtalo de nuevo.",
+      "network": "Error de red. Revisa tu conexión e inténtalo de nuevo.",
+      "server": "Error del servidor de OpenAI. Inténtalo de nuevo en un momento.",
+      "parse": "No pudimos leer la respuesta del modelo. Inténtalo de nuevo.",
+      "generic": "Algo salió mal al generar contenido. Inténtalo de nuevo."
     }
   },
   "captions": {
@@ -264,6 +149,304 @@
       "server": "Error del servidor de OpenAI. Inténtalo de nuevo en un momento.",
       "parse": "No pudimos leer la respuesta del modelo. Inténtalo de nuevo.",
       "generic": "Algo salió mal al generar captions. Inténtalo de nuevo."
+    }
+  },
+  "scripts": {
+    "messages": {
+      "generated": "Guiones generados."
+    }
+  },
+  "outlines": {
+    "messages": {
+      "generated": "Outlines generados."
+    }
+  },
+  "engagement": {
+    "title": "Interacción y Predictivo",
+    "generate": "Generar interacción + predictivo",
+    "generating": "Generando…",
+    "helper": "Genera elementos interactivos y sugerencias predictivas para mejorar conversión y resonancia cultural.",
+    "survey": "Encuesta",
+    "surveyPh": "Ej.: Tranquilidad / Más tiempo",
+    "openQuestion": "Pregunta abierta",
+    "openQuestionPh": "Ej.: ¿Qué haría que esto sea más fácil para tu familia?",
+    "challenge": "Reto 24h",
+    "challengePh": "Ej.: DM 'INFO' y haz 1 pregunta que has evitado",
+    "predictiveTitle": "Sugerencias predictivas",
+    "segments": "Segmentos sugeridos",
+    "tweaks": "Ajustes sugeridos",
+    "errors": {
+      "needTopic": "Primero confirma un tema.",
+      "partial": "Algunas sugerencias no se pudieron generar. Aun así puedes continuar."
+    },
+    "messages": {
+      "generated": "Elementos interactivos y sugerencias predictivas generados."
+    }
+  },
+  "artifacts": {
+    "title": "Artefactos (Versiones y Aprobación)",
+    "tabsLabel": "Tipo de artefacto",
+    "tabs": {
+      "captions": "Captions",
+      "scripts": "Guiones de microreels",
+      "outlines": "Outlines de video sin audio"
+    },
+    "empty": "Genera contenido para empezar. Los elementos aprobados desbloquean el flujo y la exportación.",
+    "approvalHint": "Variación aprobada: {{approved}}",
+    "approvalYes": "Sí",
+    "approvalNo": "No",
+    "itemAria": "Artefacto {{type}} variación {{variation}}",
+    "itemStatusLabel": "Estado de aprobación",
+    "approved": "Aprobado",
+    "notApproved": "No aprobado",
+    "editLabel": "Editar variación: {{variation}}",
+    "predictiveTitle": "Sugerencias predictivas",
+    "objection": "Objeción: {{text}}",
+    "apply": "Aplicar",
+    "applySuggestionAria": "Aplicar sugerencia: {{title}}",
+    "engagementTitle": "Insertar interacción",
+    "insertSurvey": "Insertar encuesta",
+    "insertOpenQuestion": "Insertar pregunta",
+    "insertChallenge": "Insertar reto",
+    "versions": "Versiones",
+    "save": "Guardar",
+    "approve": "Aprobar",
+    "versionsTitle": "Historial de versiones: {{variation}}",
+    "versionsDesc": "Explora y restaura versiones anteriores.",
+    "versionsEmpty": "Aún no hay versiones.",
+    "versionMeta": "Por {{actor}} • {{note}}",
+    "restore": "Restaurar",
+    "restoreAria": "Restaurar versión anterior para {{variation}}",
+    "messages": {
+      "saved": "Guardado.",
+      "approved": "Aprobado.",
+      "restored": "Versión anterior restaurada.",
+      "cannotApproveEmpty": "No se puede aprobar contenido vacío."
+    }
+  },
+  "audit": {
+    "open": "Auditoría",
+    "title": "Auditoría",
+    "description": "Historial de acciones para este artefacto.",
+    "count": "{{count}} registros",
+    "exportCsv": "Exportar CSV",
+    "actor": "Actor: {{actor}}",
+    "variation": "Variación: {{variation}}"
+  },
+  "preview": {
+    "title": "Vista previa",
+    "fallbackTopic": "tu tema",
+    "channelLabel": "Canal",
+    "channelToggleLabel": "Elegir canal de vista previa",
+    "channels": {
+      "whatsapp": "WhatsApp",
+      "facebook": "Facebook"
+    },
+    "contentSelectorTitle": "Selector de contenido",
+    "contentType": "Tipo de contenido",
+    "types": {
+      "captions": "Captions",
+      "scripts": "Guiones",
+      "outlines": "Outlines"
+    },
+    "variation": "Variación",
+    "includeEngagement": "Incluir interacción en exportar/compartir",
+    "approvalStatus": "Variación seleccionada aprobada: {{approved}}",
+    "coordinatorStatus": "Coordinación aprobada: {{approved}}",
+    "approvedYes": "Sí",
+    "approvedNo": "No",
+    "characterCount": "Caracteres: {{count}} / {{max}}",
+    "mediaLabel": "Media: {{type}} • {{mimeType}} • {{size}}",
+    "mediaNone": "Media: ninguna",
+    "placeholderTitle": "Vista previa para: {{topic}}",
+    "placeholderBody": "Aquí aparecerán las variaciones generadas.",
+    "validation": {
+      "title": "Validación",
+      "passed": "Validación aprobada.",
+      "summary": "{{errors}} error(es), {{warnings}} advertencia(s).",
+      "errorsTitle": "Corrige estos problemas ({{count}})",
+      "warningsTitle": "Sugerencias ({{count}})",
+      "generic": "Este contenido puede no cumplir los requisitos del canal.",
+      "textTooLong": "El texto es demasiado largo (máx {{max}} caracteres; tienes {{actual}}).",
+      "mediaUnsupportedType": "Tipo de media no soportado: {{mimeType}}. Soportados: {{supported}}.",
+      "mediaFileTooLarge": "El archivo es demasiado grande (máx {{max}}; tienes {{actual}}).",
+      "mediaAspectRatioRecommended": "La relación de aspecto puede no ser ideal. Recomendado: {{recommended}}.",
+      "videoTooLong": "El video puede ser demasiado largo (máx {{maxSeconds}}s; tienes {{actualSeconds}}s).",
+      "suggest": {
+        "shortenText": "Sugerencia: acorta el caption o divídelo en varios mensajes/posts.",
+        "useSupportedType": "Sugerencia: exporta JPG/PNG para imágenes o MP4 para videos.",
+        "reduceFileSize": "Sugerencia: comprime el archivo o baja la resolución/bitrate.",
+        "adjustCrop": "Sugerencia: recorta a una relación recomendada para mejores resultados.",
+        "trimVideo": "Sugerencia: recorta el video a la duración recomendada.",
+        "generic": "Sugerencia: revisa las guías del canal y ajusta el contenido."
+      }
+    },
+    "export": {
+      "title": "Exportar",
+      "copy": "Copiar",
+      "download": "Descargar",
+      "shareWhatsApp": "Compartir a WhatsApp",
+      "shareFacebook": "Compartir a Facebook",
+      "hint": "La exportación se habilita solo después de aprobar y pasar validación.",
+      "copied": "Copiado al portapapeles.",
+      "copyFailed": "No se pudo copiar al portapapeles.",
+      "downloaded": "Descarga iniciada.",
+      "shareOpened": "Se abrió la ventana para compartir.",
+      "blocked": {
+        "validation": "Exportación bloqueada: corrige los errores de validación primero.",
+        "needsApproval": "Exportación bloqueada: primero aprueba la variación seleccionada.",
+        "needsCoordinator": "Exportación bloqueada: primero aprueba la etapa de Coordinación."
+      }
+    },
+    "whatsapp": {
+      "ariaLabel": "Vista previa de WhatsApp",
+      "chatName": "Contacto",
+      "messageLabel": "Burbuja de mensaje",
+      "timestampLabel": "Hora"
+    },
+    "facebook": {
+      "ariaLabel": "Vista previa de Facebook",
+      "pageName": "Tu Página",
+      "sponsored": "Patrocinado"
+    },
+    "media": {
+      "ratiosLabel": "Relaciones recomendadas",
+      "frameLabel": "Marco de vista previa",
+      "image": "Imagen",
+      "video": "Video",
+      "ratio": "Relación {{ratio}}",
+      "dimensions": "{{w}}×{{h}}"
+    }
+  },
+  "settings": {
+    "open": "Abrir ajustes",
+    "title": "Ajustes",
+    "description": "Configura llaves/tokens temporales solo para esta sesión.",
+    "close": "Cerrar",
+    "securityTitle": "Seguridad",
+    "securityBody": "Las llaves/tokens se guardan solo en memoria y se borran al recargar o cerrar la pestaña.",
+    "tokenSourceLabel": "Origen del token",
+    "tokenSourceEnv": "ENV",
+    "tokenSourceSession": "Sesión",
+    "tokenSourceNone": "Ninguno",
+    "source": {
+      "env": "ENV",
+      "memory": "Sesión",
+      "none": "Ninguno"
+    },
+    "save": "Guardar",
+    "clear": "Borrar",
+    "saved": "Guardado.",
+    "cleared": "Borrado.",
+    "otherTokensTitle": "Otras integraciones",
+    "checkHealth": "Revisar estado",
+    "checking": "Revisando…",
+    "healthChecked": "Estado de integraciones actualizado.",
+    "integrationStatusRowAria": "Estado de integración: {{name}}",
+    "health": {
+      "statusLabel": "Estado",
+      "status": {
+        "healthy": "Saludable",
+        "disconnected": "Desconectado",
+        "degraded": "Degradado"
+      },
+      "source": "Origen: {{source}}",
+      "lastChecked": "Última revisión: {{ts}}"
+    },
+    "openai": {
+      "title": "OpenAI",
+      "keyLabel": "Llave API temporal (solo sesión)",
+      "keyPlaceholder": "sk-…",
+      "keyHelp": "Esta llave se guarda solo en memoria y se borra al recargar/cerrar la pestaña."
+    },
+    "meta": {
+      "title": "Meta Graph",
+      "placeholder": "Pega el token…"
+    },
+    "whatsapp": {
+      "title": "WhatsApp Business",
+      "placeholder": "Pega el token…"
+    },
+    "canva": {
+      "title": "Canva",
+      "placeholder": "Pega el token…"
+    }
+  },
+  "help": {
+    "inline": {
+      "openLabel": "Abrir tooltip de ayuda",
+      "topic": "Tip: Empieza con un dolor claro + audiencia (por ejemplo, “familias ocupadas”), y luego refina usando sugerencias.",
+      "workflow": "El flujo muestra lo que aporta cada rol virtual. Puedes leer la descripción de cada rol y ver qué está actual vs completado.",
+      "preview": "Usa este panel para revisar contenido, validarlo por canal y exportar cuando las aprobaciones estén listas.",
+      "language": "Usa el botón de idioma en el header para alternar entre inglés y español cuando quieras.",
+      "feedback": "Busca confirmaciones y errores debajo del header; se anuncian para lectores de pantalla."
+    }
+  },
+  "onboarding": {
+    "title": "Bienvenido/a al Estudio de Estrategia de Contenido",
+    "stepCounter": "Paso {{current}} de {{total}}",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "skip": "Saltar",
+    "finish": "Finalizar",
+    "aria": {
+      "stepAnnounce": "Paso de onboarding {{current}} de {{total}}: {{title}}"
+    },
+    "steps": {
+      "workflow": {
+        "title": "Barra lateral de flujo (roles)",
+        "body": "Tu equipo virtual trabaja por roles (Estratega → Copywriter → Diseñador/a → Editor/a → CRM → Coordinador/a).\nUsa la barra izquierda para entender cada rol y ver qué está actual vs completado."
+      },
+      "topic": {
+        "title": "Tema y generación",
+        "body": "Escribe un tema y confírmalo para iniciar el flujo.\nUsa los botones Generar para crear captions, guiones y outlines."
+      },
+      "preview": {
+        "title": "Panel de vista previa y exportación",
+        "body": "El panel derecho muestra vista previa, validación y exportación.\nExportar se habilita solo después de aprobar y pasar validación."
+      },
+      "language": {
+        "title": "Cambio de idioma",
+        "body": "Cambia entre inglés y español cuando quieras con el botón de idioma en el header."
+      },
+      "feedback": {
+        "title": "Feedback y notificaciones",
+        "body": "Las actualizaciones importantes aparecen debajo del header (mensajes de éxito, info y error).\nSe anuncian a lectores de pantalla para mantenerte informado/a."
+      }
+    }
+  },
+  "helpCenter": {
+    "open": "Abrir Centro de Ayuda",
+    "title": "Centro de Ayuda",
+    "close": "Cerrar",
+    "openOnboarding": "Reabrir onboarding",
+    "tabsLabel": "Secciones del centro de ayuda",
+    "sections": {
+      "gettingStarted": {
+        "short": "Inicio",
+        "title": "Cómo empezar",
+        "body": "Usa el panel de Tema para escribir un tema.\nGenera captions/guiones/outlines y aprueba variaciones.\nAvanza el flujo y exporta desde Vista previa cuando estés listo/a."
+      },
+      "topicInput": {
+        "short": "Tema",
+        "title": "Entrada de tema",
+        "body": "Mínimo 3 caracteres.\nIntenta agregar audiencia, problema y beneficio.\nUsa sugerencias para explorar enfoques culturalmente relevantes."
+      },
+      "workflow": {
+        "short": "Flujo",
+        "title": "Flujo y roles",
+        "body": "Cada rol aporta una perspectiva distinta.\nAprueba artefactos requeridos para desbloquear etapas.\nHaz clic en un rol para leer su descripción."
+      },
+      "previewExport": {
+        "short": "Vista/Export",
+        "title": "Vista previa y exportación",
+        "body": "La vista previa valida contenido para WhatsApp/Facebook.\nExportar se bloquea hasta pasar validación y completar aprobaciones."
+      },
+      "accessibility": {
+        "short": "Accesibilidad",
+        "title": "Accesibilidad",
+        "body": "Teclado: Tab/Shift+Tab para moverte, Enter/Espacio para activar.\nModales: Escape para cerrar.\nMensajes: cambios importantes se anuncian en lectores de pantalla."
+      }
     }
   },
   "workflowProgress": {

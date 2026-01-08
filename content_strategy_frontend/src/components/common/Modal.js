@@ -31,7 +31,8 @@ export default function Modal({
   onClose,
   children,
   closeOnBackdrop = true,
-  initialFocusRef
+  initialFocusRef,
+  closeLabel = 'Close dialog'
 }) {
   /** Accessible modal with focus trap and ESC/backdrop close. */
   const autoId = useId();
@@ -140,7 +141,7 @@ export default function Modal({
             {dialogDescId ? <div id={dialogDescId} className="srOnly" /> : null}
           </div>
 
-          <button type="button" className="btn" onClick={onClose} aria-label="Close dialog">
+          <button type="button" className="btn" onClick={onClose} aria-label={closeLabel}>
             ✕
           </button>
         </div>
