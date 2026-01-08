@@ -76,9 +76,59 @@
   "preview": {
     "title": "Vista previa",
     "channelLabel": "Canal",
+    "channelToggleLabel": "Elegir canal de vista previa",
+    "channels": {
+      "whatsapp": "WhatsApp",
+      "facebook": "Facebook"
+    },
+    "characterCount": "Caracteres: {{count}} / {{max}}",
+    "mediaLabel": "Media: {{type}} • {{mimeType}} • {{size}}",
+    "mediaNone": "Media: ninguna",
     "placeholderTitle": "Vista previa para: {{topic}}",
     "placeholderBody": "Aquí aparecerán las variaciones generadas (stub). Podrás previsualizar y exportar a WhatsApp/Facebook.",
-    "exportStub": "Aquí se agregarán acciones de exportación/compartir (WhatsApp, Facebook) cuando se configuren llaves y endpoints."
+    "exportStub": "Aquí se agregarán acciones de exportación/compartir (WhatsApp, Facebook) cuando se configuren llaves y endpoints.",
+
+    "validation": {
+      "title": "Validación",
+      "passed": "Validación aprobada.",
+      "summary": "{{errors}} error(es), {{warnings}} advertencia(s).",
+      "errorsTitle": "Corrige estos problemas ({{count}})",
+      "warningsTitle": "Sugerencias ({{count}})",
+      "generic": "Este contenido puede no cumplir los requisitos del canal.",
+      "textTooLong": "El texto es demasiado largo (máx {{max}} caracteres; tienes {{actual}}).",
+      "mediaUnsupportedType": "Tipo de media no soportado: {{mimeType}}. Soportados: {{supported}}.",
+      "mediaFileTooLarge": "El archivo es demasiado grande (máx {{max}}; tienes {{actual}}).",
+      "mediaAspectRatioRecommended": "La relación de aspecto puede no ser ideal. Recomendado: {{recommended}}.",
+      "videoTooLong": "El video puede ser demasiado largo (máx {{maxSeconds}}s; tienes {{actualSeconds}}s).",
+      "suggest": {
+        "shortenText": "Sugerencia: acorta el caption o divídelo en varios mensajes/posts.",
+        "useSupportedType": "Sugerencia: exporta JPG/PNG para imágenes o MP4 para videos.",
+        "reduceFileSize": "Sugerencia: comprime el archivo o baja la resolución/bitrate.",
+        "adjustCrop": "Sugerencia: recorta a una relación recomendada para mejores resultados.",
+        "trimVideo": "Sugerencia: recorta el video a la duración recomendada.",
+        "generic": "Sugerencia: revisa las guías del canal y ajusta el contenido."
+      }
+    },
+
+    "whatsapp": {
+      "ariaLabel": "Vista previa de WhatsApp",
+      "chatName": "Contacto",
+      "messageLabel": "Burbuja de mensaje",
+      "timestampLabel": "Hora"
+    },
+    "facebook": {
+      "ariaLabel": "Vista previa de Facebook",
+      "pageName": "Tu Página",
+      "sponsored": "Patrocinado"
+    },
+    "media": {
+      "ratiosLabel": "Relaciones recomendadas",
+      "frameLabel": "Marco de vista previa",
+      "image": "Imagen",
+      "video": "Video",
+      "ratio": "Relación {{ratio}}",
+      "dimensions": "{{w}}×{{h}}"
+    }
   },
   "help": {
     "inline": {

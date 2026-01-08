@@ -409,3 +409,286 @@ a {
     grid-template-columns: 1fr;
   }
 }
+
+/* ===========================
+   Preview panel (WhatsApp/Facebook)
+   =========================== */
+
+.previewMetaRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.previewStage {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.22);
+  padding: 12px;
+}
+
+/* Validation region */
+.validationRegion {
+  display: grid;
+  gap: 8px;
+}
+
+.validationRegionActive .callout,
+.validationRegionActive .calloutError {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* WhatsApp preview */
+.waShell {
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0b141a;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.waTopBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #111b21;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.waTopDot {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.waTopTitle {
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.waChatArea {
+  padding: 14px 12px 18px;
+  min-height: 220px;
+  background: radial-gradient(700px 320px at 50% 0%, rgba(16, 185, 129, 0.08), transparent 60%),
+    #0b141a;
+}
+
+.waBubble {
+  margin-left: auto;
+  width: min(280px, 92%);
+  background: #005c4b;
+  border-radius: 14px;
+  padding: 10px 10px 8px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.waText {
+  color: rgba(255, 255, 255, 0.96);
+  font-weight: 650;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.waMetaRow {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.75rem;
+}
+
+.waTime {
+  letter-spacing: 0.2px;
+}
+
+.waTicks {
+  font-weight: 900;
+}
+
+/* Facebook preview */
+.fbShell {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #18191a;
+}
+
+.fbCard {
+  background: #242526;
+  padding: 12px;
+}
+
+.fbHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fbAvatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.fbHeaderText {
+  display: grid;
+  gap: 2px;
+}
+
+.fbPageName {
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.fbSubLine {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.fbBody {
+  margin-top: 10px;
+  max-width: 520px;
+}
+
+.fbTitle {
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.fbText {
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.4;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.fbMediaWrap {
+  margin-top: 10px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.fbFooter {
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.fbFooterLine {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin-bottom: 8px;
+}
+
+.fbFooterActions {
+  display: flex;
+  gap: 18px;
+  font-weight: 800;
+  font-size: 0.88rem;
+}
+
+/* Media frames */
+.mediaRatioGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 420px) {
+  .mediaRatioGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mediaRatioBox {
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.22);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Aspect ratio helpers */
+.mediaRatioBox-1-1 {
+  aspect-ratio: 1 / 1;
+}
+.mediaRatioBox-4-5 {
+  aspect-ratio: 4 / 5;
+}
+.mediaRatioBox-9-16 {
+  aspect-ratio: 9 / 16;
+}
+.mediaRatioBox-1.91-1,
+.mediaRatioBox-1.91-1 {
+  aspect-ratio: 191 / 100;
+}
+
+.mediaRatioOverlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 10px;
+  text-align: center;
+}
+
+.mediaRatioTitle {
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.mediaRatioLabel {
+  margin-top: 6px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.85rem;
+}
+
+/* Real media frame (when dimensions provided) */
+.mediaFrame {
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.22);
+  margin-bottom: 10px;
+}
+
+.mediaFrameInner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.mediaFrameIcon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  font-weight: 900;
+}
+
+.mediaFrameMeta {
+  display: grid;
+  gap: 2px;
+}
+
+.mediaFrameType {
+  font-weight: 900;
+}
+
+.mediaFrameHint {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.85rem;
+}

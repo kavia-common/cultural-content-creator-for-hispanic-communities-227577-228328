@@ -76,9 +76,59 @@
   "preview": {
     "title": "Preview",
     "channelLabel": "Channel",
+    "channelToggleLabel": "Choose preview channel",
+    "channels": {
+      "whatsapp": "WhatsApp",
+      "facebook": "Facebook"
+    },
+    "characterCount": "Characters: {{count}} / {{max}}",
+    "mediaLabel": "Media: {{type}} • {{mimeType}} • {{size}}",
+    "mediaNone": "Media: none",
     "placeholderTitle": "Preview for: {{topic}}",
     "placeholderBody": "Generated variations will appear here (stub). You will be able to preview and export to WhatsApp/Facebook.",
-    "exportStub": "Export/share actions will be added here (WhatsApp, Facebook) once keys and endpoints are configured."
+    "exportStub": "Export/share actions will be added here (WhatsApp, Facebook) once keys and endpoints are configured.",
+
+    "validation": {
+      "title": "Validation",
+      "passed": "Validation passed.",
+      "summary": "{{errors}} error(s), {{warnings}} warning(s).",
+      "errorsTitle": "Fix these issues ({{count}})",
+      "warningsTitle": "Suggestions ({{count}})",
+      "generic": "This content may not meet channel requirements.",
+      "textTooLong": "Text is too long (max {{max}} characters; you have {{actual}}).",
+      "mediaUnsupportedType": "Unsupported media type: {{mimeType}}. Supported: {{supported}}.",
+      "mediaFileTooLarge": "File is too large (max {{max}}; you have {{actual}}).",
+      "mediaAspectRatioRecommended": "Aspect ratio may not be ideal. Recommended: {{recommended}}.",
+      "videoTooLong": "Video may be too long (max {{maxSeconds}}s; you have {{actualSeconds}}s).",
+      "suggest": {
+        "shortenText": "Suggestion: shorten the caption or split into multiple messages/posts.",
+        "useSupportedType": "Suggestion: export as JPG/PNG for images or MP4 for videos.",
+        "reduceFileSize": "Suggestion: compress the file or reduce resolution/bitrate.",
+        "adjustCrop": "Suggestion: crop to a recommended aspect ratio for best results.",
+        "trimVideo": "Suggestion: trim the video to the recommended duration.",
+        "generic": "Suggestion: review channel guidelines and adjust content."
+      }
+    },
+
+    "whatsapp": {
+      "ariaLabel": "WhatsApp preview",
+      "chatName": "Contact",
+      "messageLabel": "Message bubble",
+      "timestampLabel": "Timestamp"
+    },
+    "facebook": {
+      "ariaLabel": "Facebook preview",
+      "pageName": "Your Page",
+      "sponsored": "Sponsored"
+    },
+    "media": {
+      "ratiosLabel": "Recommended aspect ratios",
+      "frameLabel": "Media preview frame",
+      "image": "Image",
+      "video": "Video",
+      "ratio": "Ratio {{ratio}}",
+      "dimensions": "{{w}}×{{h}}"
+    }
   },
   "help": {
     "inline": {
