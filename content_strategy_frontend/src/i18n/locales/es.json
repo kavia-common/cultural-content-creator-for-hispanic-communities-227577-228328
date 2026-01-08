@@ -59,8 +59,87 @@
   },
   "preview": {
     "title": "Vista previa",
+    "channelLabel": "Canal",
     "placeholderTitle": "Vista previa para: {{topic}}",
-    "placeholderBody": "Aquí aparecerán las variaciones generadas (stub). Podrás previsualizar y exportar a WhatsApp/Facebook."
+    "placeholderBody": "Aquí aparecerán las variaciones generadas (stub). Podrás previsualizar y exportar a WhatsApp/Facebook.",
+    "exportStub": "Aquí se agregarán acciones de exportación/compartir (WhatsApp, Facebook) cuando se configuren llaves y endpoints."
+  },
+  "help": {
+    "inline": {
+      "openLabel": "Abrir tooltip de ayuda",
+      "topic": "Tip: Empieza con un dolor claro + audiencia (por ejemplo, “familias ocupadas”), y luego refina usando sugerencias.",
+      "workflow": "El flujo muestra lo que aporta cada rol virtual. Puedes leer la descripción de cada rol y ver qué está actual vs completado.",
+      "preview": "Las herramientas de vista previa y exportación vivirán aquí. Usa este panel para revisar título/cuerpo y confirmar el formato del canal.",
+      "language": "Usa el botón de idioma en el header para alternar entre inglés y español cuando quieras.",
+      "feedback": "Busca confirmaciones y errores debajo del header; se anuncian para lectores de pantalla."
+    }
+  },
+  "onboarding": {
+    "title": "Bienvenido/a al Estudio de Estrategia de Contenido",
+    "stepCounter": "Paso {{current}} de {{total}}",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "skip": "Saltar",
+    "finish": "Finalizar",
+    "aria": {
+      "stepAnnounce": "Paso de onboarding {{current}} de {{total}}: {{title}}"
+    },
+    "steps": {
+      "workflow": {
+        "title": "Barra lateral de flujo (roles)",
+        "body": "Tu equipo virtual trabaja por roles (Estratega → Copywriter → Diseñador/a → Editor/a → CRM → Coordinador/a).\nUsa la barra izquierda para entender cada rol y ver qué está actual vs completado."
+      },
+      "topic": {
+        "title": "Tema y sugerencias",
+        "body": "Escribe un tema y confírmalo para iniciar el flujo.\nUsa “Obtener sugerencias” para explorar variaciones (stub seguro hasta configurar integraciones)."
+      },
+      "preview": {
+        "title": "Panel de vista previa y exportación",
+        "body": "El panel derecho muestra el contenido de vista previa y (más adelante) herramientas de exportación.\nÚsalo para revisar título/cuerpo y formato por canal."
+      },
+      "language": {
+        "title": "Cambio de idioma",
+        "body": "Cambia entre inglés y español cuando quieras con el botón de idioma en el header."
+      },
+      "feedback": {
+        "title": "Feedback y notificaciones",
+        "body": "Las actualizaciones importantes aparecen debajo del header (mensajes de éxito, info y error).\nSe anuncian a lectores de pantalla para mantenerte informado/a."
+      }
+    }
+  },
+  "helpCenter": {
+    "open": "Abrir Centro de Ayuda",
+    "title": "Centro de Ayuda",
+    "close": "Cerrar",
+    "openOnboarding": "Reabrir onboarding",
+    "tabsLabel": "Secciones del centro de ayuda",
+    "sections": {
+      "gettingStarted": {
+        "short": "Inicio",
+        "title": "Cómo empezar",
+        "body": "Usa el panel de Tema para escribir un tema.\nAvanza el flujo para simular el progreso del equipo virtual.\nUsa Vista previa para revisar resultados y prepararte para exportar."
+      },
+      "topicInput": {
+        "short": "Tema",
+        "title": "Entrada de tema",
+        "body": "Mínimo 3 caracteres.\nIntenta agregar audiencia, problema y beneficio.\nUsa sugerencias para explorar enfoques culturalmente relevantes."
+      },
+      "workflow": {
+        "short": "Flujo",
+        "title": "Flujo y roles",
+        "body": "Cada rol aporta una perspectiva distinta.\nLa etapa actual se resalta; las completadas quedan marcadas.\nHaz clic en un rol para leer su descripción."
+      },
+      "previewExport": {
+        "short": "Vista/Export",
+        "title": "Vista previa y exportación",
+        "body": "La vista previa muestra lo que estás construyendo.\nLas herramientas de exportación se agregarán más adelante (WhatsApp/Facebook) cuando se configuren integraciones."
+      },
+      "accessibility": {
+        "short": "Accesibilidad",
+        "title": "Accesibilidad",
+        "body": "Teclado: Tab/Shift+Tab para moverte, Enter/Espacio para activar.\nModales: Escape para cerrar.\nMensajes: cambios importantes se anuncian en lectores de pantalla."
+      }
+    }
   },
   "messages": {
     "languageChanged": "Idioma actualizado.",
@@ -68,6 +147,7 @@
     "workflowAdvanced": "Avanzaste a: {{role}}",
     "workflowComplete": "Flujo completado. Listo para exportar.",
     "roleSelected": "Rol seleccionado: {{role}}",
-    "integrationUnavailable": "La integración aún no está configurada. Este módulo es un stub seguro."
+    "integrationUnavailable": "La integración aún no está configurada. Este módulo es un stub seguro.",
+    "onboardingComplete": "Onboarding completado. Puedes reabrirlo cuando quieras desde el header."
   }
 }

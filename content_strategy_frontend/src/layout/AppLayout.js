@@ -8,6 +8,9 @@ export default function AppLayout({
   languageLabel,
   languageValue,
   onToggleLanguage,
+  helpLabel,
+  onOpenHelp,
+  onOpenOnboarding,
   children
 }) {
   /** Global app layout: header + 3-column panel grid with feedback region. */
@@ -25,8 +28,25 @@ export default function AppLayout({
             className="btn"
             onClick={onToggleLanguage}
             aria-label={languageLabel}
+            data-testid="lang-toggle"
           >
             {languageValue}
+          </button>
+
+          <button
+            type="button"
+            className="btn"
+            onClick={onOpenHelp}
+            aria-label={helpLabel}
+            title={helpLabel}
+            data-testid="help-open"
+          >
+            ?
+          </button>
+
+          <button type="button" className="btn" onClick={onOpenOnboarding} data-testid="onboarding-open">
+            {/** intentionally short, label via i18n in App */}
+            i
           </button>
         </div>
       </header>
@@ -51,9 +71,7 @@ AppLayout.LeftPanel = function LeftPanel({ ariaLabel, children }) {
 };
 
 AppLayout.CenterPanel = function CenterPanel({ ariaLabel, children }) {
-  return (
-    <Panel className="panelCenter" ariaLabel={ariaLabel} children={children} />
-  );
+  return <Panel className="panelCenter" ariaLabel={ariaLabel} children={children} />;
 };
 
 AppLayout.RightPanel = function RightPanel({ ariaLabel, children }) {

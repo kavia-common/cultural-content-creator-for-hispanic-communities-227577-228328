@@ -59,8 +59,87 @@
   },
   "preview": {
     "title": "Preview",
+    "channelLabel": "Channel",
     "placeholderTitle": "Preview for: {{topic}}",
-    "placeholderBody": "Generated variations will appear here (stub). You will be able to preview and export to WhatsApp/Facebook."
+    "placeholderBody": "Generated variations will appear here (stub). You will be able to preview and export to WhatsApp/Facebook.",
+    "exportStub": "Export/share actions will be added here (WhatsApp, Facebook) once keys and endpoints are configured."
+  },
+  "help": {
+    "inline": {
+      "openLabel": "Open help tooltip",
+      "topic": "Tip: Start with a clear pain point + audience (e.g., \"busy families\"), then refine using suggestions.",
+      "workflow": "The workflow shows what each virtual role contributes. You can read each role description and track what’s current vs completed.",
+      "preview": "Preview and export tools will live here. Use this panel to review title/body and confirm channel formatting.",
+      "language": "Use the language toggle in the header to switch English/Spanish anytime.",
+      "feedback": "Look for confirmation and error messages below the header; they’re announced to screen readers."
+    }
+  },
+  "onboarding": {
+    "title": "Welcome to Content Strategy Studio",
+    "stepCounter": "Step {{current}} of {{total}}",
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip",
+    "finish": "Finish",
+    "aria": {
+      "stepAnnounce": "Onboarding step {{current}} of {{total}}: {{title}}"
+    },
+    "steps": {
+      "workflow": {
+        "title": "Workflow sidebar (roles)",
+        "body": "Your virtual bot team works in roles (Strategist → Copywriter → Designer → Editor → CRM → Coordinator).\nUse the left sidebar to understand each role and see what's current vs completed."
+      },
+      "topic": {
+        "title": "Topic input and suggestions",
+        "body": "Enter a topic and confirm it to start the workflow.\nUse “Get suggestions” to explore variations (safe stub until integrations are configured)."
+      },
+      "preview": {
+        "title": "Preview & Export panel",
+        "body": "The right panel shows preview content and (later) export tools.\nUse it to review your title/body and channel formatting."
+      },
+      "language": {
+        "title": "Language toggle",
+        "body": "Switch between English and Spanish anytime using the header language button."
+      },
+      "feedback": {
+        "title": "Feedback & notifications",
+        "body": "Important updates appear below the header (success, info, and error messages).\nThey are announced to screen readers to keep you informed."
+      }
+    }
+  },
+  "helpCenter": {
+    "open": "Open Help Center",
+    "title": "Help Center",
+    "close": "Close",
+    "openOnboarding": "Re-open onboarding",
+    "tabsLabel": "Help center sections",
+    "sections": {
+      "gettingStarted": {
+        "short": "Getting Started",
+        "title": "Getting Started",
+        "body": "Use the Topic panel to enter a topic.\nAdvance the workflow to simulate your virtual team’s progress.\nUse Preview to review outputs and prepare for export."
+      },
+      "topicInput": {
+        "short": "Topic Input",
+        "title": "Topic Input",
+        "body": "Minimum 3 characters.\nTry adding an audience, problem, and benefit.\nUse suggestions to explore culturally relevant framing."
+      },
+      "workflow": {
+        "short": "Workflow",
+        "title": "Workflow & roles",
+        "body": "Each role contributes a different perspective.\nCurrent steps are highlighted; completed steps are marked as completed.\nClick a role to read its description."
+      },
+      "previewExport": {
+        "short": "Preview/Export",
+        "title": "Preview & Export",
+        "body": "Preview shows what you’re building.\nExport tools will be added later (WhatsApp/Facebook) once integrations are configured."
+      },
+      "accessibility": {
+        "short": "Accessibility",
+        "title": "Accessibility",
+        "body": "Keyboard: Tab/Shift+Tab to move, Enter/Space to activate.\nModals: Escape to close.\nMessages: important changes are announced via screen readers."
+      }
+    }
   },
   "messages": {
     "languageChanged": "Language updated.",
@@ -68,6 +147,7 @@
     "workflowAdvanced": "Advanced to: {{role}}",
     "workflowComplete": "Workflow complete. Ready to export.",
     "roleSelected": "Selected role: {{role}}",
-    "integrationUnavailable": "Integration not configured yet. This is a safe no-op stub."
+    "integrationUnavailable": "Integration not configured yet. This is a safe no-op stub.",
+    "onboardingComplete": "Onboarding complete. You can reopen it anytime from the header."
   }
 }

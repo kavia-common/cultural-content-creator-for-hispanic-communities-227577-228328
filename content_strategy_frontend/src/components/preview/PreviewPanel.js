@@ -1,13 +1,16 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 // PUBLIC_INTERFACE
 export default function PreviewPanel({ title, content }) {
   /** Right panel placeholder: preview/export scaffolding (no API integration yet). */
+  const { t } = useTranslation();
+
   return (
     <section className="card" aria-label={title}>
       <div className="cardHeader">
         <h2 className="h2">{title}</h2>
-        <span className="badge" aria-label="Channel">
+        <span className="badge" aria-label={t('preview.channelLabel')}>
           <span className="badgeDot" aria-hidden="true" />
           {(content?.channel || '—').toUpperCase()}
         </span>
@@ -21,9 +24,7 @@ export default function PreviewPanel({ title, content }) {
           </p>
         </div>
 
-        <div className="muted">
-          Export/share actions will be added here (WhatsApp, Facebook) once keys and endpoints are configured.
-        </div>
+        <div className="muted">{t('preview.exportStub')}</div>
       </div>
     </section>
   );

@@ -7,13 +7,21 @@ import PreviewPanel from './components/preview/PreviewPanel';
 import {
   WorkflowRole,
   WORKFLOW_ROLES,
-  getNextWorkflowRole,
+  getNextWorkflowRole
 } from './domain/workflow';
 import { AppMessageProvider, useAppMessages } from './state/messages';
+import useOnboardingState from './hooks/useOnboardingState';
+import useHelpCenter from './hooks/useHelpCenter';
+import OnboardingTour from './components/onboarding/OnboardingTour';
+import HelpCenter from './components/help/HelpCenter';
+import HelpTooltip from './components/help/HelpTooltip';
 
 function MainApp() {
   const { t, i18n } = useTranslation();
   const { pushMessage } = useAppMessages();
+
+  const onboarding = useOnboardingState();
+  const help = useHelpCenter();
 
   const [topic, setTopic] = useState('');
   const [currentRole, setCurrentRole] = useState(WorkflowRole.Strategist);
@@ -21,7 +29,7 @@ function MainApp() {
   const [previewContent, setPreviewContent] = useState({
     title: '',
     body: '',
-    channel: 'facebook',
+    channel: 'facebook'
   });
 
   const workflowStates = useMemo(() => {
@@ -38,7 +46,7 @@ function MainApp() {
     pushMessage({
       kind: 'info',
       messageKey: 'messages.languageChanged',
-      live: 'polite',
+      live: 'polite'
     });
   };
 
@@ -60,73 +68,105 @@ function MainApp() {
       kind: 'info',
       messageKey: 'messages.workflowAdvanced',
       params: { role: t(`workflow.roles.${nextRole}.label`) },
-      live: 'polite',
+      live: 'polite'
     });
   };
 
   return (
-    <AppLayout
-      appTitle={t('app.title')}
-      appSubtitle={t('app.subtitle')}
-      languageLabel={t('app.language')}
-      languageValue={i18n.language === 'es' ? 'ES' : 'EN'}
-      onToggleLanguage={handleLanguageToggle}
-    >
-      <AppLayout.LeftPanel ariaLabel={t('panels.workflow')}>
-        <WorkflowSidebar
-          title={t('workflow.title')}
-          items={workflowStates}
-          onSelectRole={(role) => {
-            // Read-only for now; later could open stage review modal.
-            pushMessage({
-              kind: 'info',
-              messageKey: 'messages.roleSelected',
-              params: { role: t(`workflow.roles.${role}.label`) },
-              live: 'polite',
-            });
-          }}
-        />
-      </AppLayout.LeftPanel>
-
-      <AppLayout.CenterPanel ariaLabel={t('panels.create')}>
-        <TopicInput
-          topic={topic}
-          onTopicChange={setTopic}
-          onConfirmed={(confirmedTopic) => {
-            setTopic(confirmedTopic);
-            setPreviewContent({
-              title: t('preview.placeholderTitle', { topic: confirmedTopic }),
-              body: t('preview.placeholderBody'),
-              channel: 'facebook',
-            });
-            pushMessage({ kind: 'success', messageKey: 'messages.topicConfirmed' });
-          }}
-        />
-
-        <section className="card" aria-label={t('workflow.progressTitle')}>
-          <div className="cardHeader">
-            <h2 className="h2">{t('workflow.progressTitle')}</h2>
-            <button
-              type="button"
-              className="btn btnPrimary"
-              onClick={handleAdvanceWorkflow}
-            >
-              {t('workflow.advance')}
-            </button>
+    <>
+      <AppLayout
+        appTitle={t('app.title')}
+        appSubtitle={t('app.subtitle')}
+        languageLabel={t('app.language')}
+        languageValue={i18n.language === 'es' ? 'ES' : 'EN'}
+        onToggleLanguage={handleLanguageToggle}
+        helpLabel={t('helpCenter.open')}
+        onOpenHelp={help.open}
+        onOpenOnboarding={onboarding.open}
+      >
+        <AppLayout.LeftPanel ariaLabel={t('panels.workflow')}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+            <span className="srOnly">{t('help.inline.workflow')}</span>
+            <HelpTooltip label={t('help.inline.openLabel')}>{t('help.inline.workflow')}</HelpTooltip>
           </div>
 
-          <p className="muted">
-            {t('workflow.currentStep', {
-              role: t(`workflow.roles.${currentRole}.label`),
-            })}
-          </p>
-        </section>
-      </AppLayout.CenterPanel>
+          <WorkflowSidebar
+            title={t('workflow.title')}
+            items={workflowStates}
+            onSelectRole={(role) => {
+              // Read-only for now; later could open stage review modal.
+              pushMessage({
+                kind: 'info',
+                messageKey: 'messages.roleSelected',
+                params: { role: t(`workflow.roles.${role}.label`) },
+                live: 'polite'
+              });
+            }}
+          />
+        </AppLayout.LeftPanel>
 
-      <AppLayout.RightPanel ariaLabel={t('panels.preview')}>
-        <PreviewPanel title={t('preview.title')} content={previewContent} />
-      </AppLayout.RightPanel>
-    </AppLayout>
+        <AppLayout.CenterPanel ariaLabel={t('panels.create')}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 8 }}>
+            <HelpTooltip label={t('help.inline.openLabel')}>{t('help.inline.topic')}</HelpTooltip>
+          </div>
+
+          <TopicInput
+            topic={topic}
+            onTopicChange={setTopic}
+            onConfirmed={(confirmedTopic) => {
+              setTopic(confirmedTopic);
+              setPreviewContent({
+                title: t('preview.placeholderTitle', { topic: confirmedTopic }),
+                body: t('preview.placeholderBody'),
+                channel: 'facebook'
+              });
+              pushMessage({ kind: 'success', messageKey: 'messages.topicConfirmed' });
+            }}
+          />
+
+          <section className="card" aria-label={t('workflow.progressTitle')}>
+            <div className="cardHeader">
+              <h2 className="h2">{t('workflow.progressTitle')}</h2>
+              <button type="button" className="btn btnPrimary" onClick={handleAdvanceWorkflow}>
+                {t('workflow.advance')}
+              </button>
+            </div>
+
+            <p className="muted">
+              {t('workflow.currentStep', {
+                role: t(`workflow.roles.${currentRole}.label`)
+              })}
+            </p>
+          </section>
+        </AppLayout.CenterPanel>
+
+        <AppLayout.RightPanel ariaLabel={t('panels.preview')}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 8 }}>
+            <HelpTooltip label={t('help.inline.openLabel')}>{t('help.inline.preview')}</HelpTooltip>
+          </div>
+
+          <PreviewPanel title={t('preview.title')} content={previewContent} />
+        </AppLayout.RightPanel>
+      </AppLayout>
+
+      <OnboardingTour
+        isOpen={onboarding.isOpen}
+        onSkip={onboarding.close}
+        onFinish={() => {
+          onboarding.finish();
+          pushMessage({ kind: 'success', messageKey: 'messages.onboardingComplete' });
+        }}
+      />
+
+      <HelpCenter
+        isOpen={help.isOpen}
+        onClose={help.close}
+        onOpenOnboarding={() => {
+          help.close();
+          onboarding.open();
+        }}
+      />
+    </>
   );
 }
 
