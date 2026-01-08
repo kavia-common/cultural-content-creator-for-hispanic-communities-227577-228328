@@ -266,6 +266,59 @@
       "generic": "Algo salió mal al generar captions. Inténtalo de nuevo."
     }
   },
+  "workflowProgress": {
+    "title": "Progreso del flujo",
+    "stepListLabel": "Etapas del flujo",
+    "actionsTitle": "Acciones del flujo",
+    "advance": "Avanzar",
+    "pause": "Pausar",
+    "resume": "Reanudar",
+    "approve": "Aprobar",
+    "requestChanges": "Pedir cambios",
+    "cancel": "Cancelar",
+    "currentStep": "Etapa actual: {{role}}",
+    "activeStatus": "Estado activo: {{status}}",
+    "estimate": "Estimación: {{minutes}} min",
+    "pauseReason": "En pausa: {{reason}}",
+    "changesComment": "Cambios: {{comment}}",
+    "stepAriaLabel": "Etapa {{step}}. Estado: {{status}}. Estimación: {{estimate}} minutos.",
+    "tooltips": {
+      "cannotAdvancePaused": "No puedes avanzar mientras está en pausa.",
+      "cannotAdvanceNotApproved": "Aprueba la etapa actual antes de avanzar.",
+      "cannotRequestChangesPaused": "No puedes pedir cambios mientras está en pausa.",
+      "cannotApprovePaused": "No puedes aprobar mientras está en pausa."
+    },
+    "status": {
+      "idle": "Inactivo",
+      "in_progress": "En progreso",
+      "awaiting_review": "En revisión",
+      "approved": "Aprobado",
+      "changes_requested": "Cambios solicitados",
+      "paused": "En pausa"
+    },
+    "pauseModal": {
+      "title": "Pausar flujo",
+      "description": "Ingresa un motivo para pausar el flujo. Presiona Escape para cerrar.",
+      "reasonLabel": "Motivo (opcional)"
+    },
+    "changesModal": {
+      "title": "Pedir cambios",
+      "description": "Ingresa tu solicitud de cambios para la etapa actual. Presiona Escape para cerrar.",
+      "commentLabel": "Comentario"
+    },
+    "announcements": {
+      "statusUpdated": "Estado del flujo actualizado para {{step}}.",
+      "paused": "Flujo en pausa en {{step}}.",
+      "resumed": "Flujo reanudado en {{step}}.",
+      "changesRequested": "Cambios solicitados para {{step}}.",
+      "approved": "Etapa aprobada: {{step}}.",
+      "stepCompleted": "Etapa completada: {{step}}. Siguiente: {{next}}.",
+      "workflowCompleted": "Flujo completado."
+    },
+    "messages": {
+      "event": "{{message}}"
+    }
+  },
   "messages": {
     "languageChanged": "Idioma actualizado.",
     "topicConfirmed": "Tema confirmado. Tu flujo está listo.",

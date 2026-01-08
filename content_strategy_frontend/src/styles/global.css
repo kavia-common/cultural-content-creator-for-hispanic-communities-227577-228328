@@ -273,6 +273,80 @@ a {
   background: rgba(255, 255, 255, 0.25);
 }
 
+/* Workflow progress states */
+.badgePaused {
+  border-color: rgba(255, 255, 255, 0.28);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.badgePaused .badgeDot {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.badgeChanges {
+  border-color: rgba(249, 115, 22, 0.65);
+  color: var(--text);
+  background: rgba(249, 115, 22, 0.12);
+}
+
+.badgeChanges .badgeDot {
+  background: var(--primary);
+}
+
+/* Workflow progress list */
+.workflowStepList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.workflowStepItem {
+  margin: 0;
+}
+
+.workflowStepBtn {
+  width: 100%;
+  text-align: left;
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.22);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.workflowStepBtn:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+}
+
+.workflowStepBtn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+.workflowStepItemCurrent .workflowStepBtn {
+  border-color: rgba(249, 115, 22, 0.42);
+  background: rgba(249, 115, 22, 0.08);
+}
+
+.workflowStepRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.workflowStepMeta {
+  display: grid;
+  gap: 6px;
+}
+
 .callout {
   border: 1px solid rgba(249, 115, 22, 0.35);
   background: rgba(249, 115, 22, 0.12);

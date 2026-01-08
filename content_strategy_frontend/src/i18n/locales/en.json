@@ -266,6 +266,59 @@
       "generic": "Something went wrong while generating captions. Please try again."
     }
   },
+  "workflowProgress": {
+    "title": "Workflow progress",
+    "stepListLabel": "Workflow steps",
+    "actionsTitle": "Workflow actions",
+    "advance": "Advance",
+    "pause": "Pause",
+    "resume": "Resume",
+    "approve": "Approve",
+    "requestChanges": "Request changes",
+    "cancel": "Cancel",
+    "currentStep": "Current step: {{role}}",
+    "activeStatus": "Active status: {{status}}",
+    "estimate": "Estimate: {{minutes}} min",
+    "pauseReason": "Paused: {{reason}}",
+    "changesComment": "Changes: {{comment}}",
+    "stepAriaLabel": "Step {{step}}. Status: {{status}}. Estimate: {{estimate}} minutes.",
+    "tooltips": {
+      "cannotAdvancePaused": "Cannot advance while paused.",
+      "cannotAdvanceNotApproved": "Approve the current step before advancing.",
+      "cannotRequestChangesPaused": "Cannot request changes while paused.",
+      "cannotApprovePaused": "Cannot approve while paused."
+    },
+    "status": {
+      "idle": "Idle",
+      "in_progress": "In progress",
+      "awaiting_review": "Awaiting review",
+      "approved": "Approved",
+      "changes_requested": "Changes requested",
+      "paused": "Paused"
+    },
+    "pauseModal": {
+      "title": "Pause workflow",
+      "description": "Enter a reason for pausing the workflow. Press Escape to close.",
+      "reasonLabel": "Reason (optional)"
+    },
+    "changesModal": {
+      "title": "Request changes",
+      "description": "Enter your change request for the current step. Press Escape to close.",
+      "commentLabel": "Comment"
+    },
+    "announcements": {
+      "statusUpdated": "Workflow status updated for {{step}}.",
+      "paused": "Workflow paused at {{step}}.",
+      "resumed": "Workflow resumed at {{step}}.",
+      "changesRequested": "Changes requested for {{step}}.",
+      "approved": "Step approved: {{step}}.",
+      "stepCompleted": "Step completed: {{step}}. Next: {{next}}.",
+      "workflowCompleted": "Workflow completed."
+    },
+    "messages": {
+      "event": "{{message}}"
+    }
+  },
   "messages": {
     "languageChanged": "Language updated.",
     "topicConfirmed": "Topic confirmed. Your workflow is ready.",

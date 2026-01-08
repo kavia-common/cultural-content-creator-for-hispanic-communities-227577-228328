@@ -6,11 +6,6 @@ import TopicInput from './components/topic/TopicInput';
 import PreviewPanel from './components/preview/PreviewPanel';
 import CaptionsPanel from './components/captions/CaptionsPanel';
 import SettingsModal from './components/settings/SettingsModal';
-import {
-  WorkflowRole,
-  WORKFLOW_ROLES,
-  getNextWorkflowRole
-} from './domain/workflow';
 import { AppMessageProvider, useAppMessages } from './state/messages';
 import useOnboardingState from './hooks/useOnboardingState';
 import useHelpCenter from './hooks/useHelpCenter';
@@ -18,6 +13,8 @@ import OnboardingTour from './components/onboarding/OnboardingTour';
 import HelpCenter from './components/help/HelpCenter';
 import HelpTooltip from './components/help/HelpTooltip';
 import { generateCaptions } from './services/openaiCaptions';
+import WorkflowProgressPanel from './components/workflow/WorkflowProgressPanel';
+import { WorkflowProvider, getWorkflowRoleUiStateFromSteps, useWorkflow } from './state/workflow';
 
 function MainApp() {
   const { t, i18n } = useTranslation();
@@ -29,8 +26,8 @@ function MainApp() {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const [topic, setTopic] = useState('');
-  const [currentRole, setCurrentRole] = useState(WorkflowRole.Strategist);
-  const [completedRoles, setCompletedRoles] = useState(() => new Set());
+  const artifactId = useMemo(() => (topic || 'default').trim().toLowerCase() || 'default', [topic]);
+
   const [previewContent, setPreviewContent] = useState({
     title: '',
     body: '',
@@ -42,42 +39,12 @@ function MainApp() {
   const [captions, setCaptions] = useState([]);
   const [approvedCaptionId, setApprovedCaptionId] = useState('');
 
-  const workflowStates = useMemo(() => {
-    return WORKFLOW_ROLES.map((role) => {
-      if (completedRoles.has(role)) return { role, state: 'complete' };
-      if (role === currentRole) return { role, state: 'current' };
-      return { role, state: 'upcoming' };
-    });
-  }, [completedRoles, currentRole]);
-
   const handleLanguageToggle = () => {
     const next = i18n.language === 'es' ? 'en' : 'es';
     i18n.changeLanguage(next);
     pushMessage({
       kind: 'info',
       messageKey: 'messages.languageChanged',
-      live: 'polite'
-    });
-  };
-
-  const handleAdvanceWorkflow = () => {
-    // Minimal stub for now: advance through virtual team roles.
-    setCompletedRoles((prev) => {
-      const next = new Set(prev);
-      next.add(currentRole);
-      return next;
-    });
-
-    const nextRole = getNextWorkflowRole(currentRole);
-    if (!nextRole) {
-      pushMessage({ kind: 'success', messageKey: 'messages.workflowComplete' });
-      return;
-    }
-    setCurrentRole(nextRole);
-    pushMessage({
-      kind: 'info',
-      messageKey: 'messages.workflowAdvanced',
-      params: { role: t(`workflow.roles.${nextRole}.label`) },
       live: 'polite'
     });
   };
@@ -115,6 +82,63 @@ function MainApp() {
   };
 
   return (
+    <WorkflowProvider artifactId={artifactId}>
+      <MainAppBody
+        t={t}
+        i18n={i18n}
+        pushMessage={pushMessage}
+        onboarding={onboarding}
+        help={help}
+        settingsOpen={settingsOpen}
+        setSettingsOpen={setSettingsOpen}
+        topic={topic}
+        setTopic={setTopic}
+        previewContent={previewContent}
+        setPreviewContent={setPreviewContent}
+        captionsStatus={captionsStatus}
+        captionsErrorKey={captionsErrorKey}
+        captions={captions}
+        setCaptions={setCaptions}
+        approvedCaptionId={approvedCaptionId}
+        setApprovedCaptionId={setApprovedCaptionId}
+        handleLanguageToggle={handleLanguageToggle}
+        handleGenerateCaptions={handleGenerateCaptions}
+      />
+    </WorkflowProvider>
+  );
+}
+
+function MainAppBody({
+  t,
+  i18n,
+  pushMessage,
+  onboarding,
+  help,
+  settingsOpen,
+  setSettingsOpen,
+  topic,
+  setTopic,
+  previewContent,
+  setPreviewContent,
+  captionsStatus,
+  captionsErrorKey,
+  captions,
+  setCaptions,
+  approvedCaptionId,
+  setApprovedCaptionId,
+  handleLanguageToggle,
+  handleGenerateCaptions
+}) {
+  const { state: workflowState } = useWorkflow();
+
+  const workflowSidebarItems = useMemo(() => {
+    return getWorkflowRoleUiStateFromSteps({
+      steps: workflowState.steps,
+      currentStepId: workflowState.currentStepId
+    });
+  }, [workflowState.steps, workflowState.currentStepId]);
+
+  return (
     <>
       <AppLayout
         appTitle={t('app.title')}
@@ -134,9 +158,8 @@ function MainApp() {
 
           <WorkflowSidebar
             title={t('workflow.title')}
-            items={workflowStates}
+            items={workflowSidebarItems}
             onSelectRole={(role) => {
-              // Read-only for now; later could open stage review modal.
               pushMessage({
                 kind: 'info',
                 messageKey: 'messages.roleSelected',
@@ -178,6 +201,8 @@ function MainApp() {
             }}
           />
 
+          <WorkflowProgressPanel title={t('workflowProgress.title')} />
+
           <CaptionsPanel
             title={t('captions.title')}
             status={captionsStatus}
@@ -206,21 +231,6 @@ function MainApp() {
               {t('captions.approvedBanner')}
             </div>
           ) : null}
-
-          <section className="card" aria-label={t('workflow.progressTitle')} style={{ marginTop: 10 }}>
-            <div className="cardHeader">
-              <h2 className="h2">{t('workflow.progressTitle')}</h2>
-              <button type="button" className="btn btnPrimary" onClick={handleAdvanceWorkflow}>
-                {t('workflow.advance')}
-              </button>
-            </div>
-
-            <p className="muted">
-              {t('workflow.currentStep', {
-                role: t(`workflow.roles.${currentRole}.label`)
-              })}
-            </p>
-          </section>
         </AppLayout.CenterPanel>
 
         <AppLayout.RightPanel ariaLabel={t('panels.preview')}>
