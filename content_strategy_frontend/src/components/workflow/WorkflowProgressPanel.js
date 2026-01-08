@@ -1,20 +1,21 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import Modal from '../common/Modal';
-import { WORKFLOW_ROLES } from '../../domain/workflow';
-import { useWorkflow, WorkflowStepStatus } from '../../state/workflow';
-import { useAppMessages } from '../../state/messages';
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import Modal from "../common/Modal";
+import { WORKFLOW_ROLES } from "../../domain/workflow";
+import { useWorkflow, WorkflowStepStatus } from "../../state/workflow";
+import { useAppMessages } from "../../state/messages";
 
 function statusKey(status) {
   return `workflowProgress.status.${status}`;
 }
 
 function statusBadgeClass(status, isCurrent) {
-  if (status === WorkflowStepStatus.approved) return 'badge badgeComplete';
-  if (status === WorkflowStepStatus.paused) return 'badge badgePaused';
-  if (status === WorkflowStepStatus.changes_requested) return 'badge badgeChanges';
-  if (isCurrent) return 'badge badgeCurrent';
-  return 'badge badgeUpcoming';
+  if (status === WorkflowStepStatus.approved) return "badge badgeComplete";
+  if (status === WorkflowStepStatus.paused) return "badge badgePaused";
+  if (status === WorkflowStepStatus.changes_requested)
+    return "badge badgeChanges";
+  if (isCurrent) return "badge badgeCurrent";
+  return "badge badgeUpcoming";
 }
 
 function canAdvance(step) {
@@ -34,21 +35,21 @@ export default function WorkflowProgressPanel({ title }) {
 
   const currentStep = useMemo(
     () => state.steps.find((s) => s.id === state.currentStepId),
-    [state.steps, state.currentStepId]
+    [state.steps, state.currentStepId],
   );
 
   const [pauseOpen, setPauseOpen] = useState(false);
   const [changesOpen, setChangesOpen] = useState(false);
 
-  const [pauseReason, setPauseReason] = useState('');
-  const [changesComment, setChangesComment] = useState('');
+  const [pauseReason, setPauseReason] = useState("");
+  const [changesComment, setChangesComment] = useState("");
 
   const pauseInputRef = useRef(null);
   const changesInputRef = useRef(null);
 
   // aria-live region for status updates (polite).
   const liveRef = useRef(null);
-  const lastEventIdRef = useRef('');
+  const lastEventIdRef = useRef("");
 
   useEffect(() => {
     const newest = state.events?.[0];
@@ -57,70 +58,90 @@ export default function WorkflowProgressPanel({ title }) {
     lastEventIdRef.current = newest.id;
 
     // Create a compact, localized announcement.
-    const stepLabel = newest.stepId ? t(`workflow.roles.${newest.stepId}.label`) : '';
-    let msg = '';
+    const stepLabel = newest.stepId ? t(`workflow.roles.${newest.stepId}.label`) : "";
+    let msg = "";
 
-    if (newest.type === 'paused') msg = t('workflowProgress.announcements.paused', { step: stepLabel });
-    else if (newest.type === 'resumed') msg = t('workflowProgress.announcements.resumed', { step: stepLabel });
-    else if (newest.type === 'changes_requested')
-      msg = t('workflowProgress.announcements.changesRequested', { step: stepLabel });
-    else if (newest.type === 'approved') msg = t('workflowProgress.announcements.approved', { step: stepLabel });
-    else if (newest.type === 'step_completed')
-      msg = t('workflowProgress.announcements.stepCompleted', {
-        step: t(`workflow.roles.${newest.payload?.from}.label`),
-        next: t(`workflow.roles.${newest.payload?.to}.label`)
+    if (newest.type === "paused")
+      msg = t("workflowProgress.announcements.paused", { step: stepLabel });
+    else if (newest.type === "resumed")
+      msg = t("workflowProgress.announcements.resumed", { step: stepLabel });
+    else if (newest.type === "changes_requested")
+      msg = t("workflowProgress.announcements.changesRequested", {
+        step: stepLabel,
       });
-    else if (newest.type === 'workflow_completed') msg = t('workflowProgress.announcements.workflowCompleted');
-    else msg = t('workflowProgress.announcements.statusUpdated', { step: stepLabel });
+    else if (newest.type === "approved")
+      msg = t("workflowProgress.announcements.approved", { step: stepLabel });
+    else if (newest.type === "step_completed")
+      msg = t("workflowProgress.announcements.stepCompleted", {
+        step: t(`workflow.roles.${newest.payload?.from}.label`),
+        next: t(`workflow.roles.${newest.payload?.to}.label`),
+      });
+    else if (newest.type === "workflow_completed")
+      msg = t("workflowProgress.announcements.workflowCompleted");
+    else
+      msg = t("workflowProgress.announcements.statusUpdated", {
+        step: stepLabel,
+      });
 
     if (liveRef.current) liveRef.current.textContent = msg;
 
     // Also leverage existing FeedbackRegion pattern via AppMessageProvider.
     pushMessage({
-      kind: 'info',
-      messageKey: 'workflowProgress.messages.event',
+      kind: "info",
+      messageKey: "workflowProgress.messages.event",
       params: { message: msg },
-      live: 'polite'
+      live: "polite",
     });
   }, [state.events, t, pushMessage]);
 
-  const stepListLabel = t('workflowProgress.stepListLabel');
+  const stepListLabel = t("workflowProgress.stepListLabel");
 
   return (
-    <section className="card" aria-label={title || t('workflowProgress.title')} data-testid="workflow-progress-panel">
+    <section
+      className="card"
+      aria-label={title || t("workflowProgress.title")}
+      data-testid="workflow-progress-panel"
+    >
       <div className="srOnly" aria-live="polite" aria-atomic="true" ref={liveRef} />
 
       <div className="cardHeader">
-        <h2 className="h2">{title || t('workflowProgress.title')}</h2>
+        <h2 className="h2">{title || t("workflowProgress.title")}</h2>
 
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+        <div
+          style={{
+            display: "flex",
+            gap: 8,
+            flexWrap: "wrap",
+            justifyContent: "flex-end",
+          }}
+        >
           <button
             type="button"
             className="btn btnPrimary"
             onClick={() => actions.advanceToNext()}
             disabled={!canAdvance(currentStep) || isPaused(currentStep)}
-            aria-disabled={!canAdvance(currentStep) || isPaused(currentStep) ? 'true' : 'false'}
+            aria-disabled={!canAdvance(currentStep) || isPaused(currentStep) ? "true" : "false"}
             title={
               isPaused(currentStep)
-                ? t('workflowProgress.tooltips.cannotAdvancePaused')
+                ? t("workflowProgress.tooltips.cannotAdvancePaused")
                 : !canAdvance(currentStep)
-                  ? t('workflowProgress.tooltips.cannotAdvanceNotApproved')
-                  : t('workflowProgress.advance')
+                  ? t("workflowProgress.tooltips.cannotAdvanceNotApproved")
+                  : t("workflowProgress.advance")
             }
             data-testid="workflow-advance"
           >
-            {t('workflowProgress.advance')}
+            {t("workflowProgress.advance")}
           </button>
         </div>
       </div>
 
       <p className="muted" style={{ marginTop: 6 }}>
-        {t('workflowProgress.currentStep', {
-          role: t(`workflow.roles.${state.currentStepId}.label`)
+        {t("workflowProgress.currentStep", {
+          role: t(`workflow.roles.${state.currentStepId}.label`),
         })}
       </p>
 
-      <div style={{ display: 'grid', gap: 10, marginTop: 12 }}>
+      <div style={{ display: "grid", gap: 10, marginTop: 12 }}>
         <nav aria-label={stepListLabel}>
           <ol className="workflowStepList">
             {WORKFLOW_ROLES.map((role) => {
@@ -131,16 +152,19 @@ export default function WorkflowProgressPanel({ title }) {
               const estimate = Number.isFinite(step?.estimateMinutes) ? step.estimateMinutes : 0;
 
               return (
-                <li key={role} className={`workflowStepItem ${isCurrent ? 'workflowStepItemCurrent' : ''}`}>
+                <li
+                  key={role}
+                  className={`workflowStepItem ${isCurrent ? "workflowStepItemCurrent" : ""}`}
+                >
                   <button
                     type="button"
                     className="workflowStepBtn"
                     onClick={() => actions.setCurrentStep(role)}
-                    aria-current={isCurrent ? 'step' : undefined}
-                    aria-label={t('workflowProgress.stepAriaLabel', {
+                    aria-current={isCurrent ? "step" : undefined}
+                    aria-label={t("workflowProgress.stepAriaLabel", {
                       step: label,
                       status: statusText,
-                      estimate
+                      estimate,
                     })}
                     data-testid={`workflow-step-${role}`}
                   >
@@ -155,18 +179,24 @@ export default function WorkflowProgressPanel({ title }) {
 
                     <div className="workflowStepMeta">
                       <span className="muted">
-                        {t('workflowProgress.estimate', {
-                          minutes: estimate
+                        {t("workflowProgress.estimate", {
+                          minutes: estimate,
                         })}
                       </span>
 
                       {step?.status === WorkflowStepStatus.paused && step?.pauseReason ? (
-                        <span className="muted">{t('workflowProgress.pauseReason', { reason: step.pauseReason })}</span>
+                        <span className="muted">
+                          {t("workflowProgress.pauseReason", {
+                            reason: step.pauseReason,
+                          })}
+                        </span>
                       ) : null}
 
                       {step?.status === WorkflowStepStatus.changes_requested && step?.changesComment ? (
                         <span className="muted">
-                          {t('workflowProgress.changesComment', { comment: step.changesComment })}
+                          {t("workflowProgress.changesComment", {
+                            comment: step.changesComment,
+                          })}
                         </span>
                       ) : null}
                     </div>
@@ -177,15 +207,22 @@ export default function WorkflowProgressPanel({ title }) {
           </ol>
         </nav>
 
-        <section className="card" aria-label={t('workflowProgress.actionsTitle')}>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'space-between' }}>
+        <section className="card" aria-label={t("workflowProgress.actionsTitle")}>
+          <div
+            style={{
+              display: "flex",
+              gap: 8,
+              flexWrap: "wrap",
+              justifyContent: "space-between",
+            }}
+          >
             <div className="muted">
-              {t('workflowProgress.activeStatus', {
-                status: t(statusKey(currentStep?.status || WorkflowStepStatus.idle))
+              {t("workflowProgress.activeStatus", {
+                status: t(statusKey(currentStep?.status || WorkflowStepStatus.idle)),
               })}
             </div>
 
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {isPaused(currentStep) ? (
                 <button
                   type="button"
@@ -193,19 +230,19 @@ export default function WorkflowProgressPanel({ title }) {
                   onClick={() => actions.resumeWorkflow()}
                   data-testid="workflow-resume"
                 >
-                  {t('workflowProgress.resume')}
+                  {t("workflowProgress.resume")}
                 </button>
               ) : (
                 <button
                   type="button"
                   className="btn"
                   onClick={() => {
-                    setPauseReason('');
+                    setPauseReason("");
                     setPauseOpen(true);
                   }}
                   data-testid="workflow-pause"
                 >
-                  {t('workflowProgress.pause')}
+                  {t("workflowProgress.pause")}
                 </button>
               )}
 
@@ -213,15 +250,19 @@ export default function WorkflowProgressPanel({ title }) {
                 type="button"
                 className="btn"
                 onClick={() => {
-                  setChangesComment('');
+                  setChangesComment("");
                   setChangesOpen(true);
                 }}
                 disabled={isPaused(currentStep)}
-                aria-disabled={isPaused(currentStep) ? 'true' : 'false'}
-                title={isPaused(currentStep) ? t('workflowProgress.tooltips.cannotRequestChangesPaused') : undefined}
+                aria-disabled={isPaused(currentStep) ? "true" : "false"}
+                title={
+                  isPaused(currentStep)
+                    ? t("workflowProgress.tooltips.cannotRequestChangesPaused")
+                    : undefined
+                }
                 data-testid="workflow-request-changes"
               >
-                {t('workflowProgress.requestChanges')}
+                {t("workflowProgress.requestChanges")}
               </button>
 
               <button
@@ -229,11 +270,15 @@ export default function WorkflowProgressPanel({ title }) {
                 className="btn btnSecondary"
                 onClick={() => actions.approveStep(state.currentStepId)}
                 disabled={isPaused(currentStep)}
-                aria-disabled={isPaused(currentStep) ? 'true' : 'false'}
-                title={isPaused(currentStep) ? t('workflowProgress.tooltips.cannotApprovePaused') : undefined}
+                aria-disabled={isPaused(currentStep) ? "true" : "false"}
+                title={
+                  isPaused(currentStep)
+                    ? t("workflowProgress.tooltips.cannotApprovePaused")
+                    : undefined
+                }
                 data-testid="workflow-approve"
               >
-                {t('workflowProgress.approve')}
+                {t("workflowProgress.approve")}
               </button>
             </div>
           </div>
@@ -243,17 +288,17 @@ export default function WorkflowProgressPanel({ title }) {
       <Modal
         isOpen={pauseOpen}
         onClose={() => setPauseOpen(false)}
-        title={t('workflowProgress.pauseModal.title')}
+        title={t("workflowProgress.pauseModal.title")}
         describedById="pause-desc"
         initialFocusRef={pauseInputRef}
       >
         <div id="pause-desc" className="srOnly">
-          {t('workflowProgress.pauseModal.description')}
+          {t("workflowProgress.pauseModal.description")}
         </div>
 
-        <div style={{ display: 'grid', gap: 10 }}>
+        <div style={{ display: "grid", gap: 10 }}>
           <label htmlFor="pause-reason" className="fieldHelp" style={{ fontWeight: 800 }}>
-            {t('workflowProgress.pauseModal.reasonLabel')}
+            {t("workflowProgress.pauseModal.reasonLabel")}
           </label>
           <textarea
             id="pause-reason"
@@ -263,9 +308,16 @@ export default function WorkflowProgressPanel({ title }) {
             onChange={(e) => setPauseReason(e.target.value)}
           />
 
-          <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+          <div
+            style={{
+              display: "flex",
+              gap: 8,
+              justifyContent: "flex-end",
+              flexWrap: "wrap",
+            }}
+          >
             <button type="button" className="btn" onClick={() => setPauseOpen(false)}>
-              {t('workflowProgress.cancel')}
+              {t("workflowProgress.cancel")}
             </button>
             <button
               type="button"
@@ -275,7 +327,7 @@ export default function WorkflowProgressPanel({ title }) {
                 setPauseOpen(false);
               }}
             >
-              {t('workflowProgress.pause')}
+              {t("workflowProgress.pause")}
             </button>
           </div>
         </div>
@@ -284,17 +336,17 @@ export default function WorkflowProgressPanel({ title }) {
       <Modal
         isOpen={changesOpen}
         onClose={() => setChangesOpen(false)}
-        title={t('workflowProgress.changesModal.title')}
+        title={t("workflowProgress.changesModal.title")}
         describedById="changes-desc"
         initialFocusRef={changesInputRef}
       >
         <div id="changes-desc" className="srOnly">
-          {t('workflowProgress.changesModal.description')}
+          {t("workflowProgress.changesModal.description")}
         </div>
 
-        <div style={{ display: 'grid', gap: 10 }}>
+        <div style={{ display: "grid", gap: 10 }}>
           <label htmlFor="changes-comment" className="fieldHelp" style={{ fontWeight: 800 }}>
-            {t('workflowProgress.changesModal.commentLabel')}
+            {t("workflowProgress.changesModal.commentLabel")}
           </label>
           <textarea
             id="changes-comment"
@@ -304,9 +356,16 @@ export default function WorkflowProgressPanel({ title }) {
             onChange={(e) => setChangesComment(e.target.value)}
           />
 
-          <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+          <div
+            style={{
+              display: "flex",
+              gap: 8,
+              justifyContent: "flex-end",
+              flexWrap: "wrap",
+            }}
+          >
             <button type="button" className="btn" onClick={() => setChangesOpen(false)}>
-              {t('workflowProgress.cancel')}
+              {t("workflowProgress.cancel")}
             </button>
             <button
               type="button"
@@ -316,7 +375,7 @@ export default function WorkflowProgressPanel({ title }) {
                 setChangesOpen(false);
               }}
             >
-              {t('workflowProgress.requestChanges')}
+              {t("workflowProgress.requestChanges")}
             </button>
           </div>
         </div>

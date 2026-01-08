@@ -1,10 +1,10 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { useAppMessages } from '../../state/messages';
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { useAppMessages } from "../../state/messages";
 
 function kindToClass(kind) {
-  if (kind === 'error') return 'callout calloutError';
-  return 'callout';
+  if (kind === "error") return "callout calloutError";
+  return "callout";
 }
 
 // PUBLIC_INTERFACE
@@ -24,7 +24,7 @@ export default function FeedbackRegion() {
         {t(newest.messageKey, newest.params)}
       </div>
 
-      <div style={{ display: 'grid', gap: 8 }}>
+      <div style={{ display: "grid", gap: 8 }}>
         {messages.map((m) => (
           <div key={m.id} className={kindToClass(m.kind)} role="status">
             {t(m.messageKey, m.params)}

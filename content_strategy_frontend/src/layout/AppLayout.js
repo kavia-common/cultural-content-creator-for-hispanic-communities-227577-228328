@@ -1,5 +1,5 @@
-import React from 'react';
-import FeedbackRegion from '../components/feedback/FeedbackRegion';
+import React from "react";
+import FeedbackRegion from "../components/feedback/FeedbackRegion";
 
 // PUBLIC_INTERFACE
 export default function AppLayout({
@@ -11,7 +11,7 @@ export default function AppLayout({
   helpLabel,
   onOpenHelp,
   onOpenOnboarding,
-  children
+  children,
 }) {
   /** Global app layout: header + 3-column panel grid with feedback region. */
   return (
@@ -44,9 +44,13 @@ export default function AppLayout({
             ?
           </button>
 
-          <button type="button" className="btn" onClick={onOpenOnboarding} data-testid="onboarding-open">
-            {/** intentionally short, label via i18n in App */}
-            i
+          <button
+            type="button"
+            className="btn"
+            onClick={onOpenOnboarding}
+            data-testid="onboarding-open"
+          >
+            {/** intentionally short, label via i18n in App */}i
           </button>
         </div>
       </header>
@@ -60,7 +64,7 @@ export default function AppLayout({
 
 function Panel({ className, ariaLabel, children }) {
   return (
-    <section className={`panel ${className || ''}`} aria-label={ariaLabel}>
+    <section className={`panel ${className || ""}`} aria-label={ariaLabel}>
       {children}
     </section>
   );

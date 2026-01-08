@@ -1,4 +1,4 @@
-import { openAIChatCompletionStub, metaGraphRequestStub } from './integrations';
+import { openAIChatCompletionStub, metaGraphRequestStub } from "./integrations";
 
 /**
  * This module deliberately returns safe suggestions without requiring API keys.
@@ -8,7 +8,7 @@ import { openAIChatCompletionStub, metaGraphRequestStub } from './integrations';
 // PUBLIC_INTERFACE
 export async function getTopicSuggestionsStub(topic) {
   /** Return topic suggestions (stub). */
-  const base = (topic || '').trim();
+  const base = (topic || "").trim();
   if (base.length < 3) return [];
 
   // Attempt stubs (they will no-op if not configured).
@@ -19,6 +19,6 @@ export async function getTopicSuggestionsStub(topic) {
   return [
     `${base}: a message for busy families`,
     `${base}: trust and peace of mind`,
-    `${base}: protecting what matters most`
+    `${base}: protecting what matters most`,
   ];
 }

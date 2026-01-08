@@ -1,10 +1,10 @@
 export const WorkflowRole = Object.freeze({
-  Strategist: 'Strategist',
-  Copywriter: 'Copywriter',
-  Designer: 'Designer',
-  Editor: 'Editor',
-  CRM: 'CRM',
-  Coordinator: 'Coordinator'
+  Strategist: "Strategist",
+  Copywriter: "Copywriter",
+  Designer: "Designer",
+  Editor: "Editor",
+  CRM: "CRM",
+  Coordinator: "Coordinator",
 });
 
 export const WORKFLOW_ROLES = [
@@ -13,7 +13,7 @@ export const WORKFLOW_ROLES = [
   WorkflowRole.Designer,
   WorkflowRole.Editor,
   WorkflowRole.CRM,
-  WorkflowRole.Coordinator
+  WorkflowRole.Coordinator,
 ];
 
 // PUBLIC_INTERFACE

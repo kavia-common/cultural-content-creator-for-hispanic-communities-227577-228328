@@ -20,8 +20,9 @@
   --focus: 0 0 0 3px rgba(249, 115, 22, 0.45);
   --maxWidth: 1400px;
 
-  --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
-    Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --font:
+    ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji";
 }
 
 * {
@@ -37,8 +38,17 @@ body {
   margin: 0;
   font-family: var(--font);
   color: var(--text);
-  background: radial-gradient(1200px 600px at 20% 10%, rgba(249, 115, 22, 0.18), transparent 55%),
-    radial-gradient(900px 500px at 90% 20%, rgba(16, 185, 129, 0.14), transparent 55%),
+  background:
+    radial-gradient(
+      1200px 600px at 20% 10%,
+      rgba(249, 115, 22, 0.18),
+      transparent 55%
+    ),
+    radial-gradient(
+      900px 500px at 90% 20%,
+      rgba(16, 185, 129, 0.14),
+      transparent 55%
+    ),
     var(--bg);
 }
 
@@ -92,7 +102,11 @@ a {
   padding: 14px 14px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: linear-gradient(180deg, rgba(31, 41, 55, 0.85), rgba(17, 24, 39, 0.75));
+  background: linear-gradient(
+    180deg,
+    rgba(31, 41, 55, 0.85),
+    rgba(17, 24, 39, 0.75)
+  );
   box-shadow: var(--shadow);
 }
 
@@ -119,7 +133,11 @@ a {
 .panel {
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: linear-gradient(180deg, rgba(31, 41, 55, 0.82), rgba(17, 24, 39, 0.72));
+  background: linear-gradient(
+    180deg,
+    rgba(31, 41, 55, 0.82),
+    rgba(17, 24, 39, 0.72)
+  );
   box-shadow: var(--shadow);
   padding: 12px;
   min-height: 120px;
@@ -149,7 +167,10 @@ a {
   font-weight: 700;
   letter-spacing: 0.2px;
   cursor: pointer;
-  transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+  transition:
+    transform 120ms ease,
+    border-color 120ms ease,
+    background 120ms ease;
 }
 
 .btn:hover {
@@ -377,7 +398,11 @@ a {
   overflow: auto;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: var(--radius);
-  background: linear-gradient(180deg, rgba(31, 41, 55, 0.92), rgba(17, 24, 39, 0.88));
+  background: linear-gradient(
+    180deg,
+    rgba(31, 41, 55, 0.92),
+    rgba(17, 24, 39, 0.88)
+  );
   box-shadow: var(--shadow);
 }
 
@@ -547,7 +572,12 @@ a {
 .waChatArea {
   padding: 14px 12px 18px;
   min-height: 220px;
-  background: radial-gradient(700px 320px at 50% 0%, rgba(16, 185, 129, 0.08), transparent 60%),
+  background:
+    radial-gradient(
+      700px 320px at 50% 0%,
+      rgba(16, 185, 129, 0.08),
+      transparent 60%
+    ),
     #0b141a;
 }
 

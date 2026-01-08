@@ -9,7 +9,7 @@
 function notConfiguredResult(serviceName) {
   return {
     ok: false,
-    reason: `${serviceName} not configured`
+    reason: `${serviceName} not configured`,
   };
 }
 
@@ -40,7 +40,7 @@ export function isCanvaConfigured() {
 // PUBLIC_INTERFACE
 export async function openAIChatCompletionStub() {
   /** Placeholder for OpenAI calls (no-op until configured). */
-  if (!isOpenAIConfigured()) return notConfiguredResult('OpenAI');
+  if (!isOpenAIConfigured()) return notConfiguredResult("OpenAI");
   // Intentionally a stub: add real fetch later.
   return { ok: true, data: null };
 }
@@ -48,20 +48,20 @@ export async function openAIChatCompletionStub() {
 // PUBLIC_INTERFACE
 export async function metaGraphRequestStub() {
   /** Placeholder for Meta Graph API calls (no-op until configured). */
-  if (!isMetaConfigured()) return notConfiguredResult('Meta Graph');
+  if (!isMetaConfigured()) return notConfiguredResult("Meta Graph");
   return { ok: true, data: null };
 }
 
 // PUBLIC_INTERFACE
 export async function whatsappSendStub() {
   /** Placeholder for WhatsApp Business API calls (no-op until configured). */
-  if (!isWhatsAppConfigured()) return notConfiguredResult('WhatsApp Business');
+  if (!isWhatsAppConfigured()) return notConfiguredResult("WhatsApp Business");
   return { ok: true, data: null };
 }
 
 // PUBLIC_INTERFACE
 export async function canvaRequestStub() {
   /** Placeholder for Canva API calls (no-op until configured). */
-  if (!isCanvaConfigured()) return notConfiguredResult('Canva');
+  if (!isCanvaConfigured()) return notConfiguredResult("Canva");
   return { ok: true, data: null };
 }

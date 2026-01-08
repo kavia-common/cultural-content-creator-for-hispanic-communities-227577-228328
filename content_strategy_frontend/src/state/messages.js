@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
 
 const AppMessageContext = createContext(null);
 
@@ -9,11 +9,11 @@ const AppMessageContext = createContext(null);
 function normalizeMessage(msg) {
   return {
     id: msg.id || `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-    kind: msg.kind || 'info', // info | success | error
-    messageKey: msg.messageKey || '',
+    kind: msg.kind || "info", // info | success | error
+    messageKey: msg.messageKey || "",
     params: msg.params || {},
-    live: msg.live || (msg.kind === 'error' ? 'assertive' : 'polite'),
-    createdAt: msg.createdAt || Date.now()
+    live: msg.live || (msg.kind === "error" ? "assertive" : "polite"),
+    createdAt: msg.createdAt || Date.now(),
   };
 }
 
@@ -26,7 +26,7 @@ export function AppMessageProvider({ children }) {
     const normalized = normalizeMessage(msg);
     setMessages((prev) => [normalized, ...prev].slice(0, 3));
     // Auto-dismiss info/success after a short delay; keep errors longer.
-    const ttlMs = normalized.kind === 'error' ? 9000 : 4500;
+    const ttlMs = normalized.kind === "error" ? 9000 : 4500;
     window.setTimeout(() => {
       setMessages((prev) => prev.filter((m) => m.id !== normalized.id));
     }, ttlMs);
@@ -35,9 +35,9 @@ export function AppMessageProvider({ children }) {
   const value = useMemo(
     () => ({
       messages,
-      pushMessage
+      pushMessage,
     }),
-    [messages, pushMessage]
+    [messages, pushMessage],
   );
 
   return (
@@ -51,6 +51,6 @@ export function AppMessageProvider({ children }) {
 export function useAppMessages() {
   /** Hook to interact with the global message system. */
   const ctx = useContext(AppMessageContext);
-  if (!ctx) throw new Error('useAppMessages must be used within AppMessageProvider');
+  if (!ctx) throw new Error("useAppMessages must be used within AppMessageProvider");
   return ctx;
 }

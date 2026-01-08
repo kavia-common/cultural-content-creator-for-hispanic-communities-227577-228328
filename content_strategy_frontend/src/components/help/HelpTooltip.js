@@ -1,7 +1,7 @@
-import React, { useEffect, useId, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from "react";
 
 // PUBLIC_INTERFACE
-export default function HelpTooltip({ label, children, placement = 'right' }) {
+export default function HelpTooltip({ label, children, placement = "right" }) {
   /** Accessible tooltip: open on hover/focus; close on blur/escape; supports aria-describedby. */
   const id = useId();
   const tipId = `help-tip-${id}`;
@@ -12,7 +12,7 @@ export default function HelpTooltip({ label, children, placement = 'right' }) {
     if (!open) return;
 
     const onKeyDown = (e) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         e.preventDefault();
         e.stopPropagation();
         setOpen(false);
@@ -20,8 +20,8 @@ export default function HelpTooltip({ label, children, placement = 'right' }) {
       }
     };
 
-    document.addEventListener('keydown', onKeyDown, true);
-    return () => document.removeEventListener('keydown', onKeyDown, true);
+    document.addEventListener("keydown", onKeyDown, true);
+    return () => document.removeEventListener("keydown", onKeyDown, true);
   }, [open]);
 
   return (
@@ -42,7 +42,11 @@ export default function HelpTooltip({ label, children, placement = 'right' }) {
       </button>
 
       {open ? (
-        <span role="tooltip" id={tipId} className={`helpTooltip helpTooltip-${placement}`}>
+        <span
+          role="tooltip"
+          id={tipId}
+          className={`helpTooltip helpTooltip-${placement}`}
+        >
           {children}
         </span>
       ) : null}

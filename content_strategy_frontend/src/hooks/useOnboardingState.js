@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-const STORAGE_KEY = 'ccch.onboarding.completed';
+const STORAGE_KEY = "ccch.onboarding.completed";
 
 /**
  * Local-storage persisted onboarding state.
@@ -10,7 +10,7 @@ const STORAGE_KEY = 'ccch.onboarding.completed';
 export function readOnboardingCompleted() {
   /** Read persisted onboarding completion value (boolean). */
   try {
-    return window.localStorage.getItem(STORAGE_KEY) === 'true';
+    return window.localStorage.getItem(STORAGE_KEY) === "true";
   } catch {
     return false;
   }
@@ -30,7 +30,7 @@ export default function useOnboardingState() {
   const markCompleted = useCallback(() => {
     setCompleted(true);
     try {
-      window.localStorage.setItem(STORAGE_KEY, 'true');
+      window.localStorage.setItem(STORAGE_KEY, "true");
     } catch {
       // ignore
     }
@@ -53,9 +53,9 @@ export default function useOnboardingState() {
       finish: () => {
         markCompleted();
         setIsOpen(false);
-      }
+      },
     }),
-    [completed, isOpen, markCompleted]
+    [completed, isOpen, markCompleted],
   );
 
   return value;

@@ -7,7 +7,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "lint": "eslint . --ext .js,.jsx || true",
+    "lint": "eslint \"src/**/*.{js,jsx}\" \"cypress/**/*.{js,jsx}\"",
+    "lint:fix": "eslint \"src/**/*.{js,jsx}\" \"cypress/**/*.{js,jsx}\" --fix",
+    "format": "prettier --write \"src/**/*.{js,jsx,json,css,md}\" \"cypress/**/*.{js,jsx,json,css,md}\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,json,css,md}\" \"cypress/**/*.{js,jsx,json,css,md}\"",
     "serve-build": "http-server ./build -p 3000"
   },
   "dependencies": {
@@ -18,11 +21,20 @@
     "react-scripts": "^5.0.1"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.28.5",
+    "@testing-library/dom": "^10.0.0",
     "@testing-library/jest-dom": "^6.2.0",
     "@testing-library/react": "^14.2.0",
     "@testing-library/user-event": "^14.5.2",
     "cypress": "^13.6.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-cypress": "^5.2.1",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
     "http-server": "^14.1.1",
+    "prettier": "^3.7.4",
     "react-test-renderer": "^18.2.0"
   },
   "browserslist": [

@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useMemo, useRef } from 'react';
+import React, { useEffect, useId, useMemo, useRef } from "react";
 
 /**
  * Simple focus-trapping modal dialog.
@@ -10,15 +10,15 @@ import React, { useEffect, useId, useMemo, useRef } from 'react';
 function getFocusableElements(container) {
   if (!container) return [];
   const selectors = [
-    'a[href]',
-    'button:not([disabled])',
-    'textarea:not([disabled])',
-    'input:not([disabled])',
-    'select:not([disabled])',
-    '[tabindex]:not([tabindex="-1"])'
+    "a[href]",
+    "button:not([disabled])",
+    "textarea:not([disabled])",
+    "input:not([disabled])",
+    "select:not([disabled])",
+    '[tabindex]:not([tabindex="-1"])',
   ];
-  return Array.from(container.querySelectorAll(selectors.join(','))).filter(
-    (el) => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden')
+  return Array.from(container.querySelectorAll(selectors.join(","))).filter(
+    (el) => !el.hasAttribute("disabled") && !el.getAttribute("aria-hidden"),
   );
 }
 
@@ -31,7 +31,7 @@ export default function Modal({
   onClose,
   children,
   closeOnBackdrop = true,
-  initialFocusRef
+  initialFocusRef,
 }) {
   /** Accessible modal with focus trap and ESC/backdrop close. */
   const autoId = useId();
@@ -58,7 +58,7 @@ export default function Modal({
     // Focus the initial focus target or first focusable element.
     window.setTimeout(() => {
       const initial = initialFocusRef?.current;
-      if (initial && typeof initial.focus === 'function') {
+      if (initial && typeof initial.focus === "function") {
         initial.focus();
         return;
       }
@@ -68,12 +68,12 @@ export default function Modal({
 
     // Prevent background scroll
     const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
 
     return () => {
       document.body.style.overflow = previousOverflow;
       const last = lastActiveRef.current;
-      if (last && typeof last.focus === 'function') last.focus();
+      if (last && typeof last.focus === "function") last.focus();
     };
   }, [isOpen, initialFocusRef]);
 
@@ -81,13 +81,13 @@ export default function Modal({
     if (!isOpen) return;
 
     const onKeyDown = (e) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         e.stopPropagation();
         onClose?.();
         return;
       }
 
-      if (e.key !== 'Tab') return;
+      if (e.key !== "Tab") return;
 
       const focusables = getFocusableElements(panelRef.current);
       if (!focusables.length) {
@@ -110,8 +110,8 @@ export default function Modal({
       }
     };
 
-    document.addEventListener('keydown', onKeyDown, true);
-    return () => document.removeEventListener('keydown', onKeyDown, true);
+    document.addEventListener("keydown", onKeyDown, true);
+    return () => document.removeEventListener("keydown", onKeyDown, true);
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
@@ -135,12 +135,17 @@ export default function Modal({
         tabIndex={-1}
       >
         <div className="modalHeader">
-          <div style={{ display: 'grid', gap: 4 }}>
+          <div style={{ display: "grid", gap: 4 }}>
             {titleNode}
             {dialogDescId ? <div id={dialogDescId} className="srOnly" /> : null}
           </div>
 
-          <button type="button" className="btn" onClick={onClose} aria-label="Close dialog">
+          <button
+            type="button"
+            className="btn"
+            onClick={onClose}
+            aria-label="Close dialog"
+          >
             ✕
           </button>
         </div>

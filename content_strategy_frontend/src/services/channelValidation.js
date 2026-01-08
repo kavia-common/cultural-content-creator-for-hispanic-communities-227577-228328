@@ -1,4 +1,4 @@
-import { channelConfig, CHANNELS, MediaType } from './channelConfig';
+import { channelConfig, CHANNELS, MediaType } from "./channelConfig";
 
 /**
  * @typedef {Object} MediaMeta
@@ -30,11 +30,11 @@ import { channelConfig, CHANNELS, MediaType } from './channelConfig';
  */
 
 function safeString(v) {
-  return (v ?? '').toString();
+  return (v ?? "").toString();
 }
 
 function isFiniteNumber(v) {
-  return typeof v === 'number' && Number.isFinite(v);
+  return typeof v === "number" && Number.isFinite(v);
 }
 
 function gcd(a, b) {
@@ -49,7 +49,13 @@ function gcd(a, b) {
 }
 
 function simplifyRatio(width, height) {
-  if (!isFiniteNumber(width) || !isFiniteNumber(height) || width <= 0 || height <= 0) return null;
+  if (
+    !isFiniteNumber(width) ||
+    !isFiniteNumber(height) ||
+    width <= 0 ||
+    height <= 0
+  )
+    return null;
   const g = gcd(width, height);
   return { w: width / g, h: height / g };
 }
@@ -80,9 +86,9 @@ function validateText({ text, maxChars }) {
 
   if (len > maxChars) {
     issues.push({
-      severity: 'error',
-      code: 'text.tooLong',
-      params: { max: maxChars, actual: len }
+      severity: "error",
+      code: "text.tooLong",
+      params: { max: maxChars, actual: len },
     });
   }
   return issues;
@@ -96,26 +102,34 @@ function validateMedia({ media, cfg }) {
   const supported = cfg.media.supportedMimeTypes || [];
   const maxBytes = cfg.media.maxFileSizeBytes;
 
-  if (media.mimeType && supported.length && !supported.includes(media.mimeType)) {
+  if (
+    media.mimeType &&
+    supported.length &&
+    !supported.includes(media.mimeType)
+  ) {
     issues.push({
-      severity: 'error',
-      code: 'media.unsupportedType',
-      params: { mimeType: media.mimeType, supported: supported.join(', ') }
+      severity: "error",
+      code: "media.unsupportedType",
+      params: { mimeType: media.mimeType, supported: supported.join(", ") },
     });
   }
 
-  if (isFiniteNumber(media.fileSizeBytes) && isFiniteNumber(maxBytes) && media.fileSizeBytes > maxBytes) {
+  if (
+    isFiniteNumber(media.fileSizeBytes) &&
+    isFiniteNumber(maxBytes) &&
+    media.fileSizeBytes > maxBytes
+  ) {
     issues.push({
-      severity: 'error',
-      code: 'media.fileTooLarge',
-      params: { maxBytes, actualBytes: media.fileSizeBytes }
+      severity: "error",
+      code: "media.fileTooLarge",
+      params: { maxBytes, actualBytes: media.fileSizeBytes },
     });
   }
 
   if (media.dimensions?.width && media.dimensions?.height) {
     const closest = closestRecommendedRatio(
       { width: media.dimensions.width, height: media.dimensions.height },
-      cfg.media.recommendedAspectRatios || []
+      cfg.media.recommendedAspectRatios || [],
     );
 
     // If we have a closest ratio but it isn't a "near match", warn.
@@ -125,12 +139,12 @@ function validateMedia({ media, cfg }) {
       const dist = ratioDistance(simp, { w: closest.width, h: closest.height });
       if (dist > 0.08) {
         issues.push({
-          severity: 'warning',
-          code: 'media.aspectRatioRecommended',
+          severity: "warning",
+          code: "media.aspectRatioRecommended",
           params: {
             recommended: closest.label,
-            actual: `${media.dimensions.width}:${media.dimensions.height}`
-          }
+            actual: `${media.dimensions.width}:${media.dimensions.height}`,
+          },
         });
       }
     }
@@ -138,11 +152,15 @@ function validateMedia({ media, cfg }) {
 
   if (media.type === MediaType.video) {
     const maxDur = cfg.video?.maxDurationSeconds;
-    if (isFiniteNumber(media.durationSeconds) && isFiniteNumber(maxDur) && media.durationSeconds > maxDur) {
+    if (
+      isFiniteNumber(media.durationSeconds) &&
+      isFiniteNumber(maxDur) &&
+      media.durationSeconds > maxDur
+    ) {
       issues.push({
-        severity: 'warning',
-        code: 'video.tooLong',
-        params: { maxSeconds: maxDur, actualSeconds: media.durationSeconds }
+        severity: "warning",
+        code: "video.tooLong",
+        params: { maxSeconds: maxDur, actualSeconds: media.durationSeconds },
       });
     }
   }
@@ -156,12 +174,12 @@ function validateForChannel(channelKey, content) {
   const cfg = channelConfig[channelKey];
   if (!cfg) return { ok: true, issues: [] };
 
-  const body = content?.body ?? '';
+  const body = content?.body ?? "";
   issues.push(...validateText({ text: body, maxChars: cfg.text.maxChars }));
 
   issues.push(...validateMedia({ media: content?.media ?? null, cfg }));
 
-  return { ok: issues.every((i) => i.severity !== 'error'), issues };
+  return { ok: issues.every((i) => i.severity !== "error"), issues };
 }
 
 // PUBLIC_INTERFACE
@@ -179,7 +197,7 @@ export function validateForFacebook(content) {
 // PUBLIC_INTERFACE
 export function formatBytes(bytes) {
   /** Small helper for UI/tests to present bytes consistently. */
-  if (!isFiniteNumber(bytes)) return '';
+  if (!isFiniteNumber(bytes)) return "";
   if (bytes < 1024) return `${bytes} B`;
   const kb = bytes / 1024;
   if (kb < 1024) return `${kb.toFixed(1)} KB`;

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState } from "react";
 
 // PUBLIC_INTERFACE
 export default function useHelpCenter() {
@@ -8,8 +8,8 @@ export default function useHelpCenter() {
     () => ({
       isOpen,
       open: () => setIsOpen(true),
-      close: () => setIsOpen(false)
+      close: () => setIsOpen(false),
     }),
-    [isOpen]
+    [isOpen],
   );
 }
