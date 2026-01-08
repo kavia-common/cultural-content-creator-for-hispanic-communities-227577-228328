@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+WORKSPACE="/home/kavia/workspace/code-generation/cultural-content-creator-for-hispanic-communities-227577-228328/content_strategy_frontend"
+cd "$WORKSPACE"
+[ -f package.json ] || { echo "package.json missing" >&2; exit 2; }
+export NODE_ENV=production
+npm run build --silent || { echo "build failed" >&2; exit 3; }
+if [ ! -d dist ]; then echo "build did not produce dist/" >&2; exit 4; fi
+exit 0
