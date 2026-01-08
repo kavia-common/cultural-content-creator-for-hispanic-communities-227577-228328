@@ -13,7 +13,9 @@ test("buildCaptionPrompt includes topic, niche, emotion, and strict JSON instruc
   expect(prompt).toMatch(/Niche:/);
   expect(prompt).toMatch(/Brand emotion:/);
   expect(prompt).toMatch(/Return ONLY valid JSON/i);
-  expect(prompt).toMatch(/\"captions\":\[/);
+
+  // Quotes do not need escaping inside a regex literal; keep the pattern readable.
+  expect(prompt).toMatch(/"captions":\[/);
 });
 
 test("buildCaptionPrompt switches to Spanish instruction when language=es", () => {
