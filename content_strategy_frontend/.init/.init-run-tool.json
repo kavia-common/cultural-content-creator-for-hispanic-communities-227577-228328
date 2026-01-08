@@ -1,0 +1,4 @@
+{
+  "command": "npm start -- --host <host> --port <port>",
+  "working_directory": "/home/kavia/workspace/code-generation/cultural-content-creator-for-hispanic-communities-227577-228328/content/strategy/frontend"
+}
